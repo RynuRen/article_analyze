@@ -17,11 +17,6 @@ def build_input_page():
     page = f"""
     <html>
     <body>
-    제목으로 검색<br>
-    <form action="/result", method="get">
-    <textarea type="text" placeholder="기사 제목" name="title" style="width:50%; height:21px"></textarea><br>
-    <input type="submit"></input><br>
-    </form>
     다음 뉴스 url로 검색<br>
     <form action="/result", method="get">
     <textarea type="text" placeholder="다음 뉴스 url" name="url" style="width:50%; height:21px"></textarea><br>
@@ -46,9 +41,9 @@ def build_result_df():
     global tfidf_dtm
     global tfidf_vec
     
-    if title:
-        res_df = get_recommend_by_title(title, 10)
-    elif url:
+    # if title:
+    #     res_df = get_recommend_by_title(title, 10)
+    if url:
         res_df = get_recommend_by_url(url, 10)
     else:
         res_df = get_recommend_by_content(content, 10)
@@ -77,8 +72,8 @@ def app_result():
                             link_column="Patient ID", zip=zip)
 
 if __name__ == '__main__':
-    # app.run(host="192.168.10.48", port=5000)
-    app.run(host="localhost", port=5000)
+    app.run(host="192.168.10.48", port=5000)
+    # app.run(host="localhost", port=5000)
 
 # TODO
 # 형태소 결정, token 컬럼 저장

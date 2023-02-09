@@ -14,13 +14,46 @@ date_cols = ['date']
 data_all = pd.DataFrame()
 for file in tqdm(files):
     df_day = pd.read_csv(file, parse_dates=date_cols) # date 컬럼 datetime 형식으로 불러오기
-    data_all = pd.concat([data_all, df_day])
+    data_all = pd.concat([data_all, df_day[['press', 'title', 'date', 'link']]])
 data_all.reset_index(drop=True, inplace=True)
 
 with open("./model/pickled_tfidf_dtm.bin", "rb") as f:
     tfidf_dtm = pickle.load(f)
 with open("./model/pickled_tfidf_vec.bin", "rb") as f:
     tfidf_vec = pickle.load(f)
+
+# 토크나이저 적용
+def string_tokenizer(content):
+    import pandas as pd
+    from konlpy.tag import Okt
+    okt = Okt()
+    
+    content = pd.Series(content)
+    # 한글, 숫자, 공백만 남기기
+    content = content.str.replace('[^0-9ㄱ-ㅎㅏ-ㅣ가-힣 ]', '', regex=True)
+    token_content = okt.pos(content[0], norm=True, stem=True)
+    return token_content
+
+except_list = ['Exclamation', 'Josa', 'KoreanParticle', 'Determiner',  'Eomi', 'Suffix',  'VerbPrefix', 'PreEomi']
+include_list = ['Verb',  'Noun']
+
+def tag_except_list(except_list, token_content):
+    filtered_list= []
+    for tag in token_content :
+        if tag[1] in except_list:
+            continue
+        filtered_list.append(tag[0])
+    content = " ".join(filtered_list)
+    return content
+
+def tag_include_list(include_list, token_content):
+    filtered_list=[]
+    for tag in token_content :
+        if tag[1] in include_list:
+            filtered_list.append(tag[0])
+
+    content = " ".join(filtered_list)
+    return content
 
 # soup 생성
 def create_soup(url):
@@ -34,7 +67,6 @@ def create_soup(url):
             break
         except:
             i += 1
-            
     return soup
 
 # link의 기사 본문 추출
@@ -61,35 +93,7 @@ def content_only_scraper(link):
     content = ' '.join(content)
     if len(content) < 200:
         return False
-    
     return content
-
-# 타이틀로 추천
-def get_recommend_by_title(title, n, drange=False):
-    # 타이틀로 저장된 토큰 호출, 축적된 기사들과 유사도 연산
-    token = data_all.loc[data_all['title'] == title]['okt'].values[0]
-    tfidf_content = tfidf_vec.transform([token])
-    
-    # 기간 설정
-    if drange:
-        data_filtered_idx = data_all[data_all['date'].isin(pd.date_range(drange[0], drange[1]))].index
-        tfidf_dtm_filtered = tfidf_dtm[data_filtered_idx]
-        cos_sim_res = cosine_similarity(tfidf_content, tfidf_dtm_filtered)
-    else:
-        cos_sim_res = cosine_similarity(tfidf_content, tfidf_dtm)
-        
-    # 유사도 정렬, 추출
-    sim_scores = list(enumerate(cos_sim_res[0]))
-    sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
-    sim_scores_n = sim_scores[1:n+1]
-    # sim_scores_n = [sim for sim in sim_scores_n if sim[1] >= 0.6] # 유사도 60% 이상 필터=>옵션화 가능?###############
-    
-    # 해당하는 기사 가져오기
-    article_idx = [article_dict[0] for article_dict in sim_scores_n]
-    rst = data_all.iloc[article_idx][['press', 'title', 'date', 'link']]
-    rst['similarity'] = [round(sim[1], 4)*100 for sim in sim_scores_n]
-        
-    return rst[['press', 'similarity', 'title', 'date', 'link']]
 
 # 다음 뉴스 url로 추천
 def get_recommend_by_url(url, n, drange=False):
@@ -99,8 +103,8 @@ def get_recommend_by_url(url, n, drange=False):
     # 본문 스크랩
     content = content_only_scraper(url)
 
-    #### 형태소 분석코드 ####
-    token = content
+    # 형태소 분석코드
+    token = tag_except_list(except_list, string_tokenizer(content))
     
     tfidf_content = tfidf_vec.transform([token])
     
@@ -111,7 +115,6 @@ def get_recommend_by_url(url, n, drange=False):
         cos_sim_res = cosine_similarity(tfidf_content, tfidf_dtm_filtered)
     else:
         cos_sim_res = cosine_similarity(tfidf_content, tfidf_dtm)
-    
     
     # 유사도 정렬, 추출
     sim_scores = list(enumerate(cos_sim_res[0]))
@@ -128,8 +131,8 @@ def get_recommend_by_url(url, n, drange=False):
 
 # 문자열로 추천
 def get_recommend_by_content(content, n, drange=False):
-    #### 형태소 분석코드 ####
-    token = content
+    # 형태소 분석코드
+    token = tag_except_list(except_list, string_tokenizer(content))
     
     tfidf_content = tfidf_vec.transform([token])
     
@@ -140,7 +143,6 @@ def get_recommend_by_content(content, n, drange=False):
         cos_sim_res = cosine_similarity(tfidf_content, tfidf_dtm_filtered)
     else:
         cos_sim_res = cosine_similarity(tfidf_content, tfidf_dtm)
-    
     
     # 유사도 정렬, 추출
     sim_scores = list(enumerate(cos_sim_res[0]))
