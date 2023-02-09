@@ -17,15 +17,63 @@ def build_input_page():
     page = f"""
     <html>
     <body>
-    다음 뉴스 url로 검색<br>
     <form action="/result", method="get">
-    <textarea type="text" placeholder="다음 뉴스 url" name="url" style="width:50%; height:21px"></textarea><br>
-    <input type="submit"></input><br>
+        <fieldset style="width:500">
+            <legend>url로 검색</legend><br>
+                다음 뉴스 url 입력<br>
+                <textarea type="text" placeholder="https://v.daum.net/v/" name="url" style="width:100%; height:21px; resize:none"></textarea><br>
+                언론사
+                <select name="press">
+                    <option value="경향신문">경향신문</option>
+                    <option value="국민일보">국민일보</option>
+                    <option value="뉴스1">뉴스1</option>
+                    <option value="뉴시스">뉴시스</option>
+                    <option value="동아일보">동아일보</option>
+                    <option value="문화일보">문화일보</option>
+                    <option value="서울신문">서울신문</option>
+                    <option value="세계일보">세계일보</option>
+                    <option value="연합뉴스">연합뉴스</option>
+                    <option value="조선일보">조선일보</option>
+                    <option value="중앙일보">중앙일보</option>
+                    <option value="한겨레">한겨레</option>
+                    <option value="한국일보">한국일보</option>
+                </select><br>
+                시작 날짜
+                <input type="date" min="2021-01-01" max="2022-12-31" name="startdate" step="1"></input>
+                마지막 날짜
+                <input type="date" min="2021-01-01" max="2022-12-31" name="enddate" step="1"></input><br>
+                <input type="submit" value="검색"/>
+                <input type="reset" value="초기화"/><br><br>
+        </fieldset>
     </form>
-    기사 본문으로 검색<br>
+    
     <form action="/result", method="get">
-    <textarea type="text" placeholder="기사 본문" name="content" style="width:50%; height:200px"></textarea><br>
-    <input type="submit"></input><br>
+        <fieldset style="width:500">
+            <legend>기사 본문으로 검색</legend><br>
+            <textarea type="text" placeholder="기사 본문" name="content" style="width:100%; height:200px; resize: none"></textarea><br>
+            언론사
+                <select name="press">
+                    <option value="경향신문">경향신문</option>
+                    <option value="국민일보">국민일보</option>
+                    <option value="뉴스1">뉴스1</option>
+                    <option value="뉴시스">뉴시스</option>
+                    <option value="동아일보">동아일보</option>
+                    <option value="문화일보">문화일보</option>
+                    <option value="서울신문">서울신문</option>
+                    <option value="세계일보">세계일보</option>
+                    <option value="연합뉴스">연합뉴스</option>
+                    <option value="조선일보">조선일보</option>
+                    <option value="중앙일보">중앙일보</option>
+                    <option value="한겨레">한겨레</option>
+                    <option value="한국일보">한국일보</option>
+                </select><br>
+                시작 날짜
+                <input type="date" min="2021-01-01" max="2022-12-31" name="startdate" step="1"></input>
+                마지막 날짜
+                <input type="date" min="2021-01-01" max="2022-12-31" name="enddate" step="1"></input><br>
+                <input type="submit" value="검색"/>
+            <input type="reset" value="초기화"/><br><br>
+        </fieldset>
     </form>
     
     </body>
@@ -34,19 +82,22 @@ def build_input_page():
     return page
 
 def build_result_df():
-    title = request.args.get("title")
     url = request.args.get("url")
     content = request.args.get("content")
-    
+    startdate = request.args.get("startdate")
+    enddate = request.args.get("enddate")
+    press = request.args.get("press")
+    startdate = ''.join(list(startdate.split('-')))
+    enddate = ''.join(list(enddate.split('-')))
+    startdate, enddate = sorted([startdate, enddate])
+
     global tfidf_dtm
     global tfidf_vec
     
-    # if title:
-    #     res_df = get_recommend_by_title(title, 10)
     if url:
-        res_df = get_recommend_by_url(url, 10)
+        res_df = get_recommend_by_url(url, 10, (startdate, enddate), press)
     else:
-        res_df = get_recommend_by_content(content, 10)
+        res_df = get_recommend_by_content(content, 10, (startdate, enddate), press)
     
     return res_df
 
@@ -65,7 +116,6 @@ def app_input():
 @app.route("/result", methods=["POST", "GET"])
 def app_result():
     res_df = build_result_df()
-    # return render_template("result.html", tables=[res_df.to_html(classes='data')])#, titles=res_df.columns.values)
     return render_template("result.html",
                             column_names=res_df.columns.values,
                             row_data=list(res_df.values.tolist()),
