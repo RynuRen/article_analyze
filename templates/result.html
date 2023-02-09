@@ -1,5 +1,6 @@
 <head>
     <meta charset="UTF-8">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='result.css') }}">
     <title>Result</title>
 </head>
@@ -21,10 +22,12 @@
         {% for col, row_ in zip(column_names, row) %}
         {% if col == link_column %}
         <td>
-            <button type="submit" value={{ row_ }} name="person_id" form="patient_form" class="patient_button">
-                {{ row_ }}
-            </button>
+            <a href={{row_}} target="_blank">
+                링크
+            </a>
         </td>
+        {% elif col == "similarity" %}
+        <td>{{row_|round(2)}}</td>
         {% else %}
         <td>{{row_}}</td>
         {% endif %}

@@ -1,9 +1,12 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request#, url_for
 from recommand import *
 
 def build_home_page():
     page = f"""
     <html>
+    <head>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    </head>
     <body>
     <h1>이전 기사 검색</h1>
     <p>이전 기사 검색 시스템</p>
@@ -16,6 +19,9 @@ def build_home_page():
 def build_input_page():
     page = f"""
     <html>
+    <head>
+        <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    </head>
     <body>
     <form action="/result", method="get">
         <fieldset style="width:500">
@@ -75,7 +81,7 @@ def build_input_page():
             <input type="reset" value="초기화"/><br><br>
         </fieldset>
     </form>
-    
+    <a href="/">메인으로</a>
     </body>
     </html>
     """
@@ -102,6 +108,8 @@ def build_result_df():
     return res_df
 
 app = Flask(__name__)
+# app.add_url_rule('/favicon.ico',
+#                  redirect_to=url_for('static', filename='favicon.ico'))
 
 @app.route("/")
 def home():
@@ -115,11 +123,15 @@ def app_input():
 
 @app.route("/result", methods=["POST", "GET"])
 def app_result():
-    res_df = build_result_df()
+    try:
+        res_df = build_result_df()
+    except:
+        return render_template("error.html")
+    
     return render_template("result.html",
                             column_names=res_df.columns.values,
                             row_data=list(res_df.values.tolist()),
-                            link_column="Patient ID", zip=zip)
+                            link_column="link", zip=zip)
 
 if __name__ == '__main__':
     app.run(host="192.168.10.48", port=5000)
