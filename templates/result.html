@@ -1,16 +1,9 @@
 <head>
     <meta charset="UTF-8">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='result.css') }}">
     <title>Result</title>
 </head>
 <body>
-
-<!-- {% for table in tables %}
-            {{titles[loop.index]}}
-            {{ table|safe }}
-{% endfor %} -->
-
 <table>
     <tr>
         {% for col in column_names %}
@@ -24,6 +17,12 @@
         <td>
             <a href={{row_}} target="_blank">
                 링크
+            </a>
+        </td>
+        {% elif col == "search" %}
+        <td>
+            <a href={{row_}} target="_blank">
+                이 기사로 검색
             </a>
         </td>
         {% elif col == "similarity" %}

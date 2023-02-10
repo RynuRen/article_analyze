@@ -1,11 +1,11 @@
-from flask import Flask, render_template, request#, url_for
+from flask import Flask, render_template, request, send_from_directory
+import os
 from recommand import *
 
 def build_home_page():
     page = f"""
     <html>
     <head>
-    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     </head>
     <body>
     <h1>이전 기사 검색</h1>
@@ -20,7 +20,6 @@ def build_input_page():
     page = f"""
     <html>
     <head>
-        <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     </head>
     <body>
     <form action="/result", method="get">
@@ -105,11 +104,16 @@ def build_result_df():
     else:
         res_df = get_recommend_by_content(content, 10, (startdate, enddate), press)
     
+    # from datetime import datetime
+    # from dateutil.relativedelta import relativedelta
+    # res_df['search'] = "http://192.168.10.48:5000/result?url="+res_df['link']+"&press="+press+"startdate=2021-01-01&enddate="+(datetime(res_df['date'])-relativedelta(days=1)).strftime("%Y-%m-%d")
     return res_df
 
 app = Flask(__name__)
-# app.add_url_rule('/favicon.ico',
-#                  redirect_to=url_for('static', filename='favicon.ico'))
+
+@app.route("/favicon.ico")
+def favicon():
+	return send_from_directory(os.path.join(app.root_path, 'static'),'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 @app.route("/")
 def home():
