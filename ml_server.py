@@ -26,7 +26,7 @@ def build_input_page():
         <fieldset style="width:500">
             <legend>url로 검색</legend><br>
                 다음 뉴스 url 입력<br>
-                <textarea type="text" placeholder="https://v.daum.net/v/" name="url" style="width:100%; height:21px; resize:none"></textarea><br>
+                <textarea type="text" placeholder="https://v.daum.net/v/" name="url" style="width:100%; height:21px; resize:none" required></textarea><br>
                 언론사
                 <select name="press">
                     <option value="경향신문">경향신문</option>
@@ -44,10 +44,10 @@ def build_input_page():
                     <option value="한국일보">한국일보</option>
                 </select><br>
                 시작 날짜
-                <input type="date" min="2021-01-01" max="2022-12-31" name="startdate" step="1"></input>
+                <input type="date" value="2021-01-01" min="2021-01-01" max="2022-12-31" name="startdate" step="1" required></input>
                 마지막 날짜
-                <input type="date" min="2021-01-01" max="2022-12-31" name="enddate" step="1"></input><br>
-                <input type="submit" value="검색"/>
+                <input type="date" value="2022-12-31" min="2021-01-01" max="2022-12-31" name="enddate" step="1" required></input><br>
+                <input type="submit" value="탐색"/>
                 <input type="reset" value="초기화"/><br><br>
         </fieldset>
     </form>
@@ -55,7 +55,7 @@ def build_input_page():
     <form action="/result", method="get">
         <fieldset style="width:500">
             <legend>기사 본문으로 검색</legend><br>
-            <textarea type="text" placeholder="기사 본문" name="content" style="width:100%; height:200px; resize: none"></textarea><br>
+            <textarea type="text" placeholder="기사 본문" name="content" style="width:100%; height:200px; resize: none" required></textarea><br>
             언론사
                 <select name="press">
                     <option value="경향신문">경향신문</option>
@@ -73,10 +73,10 @@ def build_input_page():
                     <option value="한국일보">한국일보</option>
                 </select><br>
                 시작 날짜
-                <input type="date" min="2021-01-01" max="2022-12-31" name="startdate" step="1"></input>
+                <input type="date" value="2021-01-01" min="2021-01-01" max="2022-12-31" name="startdate" step="1" required></input>
                 마지막 날짜
-                <input type="date" min="2021-01-01" max="2022-12-31" name="enddate" step="1"></input><br>
-                <input type="submit" value="검색"/>
+                <input type="date" value="2022-12-31" min="2021-01-01" max="2022-12-31" name="enddate" step="1" required></input><br>
+                <input type="submit" value="탐색"/>
             <input type="reset" value="초기화"/><br><br>
         </fieldset>
     </form>
@@ -103,11 +103,12 @@ def build_result_df():
         res_df = get_recommend_by_url(url, 10, (startdate, enddate), press)
     else:
         res_df = get_recommend_by_content(content, 10, (startdate, enddate), press)
-    
-    # from datetime import datetime
-    # from dateutil.relativedelta import relativedelta
-    # res_df['search'] = "http://192.168.10.48:5000/result?url="+res_df['link']+"&press="+press+"startdate=2021-01-01&enddate="+(datetime(res_df['date'])-relativedelta(days=1)).strftime("%Y-%m-%d")
-    return res_df
+
+    res_df['date-1m'] = res_df['date'] + pd.to_timedelta(-res_df['date'].dt.days_in_month, unit='D')
+    res_df['date-1d'] = res_df['date'] + pd.to_timedelta(-1, unit='D')
+    res_df['search'] = "/result?url="+res_df['link']+"&press="+press+"&startdate="+res_df['date-1m'].dt.strftime("%Y-%m-%d")+"&enddate="+res_df['date-1d'].dt.strftime("%Y-%m-%d")
+
+    return res_df[['similarity', 'press', 'title', 'date', 'link', 'search']]
 
 app = Flask(__name__)
 
@@ -127,10 +128,11 @@ def app_input():
 
 @app.route("/result", methods=["POST", "GET"])
 def app_result():
-    try:
-        res_df = build_result_df()
-    except:
-        return render_template("error.html")
+    res_df = build_result_df()
+    # try:
+    #     res_df = build_result_df()
+    # except:
+    #     return render_template("error.html")
     
     return render_template("result.html",
                             column_names=res_df.columns.values,
@@ -138,8 +140,9 @@ def app_result():
                             link_column="link", zip=zip)
 
 if __name__ == '__main__':
-    app.run(host="192.168.10.48", port=5000)
-    # app.run(host="localhost", port=5000)
+    # app.run(host="192.168.10.48", port=5000)
+    app.run(host="localhost", port=5000)
+    # app.run(host="192.168.0.54", port=5000)
 
 # TODO
 # 형태소 결정, token 컬럼 저장

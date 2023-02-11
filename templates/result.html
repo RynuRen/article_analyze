@@ -15,14 +15,16 @@
         {% for col, row_ in zip(column_names, row) %}
         {% if col == link_column %}
         <td>
+            <!-- <button type="button" value="button" onclick="window.open='{{row_}}'">
+            본문보기 -->
             <a href={{row_}} target="_blank">
-                링크
+                본문보기
             </a>
         </td>
         {% elif col == "search" %}
         <td>
             <a href={{row_}} target="_blank">
-                이 기사로 검색
+                재탐색
             </a>
         </td>
         {% elif col == "similarity" %}
