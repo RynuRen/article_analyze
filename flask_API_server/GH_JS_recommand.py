@@ -14,29 +14,31 @@ rep_list = ['기사내용 요약']
 except_list = ['Exclamation', 'Josa', 'KoreanParticle', 'Determiner',  'Eomi', 'Suffix',  'VerbPrefix', 'PreEomi']
 include_list = ['Verb',  'Noun']
 
-files = sorted(glob('./data/*.csv'))
-date_cols = ['date']
-data_all = pd.DataFrame()
-
-
-
-with open("./model/pickled_tfidf_vec.bin", "rb") as f:
+with open("../model/pickled_tfidf_dtm.bin", "rb") as f:
+    tfidf_dtm = pickle.load(f)
+with open("../model/pickled_tfidf_vec.bin", "rb") as f:
     tfidf_vec = pickle.load(f)
-    
+
+# DB 연결 정보
+class db_con:
+    host = 'localhost'
+    user = 'root'
+    pwd = ''
+    db = 'mintsaveworld'
+    char = 'utf8mb4'
 
 def ErrorLog_sql_dtm(error: str, element = None):
+    import time
     current_time = time.strftime("%Y.%m.%d/%H:%M:%S", time.localtime(time.time()))
     with open("error_Log_sql_dtm.txt", "a") as f:
         f.write(f"[{current_time}] - {error}\n")
         if element != None:
             f.write(f"[{element}\n\n")       
 
-
-
 def send_mysql_select_dtm(press,drange):
 #    언론사 및 날짜 링크 -> 조인 -> dtm
     
-    con = m.connect(host = "localhost", user = 'root', db = 'mintsaveworld' , password = "", charset = "utf8mb4")
+    con = m.connect(host=db_con.host, user=db_con.user, db=db_con.db , password=db_con.pwd, charset=db_con.char)
     cur = con.cursor()
     
     sql = """SELECT society_dtm.link, data_, indices, indptr
@@ -56,7 +58,7 @@ def send_mysql_select_dtm(press,drange):
 
 def send_mysql_select_dtm_set():
     
-    con = m.connect(host = "localhost", user = 'root', db = 'mintsaveworld' , password = "", charset = "utf8mb4")
+    con = m.connect(host=db_con.host, user=db_con.user, db=db_con.db , password=db_con.pwd, charset=db_con.char)
     cur = con.cursor()
     
     sql = """SELECT shape from society_dtm_set;"""
@@ -72,7 +74,7 @@ def send_mysql_select_dtm_set():
 def send_mysql_select_content(link_list):
 #  링크 -> 필요한 정보
     
-    con = m.connect(host = "localhost", user = 'root', db = 'mintsaveworld' , password = "", charset = "utf8mb4")
+    con = m.connect(host=db_con.host, user=db_con.user, db=db_con.db , password=db_con.pwd, charset=db_con.char)
     cur = con.cursor()
     result = []
     
@@ -97,30 +99,18 @@ def string_tokenizer(content):
     # 한글, 숫자, 공백만 남기기
     content = content.str.replace('[^0-9ㄱ-ㅎㅏ-ㅣ가-힣 ]', '', regex=True)
     token_content = okt.pos(content[0], norm=True, stem=True)
-    return token_content
-
-def tag_except_list(except_list, token_content):
-    filtered_list= []
-    for tag in token_content :
-        if tag[1] in except_list:
+    filtered = []
+    for token in token_content:
+        if token[1] in except_list:
             continue
-        filtered_list.append(tag[0])
-    content = " ".join(filtered_list)
-    return content
-
-# def tag_include_list(include_list, token_content):
-#     filtered_list=[]
-#     for tag in token_content :
-#         if tag[1] in include_list:
-#             filtered_list.append(tag[0])
-
-#     content = " ".join(filtered_list)
-#     return content
+        filtered.append(token[0])
+    filtered_str = ' '.join(filtered)
+    return filtered_str
 
 # soup 생성
 def create_soup(url):
     i = 0
-    ## 요청 오류시 10번  재시도
+    # 요청 오류시 10번  재시도
     while i < 10 :
         try:
             res = requests.get(url)

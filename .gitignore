@@ -1,5 +1,11 @@
-/.ipynb_checkpoints
-/__pycache__
+### Jupyter, vscode파일 ###
+.ipynb_checkpoints/
+__pycache__/
+
+### test코드 ###
+/old_code/test
+
+### 데이터 폴더 ###
 /data
 /model
 /backup

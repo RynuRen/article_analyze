@@ -11,7 +11,7 @@ rep_list = ['기사내용 요약']
 except_list = ['Exclamation', 'Josa', 'KoreanParticle', 'Determiner',  'Eomi', 'Suffix',  'VerbPrefix', 'PreEomi']
 include_list = ['Verb',  'Noun']
 
-files = sorted(glob('./data/*.csv'))
+files = sorted(glob('../data/*.csv'))
 date_cols = ['date']
 data_all = pd.DataFrame()
 for file in tqdm(files):
@@ -19,9 +19,9 @@ for file in tqdm(files):
     data_all = pd.concat([data_all, df_day])
 data_all.reset_index(drop=True, inplace=True)
 
-with open("./model/pickled_tfidf_dtm.bin", "rb") as f:
+with open("../model/pickled_tfidf_dtm.bin", "rb") as f:
     tfidf_dtm = pickle.load(f)
-with open("./model/pickled_tfidf_vec.bin", "rb") as f:
+with open("../model/pickled_tfidf_vec.bin", "rb") as f:
     tfidf_vec = pickle.load(f)
 
 # 토크나이저 적용
