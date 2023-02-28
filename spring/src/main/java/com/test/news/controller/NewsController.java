@@ -1,5 +1,8 @@
 package com.test.news.controller;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -25,7 +28,11 @@ public class NewsController {
         List<NewsForm.response> newsList = newsService.newsApi(newsRequest);
         System.out.println(newsList);
         model.addAttribute("newsList", newsList);
+        List<NewsForm.response> modifiedNewsList = newsService.getModifiedNewsList(newsList);
+        model.addAttribute("modifiednewsList", modifiedNewsList);
+
         return "/news";
+
     }
 
 }

@@ -40,14 +40,26 @@
         </thead>
         <tbody>
             <!-- newsList를 반복하여 출력 -->
-            <tr th:each="news : ${newsList}">
+            <tr th:each="news : ${modifiednewsList}">
                 <td th:text="${news.newsPress}"></td>
                 <td>
                     <a th:href="${news.newsLink}" th:text="${news.newsTitle}" target="_blank"></a>
                   </td>
                 <td th:text="${#dates.format(news.newsDate, 'yyyy년 MM월 dd일')}"></td>
+                <td>
+                    <form action="/search" method="get">
+                      <input type="hidden" name="newsLink" th:value="${news.newsLink}"></input>
+                      <input type="hidden" name="newsPress" th:value="${news.newsPress}"></input>
+                      <input type="hidden" name="newsStartDate" value="2021-01-01"></input>
+                      <input type="hidden" name="newsEndDate" th:value="${#dates.format(news.newsDateRe, 'yyyy-MM-dd')}"></input>
+                      <button type="submit">search</button>
+                    </form> 
+                  </td>
             </tr>
         </tbody>
     </table>
 </body>
 </html>
+
+
+

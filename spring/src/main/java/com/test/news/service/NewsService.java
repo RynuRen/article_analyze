@@ -2,7 +2,10 @@ package com.test.news.service;
 
 import java.nio.charset.Charset;
 import java.util.List;
-
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -49,7 +52,7 @@ public class NewsService {
     public List<NewsForm.response> newsApi(NewsForm.request newsRequest) throws JsonProcessingException {
         RestTemplate restTemplate = new RestTemplate();
 
-        String url = "http://192.168.10.175:5000/result";
+        String url = "http://172.30.1.50:5000/result";
         UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(url)
                 .queryParam("newsPress", newsRequest.getNewsPress())
                 .queryParam("newsLink", newsRequest.getNewsLink())
@@ -69,6 +72,29 @@ public class NewsService {
         });
 
         return newsResponse;
+    }
+
+    public List<NewsForm.response> getModifiedNewsList(List<NewsForm.response> newsList) {
+        List<NewsForm.response> modifiedNewsList = new ArrayList<>();
+
+        for (NewsForm.response news : newsList) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(news.getNewsDate());
+            calendar.add(Calendar.DAY_OF_MONTH, -1);
+            Date modifiedNewsDate = calendar.getTime();
+
+            NewsForm.response modifiedNews = new NewsForm.response();
+            modifiedNews.setNewsPress(news.getNewsPress());
+            modifiedNews.setNewsLink(news.getNewsLink());
+            modifiedNews.setNewsTitle(news.getNewsTitle());
+            modifiedNews.setNewsSim(news.getNewsSim());
+            modifiedNews.setNewsDate(news.getNewsDate());
+            modifiedNews.setNewsDateRe(modifiedNewsDate);
+
+            modifiedNewsList.add(modifiedNews);
+        }
+
+        return modifiedNewsList;
     }
 
 }
