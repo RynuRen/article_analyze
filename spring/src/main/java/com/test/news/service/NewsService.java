@@ -1,26 +1,25 @@
 package com.test.news.service;
 
-import java.nio.charset.Charset;
 import java.util.List;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.test.news.dto.NewsForm;
 
+@Service
 public class NewsService {
+
+    @Autowired
+    ObjectMapper objectMapper;
     //// POST 방식
     // public List<NewsForm.response> newsApi(NewsForm.request newsRequest) throws
     // JsonProcessingException {
@@ -49,14 +48,13 @@ public class NewsService {
     // System.out.println(newsResponse);
     // return newsResponse;
     // }
-    public List<NewsForm.response> newsApi(NewsForm.request newsRequest) throws JsonProcessingException {
+    public NewsForm.apiResponse newsApi(NewsForm.request newsRequest) throws JsonProcessingException {
         RestTemplate restTemplate = new RestTemplate();
 
-        String url = "http://172.30.1.50:5000/result";
+        String url = "http://3.132.61.209:5000/result";
         UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(url)
                 .queryParam("newsPress", newsRequest.getNewsPress())
                 .queryParam("newsLink", newsRequest.getNewsLink())
-                .queryParam("newsContent", newsRequest.getNewsContent())
                 .queryParam("newsStartDate", newsRequest.getNewsStartDate())
                 .queryParam("newsEndDate", newsRequest.getNewsEndDate());
 
@@ -67,34 +65,34 @@ public class NewsService {
 
         ResponseEntity<String> responseEntity = restTemplate.exchange(
                 builder.toUriString(), HttpMethod.GET, entity, String.class);
-        ObjectMapper objectMapper = new ObjectMapper();
-        List<NewsForm.response> newsResponse = objectMapper.readValue(responseEntity.getBody(), new TypeReference<>() {
+        // ObjectMapper objectMapper = new ObjectMapper();
+        NewsForm.apiResponse newsResponse = objectMapper.readValue(responseEntity.getBody(), new TypeReference<>() {
         });
 
         return newsResponse;
     }
 
-    public List<NewsForm.response> getModifiedNewsList(List<NewsForm.response> newsList) {
-        List<NewsForm.response> modifiedNewsList = new ArrayList<>();
+    // public List<NewsForm.response> getModifiedNewsList(List<NewsForm.response>
+    // newsList) {
+    // List<NewsForm.response> modifiedNewsList = new ArrayList<>();
 
-        for (NewsForm.response news : newsList) {
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(news.getNewsDate());
-            calendar.add(Calendar.DAY_OF_MONTH, -1);
-            Date modifiedNewsDate = calendar.getTime();
+    // for (NewsForm.response news : newsList) {
+    // Calendar calendar = Calendar.getInstance();
+    // calendar.setTime(news.getNewsDate());
+    // calendar.add(Calendar.DAY_OF_MONTH, -1);
+    // Date modifiedNewsDate = calendar.getTime();
 
-            NewsForm.response modifiedNews = new NewsForm.response();
-            modifiedNews.setNewsPress(news.getNewsPress());
-            modifiedNews.setNewsLink(news.getNewsLink());
-            modifiedNews.setNewsTitle(news.getNewsTitle());
-            modifiedNews.setNewsSim(news.getNewsSim());
-            modifiedNews.setNewsDate(news.getNewsDate());
-            modifiedNews.setNewsDateRe(modifiedNewsDate);
+    // NewsForm.response modifiedNews = new NewsForm.response();
+    // modifiedNews.setNewsDate(modifiedNewsDate);
+    // modifiedNews.setNewsLink(news.getNewsLink());
+    // modifiedNews.setNewsTitle(news.getNewsTitle());
+    // modifiedNews.setNewsSim(news.getNewsSim());
+    // modifiedNews.setNewsDate(news.getNewsDate());
 
-            modifiedNewsList.add(modifiedNews);
-        }
+    // modifiedNewsList.add(modifiedNews);
+    // }
 
-        return modifiedNewsList;
-    }
+    // return modifiedNewsList;
+    // }
 
 }
