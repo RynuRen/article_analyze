@@ -1,11 +1,16 @@
 ### Jupyter, vscode파일 ###
 .ipynb_checkpoints/
 __pycache__/
-
-### test코드 ###
-/old_code/test
+.vscode/
 
 ### 데이터 폴더 ###
-/data
+/dtm_data
 /model
-/backup
+
+### Spring ###
+spring/.gradle/
+spring/bin/
+spring/build/
+
+### 설정파일 ###
+config.json

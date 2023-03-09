@@ -42,4 +42,10 @@ public class NewsForm {
         private List<response> recNews;
     }
 
+    @Data
+    public static class history {
+        private String toNext;
+        private List<response> hisNews;
+    }
+
 }

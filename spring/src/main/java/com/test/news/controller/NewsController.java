@@ -1,9 +1,9 @@
 package com.test.news.controller;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.test.news.dto.NewsForm;
 import com.test.news.service.NewsService;
@@ -19,7 +19,6 @@ public class NewsController {
 
     @Autowired
     NewsService newsService;
-
     @Autowired
     ObjectMapper objectMapper;
 
@@ -34,28 +33,17 @@ public class NewsController {
 
         // api 처리
         NewsForm.apiResponse newsList = newsService.newsApi(newsRequest);
-        // System.out.println(newsList);
         model.addAttribute("newsList", newsList.getRecNews());
 
-        String newsHistoryStr = newsRequest.getNewsHistory();
-        if (newsHistoryStr == null) {
-            newsHistoryStr = "[]";
-        }
+        // history 처리
+        NewsForm.history newsHistory = newsService.newsStack(newsRequest, newsList.getCurNews());
+        String newsHistoryStr = newsHistory.getToNext();
+        List<NewsForm.response> history = newsHistory.getHisNews();
 
-        // System.out.println("newsHistory");
-        System.out.println(newsHistoryStr);
-        List<NewsForm.response> newsHistory = objectMapper.readValue(newsHistoryStr,
-                new TypeReference<List<NewsForm.response>>() {
-                });
+        model.addAttribute("newsHistory", newsHistoryStr);
+        model.addAttribute("history", history);
 
-        newsHistory.add(newsList.getCurNews());
-
-        String history = objectMapper.writeValueAsString(newsHistory);
-
-        model.addAttribute("newsHistory", history);
-        model.addAttribute("history", newsHistory);
-
-        return "/news";
+        return "news";
     }
 
 }

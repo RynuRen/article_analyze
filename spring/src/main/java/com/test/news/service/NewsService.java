@@ -1,6 +1,7 @@
 package com.test.news.service;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -20,38 +21,11 @@ public class NewsService {
 
     @Autowired
     ObjectMapper objectMapper;
-    //// POST 방식
-    // public List<NewsForm.response> newsApi(NewsForm.request newsRequest) throws
-    // JsonProcessingException {
-    // HttpHeaders httpHeaders = new HttpHeaders();
-    // httpHeaders.setContentType(new MediaType("application", "json",
-    // Charset.forName("UTF-8")));
-
-    // ObjectMapper objectMapper = new ObjectMapper();
-
-    // String newsString = objectMapper.writeValueAsString(newsRequest);
-    // System.out.println(newsString);
-
-    // HttpEntity<String> entity = new HttpEntity<>(newsString, httpHeaders);
-
-    // RestTemplate restTemplate = new RestTemplate();
-    // ResponseEntity<String> responseEntity =
-    // restTemplate.exchange("http://192.168.10.175:5000/result",
-    // HttpMethod.GET, entity, String.class);
-
-    // System.out.println(responseEntity.getStatusCode());
-    // System.out.println(responseEntity.getBody());
-
-    // List<NewsForm.response> newsResponse =
-    // objectMapper.readValue(responseEntity.getBody(), new TypeReference<>() {
-    // });
-    // System.out.println(newsResponse);
-    // return newsResponse;
-    // }
+    
     public NewsForm.apiResponse newsApi(NewsForm.request newsRequest) throws JsonProcessingException {
         RestTemplate restTemplate = new RestTemplate();
 
-        String url = "http://3.132.61.209:5000/result";
+        String url = "http://localhost:5000/result";
         UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(url)
                 .queryParam("newsPress", newsRequest.getNewsPress())
                 .queryParam("newsLink", newsRequest.getNewsLink())
@@ -65,34 +39,28 @@ public class NewsService {
 
         ResponseEntity<String> responseEntity = restTemplate.exchange(
                 builder.toUriString(), HttpMethod.GET, entity, String.class);
-        // ObjectMapper objectMapper = new ObjectMapper();
         NewsForm.apiResponse newsResponse = objectMapper.readValue(responseEntity.getBody(), new TypeReference<>() {
         });
 
         return newsResponse;
     }
 
-    // public List<NewsForm.response> getModifiedNewsList(List<NewsForm.response>
-    // newsList) {
-    // List<NewsForm.response> modifiedNewsList = new ArrayList<>();
+    public NewsForm.history newsStack(NewsForm.request newsRequest, NewsForm.response curNews) throws JsonProcessingException {
+        String newsHistoryStr = newsRequest.getNewsHistory();
+        if (newsHistoryStr == null) {
+            newsHistoryStr = "[]";
+        }
 
-    // for (NewsForm.response news : newsList) {
-    // Calendar calendar = Calendar.getInstance();
-    // calendar.setTime(news.getNewsDate());
-    // calendar.add(Calendar.DAY_OF_MONTH, -1);
-    // Date modifiedNewsDate = calendar.getTime();
+        List<NewsForm.response> newsHistoryList = objectMapper.readValue(newsHistoryStr, new TypeReference<List<NewsForm.response>>() {});
 
-    // NewsForm.response modifiedNews = new NewsForm.response();
-    // modifiedNews.setNewsDate(modifiedNewsDate);
-    // modifiedNews.setNewsLink(news.getNewsLink());
-    // modifiedNews.setNewsTitle(news.getNewsTitle());
-    // modifiedNews.setNewsSim(news.getNewsSim());
-    // modifiedNews.setNewsDate(news.getNewsDate());
+        newsHistoryList.add(curNews);
 
-    // modifiedNewsList.add(modifiedNews);
-    // }
+        String history = objectMapper.writeValueAsString(newsHistoryList);
+        NewsForm.history newsHistory = new NewsForm.history();
+        newsHistory.setHisNews(newsHistoryList);
+        newsHistory.setToNext(history);
 
-    // return modifiedNewsList;
-    // }
+        return newsHistory;
+    }
 
 }
