@@ -22,6 +22,7 @@ def filepathmaker(category, press, drange):
 def content_return_top(tfidf_content, n, drange, press):
     import torch
     import pandas as pd
+    import numpy as np
     import time
 
     ## 조회 한정
@@ -43,7 +44,7 @@ def content_return_top(tfidf_content, n, drange, press):
     # 해당하는 기사 가져오기
     id_list = pd.to_numeric(id_list, downcast='integer')
     top_id_list = id_list[sim_scores_n[1]]
-    if type(top_id_list) != list: # 검색 결과가 하나일 경우 처리
+    if type(top_id_list) != np.ndarray: # 검색 결과가 하나일 경우 처리
         top_id_list = [top_id_list]
 
     start = time.time()
