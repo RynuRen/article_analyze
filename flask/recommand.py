@@ -14,7 +14,7 @@ def filepathmaker(category, press, drange):
 
     path_list = []
     for date_dt in list(rrule(DAILY, dtstart=start_date, until=end_date)):
-        path = f"../dtm_data/{category}/{press_dict[press]}/{date_dt.year}/{date_dt.month}/{date_dt.day}.bin"
+        path = f"dtm_data/{category}/{press_dict[press]}/{date_dt.year}/{date_dt.month}/{date_dt.day}.bin"
         path_list.append(path)
     
     return path_list
