@@ -1,22 +1,44 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>Login Page</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/login.css">
+    
+    <title>로그인 - Gaagle</title>
+
 </head>
-
 <body>
-    <h1>Login Page</h1>
-    <button id="login-kakao-btn" class="w-100 btn btn-secondary btn-lg"
-    th:onclick="|location.href='@{https://kauth.kakao.com/oauth/authorize(client_id=${'f987cd52375a122bc7b65ee1f5aae7e2'},redirect_uri=${'http://' + apiUrl + ':8080/user/kakao/callback'},response_type=${'code'})}'|">
-        Kakao Login
-    </button>
-    <!-- <div id="naver_id_login"></div> -->
-    <button id="login-naver-btn" class="w-100 btn btn-secondary btn-lg"
-    th:onclick="|location.href='@{https://nid.naver.com/oauth2.0/authorize(response_type=${'code'},client_id=${'so8qrwzArES8FNJhWG5r'},redirect_uri=${'http://' + apiUrl + ':8080/user/naver/callback'},state=${'kakaomint'})}'|">
-        Naver Login
-    </button>
-</body>
+    
+    <div class="login"> 
+        <!-- 로고 -->
+        <h1 class="logo">
+            <span>G</span>
+            <span>a</span>
+            <span>a</span>
+            <span>g</span>
+            <span>l</span>
+            <span>e</span>
+        </h1>
 
+        <h1 id="login_text">로그인</h1>
+        <h2>카카오/네이버 계정 사용</h2>
+            <ul>
+                <li class="login_select">
+                    <a th:href="@{https://kauth.kakao.com/oauth/authorize(client_id=${'f987cd52375a122bc7b65ee1f5aae7e2'},redirect_uri=${'http://' + apiUrl + ':8080/user/kakao/callback'},response_type=${'code'})}">
+                        <img src="/images/kakao_login.png" alt="kakao login" width="170px">
+                    </a>
+                </li>
+                <li class="login_select">
+                    <br>
+                    <a th:href="@{https://nid.naver.com/oauth2.0/authorize(response_type=${'code'},client_id=${'so8qrwzArES8FNJhWG5r'},redirect_uri=${'http://' + apiUrl + ':8080/user/naver/callback'},state=${'kakaomint'})}">
+                        <img src="/images/naver_login.png" alt="naver login" width="170px">
+                    </a>
+                </li>
+            </ul>
+    </div>
+    
+</body>
 </html>
