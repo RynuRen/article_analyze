@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>알림창</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.12/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.12/dist/sweetalert2.all.min.js"></script>
+</head>
+<body>
+    <script>
+        Swal.fire({
+            title: '[[${title}]]', // 알림창 제목
+            text: '[[${text}]]', // 알림창 내용
+            confirmButtonText: '[[${buttonText}]]', // 확인 버튼 텍스트
+            allowOutsideClick: false // 알림창 외부 클릭 방지
+        }).then((result) => {
+            if (result.isConfirmed) {
+                location.href='[[${redirectUrl}]]'; // 확인 버튼 클릭 시 리다이렉트 URL로 이동
+            }
+        });
+    </script>
+</body>
+</html>

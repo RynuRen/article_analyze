@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.news.mapper.BoardMapper">
+    
+    <select id="selectAll" resultType="com.test.news.dto.Board">
+        SELECT * FROM board
+    </select>
+    
+    <select id="selectById" parameterType="int" resultType="com.test.news.dto.Board">
+        SELECT * FROM board WHERE board_id = #{id}
+    </select>
+
+    <select id="selectByNewsId" parameterType="int" resultType="java.lang.Integer">
+        SELECT board_select_id FROM board_selected_news WHERE board_id = #{id}
+    </select>
+
+    <insert id="write" parameterType="com.test.news.dto.Board">
+        INSERT INTO board (board_title, board_content, board_writer_id, board_create_date, board_update_date, board_news_press, board_news_title, board_news_link, board_news_date) 
+        VALUES (#{boardTitle}, #{boardContent}, #{boardWriterId}, now() , #{boardUpdateDate}, #{boardNewsPress}, #{boardNewsTitle}, #{boardNewsLink}, #{boardNewsDate})
+        <selectKey keyProperty="boardId" order="AFTER" resultType="int">
+                SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+     <insert id="putList" >       
+            INSERT INTO board_selected_news (board_id, board_select_id)
+            VALUES
+        <foreach item="newsId" collection="boardNewsList" separator=",">
+            (#{id}, #{newsId})
+        </foreach>;
+    </insert>
+
+
+        
+    <update id="update" parameterType="com.test.news.dto.Board">
+        UPDATE board 
+        SET board_title = #{boardTitle}, board_content = #{boardContent}, board_writer_id = #{boardWriterId}, 
+            board_create_date = #{boardCreateDate}, board_update_date = now() 
+        WHERE board_id = #{boardId}
+    </update>
+    
+    <delete id="delete" parameterType="int">
+        DELETE FROM board WHERE board_id = #{id}
+    </delete>
+
+    <select id="getBoardList" parameterType="map" resultType="com.test.news.dto.Board">
+    SELECT * FROM board ORDER BY board_id DESC LIMIT #{startRow}, #{pageSize}
+    </select>
+
+    <select id="getBoardCount" resultType="int">
+        SELECT COUNT(*) FROM board
+    </select>
+
+    <select id="searchBoards" parameterType="map" resultType="com.test.news.dto.Board">
+        SELECT * FROM board
+        WHERE board_title LIKE CONCAT('%', #{keyword}, '%')
+        ORDER BY board_id DESC
+        LIMIT #{startRow}, #{pageSize}
+    </select>
+
+    <select id="searchBoardList" parameterType="hashmap" resultType="com.test.news.dto.Board">
+        SELECT board_id, board_title, board_content, board_writer_id, board_create_date, board_update_date
+        FROM board
+        <where>
+            <if test="searchType != null">
+                <choose>
+                    <when test="searchType == 'title'">
+                        AND board_title LIKE CONCAT('%', #{keyword}, '%')
+                    </when>
+                    <when test="searchType == 'content'">
+                        AND board_content LIKE CONCAT('%', #{keyword}, '%')
+                    </when>
+                </choose>
+            </if>
+        </where>
+        ORDER BY board_id DESC
+        LIMIT #{startRow}, #{pageSize}
+    </select>
+
+    <select id="getBoardCountByKeyword" parameterType="map" resultType="int">
+        SELECT COUNT(*) FROM board
+        WHERE board_title LIKE CONCAT('%', #{keyword}, '%')
+    </select>
+    
+</mapper>

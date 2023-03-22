@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.test.news.dto.NewsForm;
 import com.test.news.service.NewsService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,31 +18,36 @@ public class NewsController {
 
     @Autowired
     NewsService newsService;
-    @Autowired
-    ObjectMapper objectMapper;
 
     @GetMapping("/")
-    public String search() {
-        return "search";
+    public String home() {
+        return "home";
+    }
+
+    @GetMapping("/main")
+    public String main() {
+        return "main";
+    }
+
+    @GetMapping("/fsearch")
+    public String fsearch(NewsForm.query query, Model model) {
+        List<NewsForm.response> newsList = newsService.newsHj(query);
+
+        model.addAttribute("newsList", newsList);
+        return "fsearch";
     }
 
     @GetMapping("/search")
-    public String result(NewsForm.request newsRequest, Model model, HttpServletRequest request,
+    public String search(NewsForm.request newsRequest, Model model, HttpServletRequest request,
             HttpServletResponse response) throws JsonProcessingException {
 
-        // api 처리
-        NewsForm.apiResponse newsList = newsService.newsApi(newsRequest);
-        model.addAttribute("newsList", newsList.getRecNews());
+        NewsForm.serviceReturn newsRes = newsService.newsApi(newsRequest);
 
-        // history 처리
-        NewsForm.history newsHistory = newsService.newsStack(newsRequest, newsList.getCurNews());
-        String newsHistoryStr = newsHistory.getToNext();
-        List<NewsForm.response> history = newsHistory.getHisNews();
+        model.addAttribute("newsList", newsRes.getNewsList());
+        model.addAttribute("newsHistory", newsRes.getToNext());
+        model.addAttribute("history", newsRes.getHisNews());
 
-        model.addAttribute("newsHistory", newsHistoryStr);
-        model.addAttribute("history", history);
-
-        return "news";
+        return "search";
     }
 
 }

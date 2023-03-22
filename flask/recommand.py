@@ -1,9 +1,7 @@
 from preprocessing import content2dtm
-from sql_query import send_mysql_select_content
-import aws_boto3
+import dataload
 
 press_dict = {'경향신문':1, '국민일보':2, '뉴스1':3, '뉴시스':4, '동아일보':5, '문화일보':6, '서울신문':7, '세계일보':8, '연합뉴스':9,  '조선일보':10, '중앙일보':11, '한겨레':12, '한국일보':13}
-press_dict_invert = {v:k for k,v in press_dict.items()}
 
 def filepathmaker(category, press, drange):
     from dateutil.rrule import rrule, DAILY
@@ -29,11 +27,11 @@ def content_return_top(tfidf_content, n, drange, press):
     # 기간 & 언론사
     start = time.time()
     path_list = filepathmaker("society", press, drange)
-    print(f"불러올 파일 정리: {time.time() - start}")
+    print(f"make path: {time.time() - start}")
 
     start = time.time()
-    id_list, cos_sim_res = aws_boto3.read_parallel(tfidf_content, path_list)
-    print(f"불러와 연산: {time.time() - start}")
+    id_list, cos_sim_res = dataload.read_parallel(tfidf_content, path_list)
+    print(f"load + calc: {time.time() - start}")
 
     ## 데이터 준비
     # 유사도 정렬, 추출
@@ -46,21 +44,24 @@ def content_return_top(tfidf_content, n, drange, press):
     top_id_list = id_list[sim_scores_n[1]]
     if type(top_id_list) != np.ndarray: # 검색 결과가 하나일 경우 처리
         top_id_list = [top_id_list]
+    else:
+        top_id_list = top_id_list.tolist()
 
-    start = time.time()
-    top_n_data = send_mysql_select_content(top_id_list)
-    print(f"DB쿼리: {time.time() - start}")
-    sim_dict = {k:v for k, v in zip(top_id_list, sim_scores_n[0])}
-
-    rst = pd.DataFrame(top_n_data, columns = ['id', 'press_id', 'title', 'date', 'link'])
-    rst["press"] = rst['press_id'].map(press_dict_invert)
-    rst['similarity'] = rst['id'].map(sim_dict)
-    rst.sort_values('similarity', ascending=False, inplace=True)
-
-    return rst[['press', 'id', 'title', 'date', 'link']]
+    sim_dict = {int(k):float(v) for k, v in zip(top_id_list, sim_scores_n[0].detach().numpy())}
+    return sim_dict
 
 # 다음 뉴스 url로 추천
-def get_recommend(content, n, drange, press):
+def get_fst_recommend(content, n, drange, press):
     tfidf_content = content2dtm(content)
+    rst = content_return_top(tfidf_content, n, drange, press)
+    return rst
+
+def get_recommend(news_id, n, drange, press):
+    from datetime import datetime, timedelta
+    category = "society"
+    date_dt = datetime.strptime(drange[1], '%Y%m%d') + timedelta(days=1)
+    path = f"dtm_data/{category}/{press_dict[press]}/{date_dt.year}/{date_dt.month}/{date_dt.day}.bin"
+    id_list, dtm_list = dataload.open_pickle(path)
+    tfidf_content = dtm_list[int(news_id) - int(id_list[0])]
     rst = content_return_top(tfidf_content, n, drange, press)
     return rst

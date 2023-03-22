@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>뉴스 검색</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    </head>
+    <body>
+    <div class="container mt-5">
+        <form action="/search", method="get">
+            <fieldset class="border p-4">
+                <legend class="w-auto">뉴스 검색</legend>
+                <div class="form-group">
+                    <label for="newsLink">다음 뉴스 URL 입력</label>
+                    <input class="form-control" type="text" placeholder="https://v.daum.net/v/" name="newsLink" pattern="^https:\/\/v\.daum\.net\/v\/\d{17}" title="다음 뉴스 URL을 넣어주세요." required />
+                </div>
+                <div class="form-group">
+                    <label for="newsPress">언론사</label>
+                    <select class="form-control" name="newsPress">
+                        <option value="경향신문">경향신문</option>
+                        <option value="국민일보">국민일보</option>
+                        <option value="뉴스1">뉴스1</option>
+                        <option value="뉴시스">뉴시스</option>
+                        <option value="동아일보">동아일보</option>
+                        <option value="문화일보">문화일보</option>
+                        <option value="서울신문">서울신문</option>
+                        <option value="세계일보">세계일보</option>
+                        <option value="연합뉴스">연합뉴스</option>
+                        <option value="조선일보">조선일보</option>
+                        <option value="중앙일보">중앙일보</option>
+                        <option value="한겨레">한겨레</option>
+                        <option value="한국일보">한국일보</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="newsStartDate">시작 날짜</label>
+                    <input class="form-control" type="date" value="2021-01-01" min="2021-01-01" max="2022-12-31" name="newsStartDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="newsEndDate">마지막 날짜</label>
+                    <input class="form-control" type="date" value="2022-12-31" min="2021-01-01" max="2022-12-31" name="newsEndDate" required>
+                </div>
+                <div class="form-group">
+                    <input class="btn btn-primary mr-2" type="submit" value="탐색">
+                    <input class="btn btn-secondary" type="reset" value="초기화">
+                </div>
+            </fieldset>
+        </form>
+        <a href="/main" class="btn btn-primary mt-3">메인으로</a>
+        <a href="/board/list" class="btn btn-primary mt-3">게시판</a>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    </body>
+</html>

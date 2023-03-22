@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "name": "api-url",
+      "type": "java.lang.String",
+      "description": "api url"
+    }
+  ]
+}

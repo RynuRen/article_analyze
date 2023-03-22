@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Login Page</title>
+</head>
+
+<body>
+    <h1>Login Page</h1>
+    <button id="login-kakao-btn" class="w-100 btn btn-secondary btn-lg"
+    th:onclick="|location.href='@{https://kauth.kakao.com/oauth/authorize(client_id=${'f987cd52375a122bc7b65ee1f5aae7e2'},redirect_uri=${'http://' + apiUrl + ':8080/user/kakao/callback'},response_type=${'code'})}'|">
+        Kakao Login
+    </button>
+    <!-- <div id="naver_id_login"></div> -->
+    <button id="login-naver-btn" class="w-100 btn btn-secondary btn-lg"
+    th:onclick="|location.href='@{https://nid.naver.com/oauth2.0/authorize(response_type=${'code'},client_id=${'so8qrwzArES8FNJhWG5r'},redirect_uri=${'http://' + apiUrl + ':8080/user/naver/callback'},state=${'kakaomint'})}'|">
+        Naver Login
+    </button>
+</body>
+
+</html>

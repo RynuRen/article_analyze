@@ -3,9 +3,13 @@
 __pycache__/
 .vscode/
 
+### test코드 ###
+/old_code/test
+
 ### 데이터 폴더 ###
-/dtm_data
+/data
 /model
+/backup
 
 ### Spring ###
 spring/.gradle/
@@ -14,3 +18,4 @@ spring/build/
 
 ### 설정파일 ###
 config.json
+config.properties

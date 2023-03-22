@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.news.mapper.NewsMapper">
+    <resultMap id='findAllMap' type='com.test.news.dto.NewsForm$response'>
+        <id property='newsId' column='news_id' />
+        <result property="newsPress" column='press_name' />
+        <result property="newsTitle" column='news_title' />
+        <result property="newsDate" column='news_date' />
+        <result property="newsLink" column='news_link' />
+    </resultMap>
+    <select id="findAll" parameterType="java.util.List" resultMap="findAllMap">
+        <!-- SELECT s.news_id, p.press_name, s.news_title, s.news_date, s.news_link FROM society s JOIN press p USING(press_id) WHERE news_id IN( -->
+        SELECT news_id, press_name, news_title, news_date, news_link FROM society NATURAL JOIN press WHERE news_id IN(
+            <foreach collection="list" item="item" separator=",">
+                #{item}
+            </foreach>
+        )
+    </select>
+    <select id="findHisAll" parameterType="java.util.List" resultMap="findAllMap">
+        <!-- SELECT s.news_id, p.press_name, s.news_title, s.news_date, s.news_link FROM society s JOIN press p USING(press_id) WHERE news_id IN( -->
+        SELECT news_id, press_name, news_title, news_date, news_link FROM society NATURAL JOIN press WHERE news_id IN(
+            <foreach collection="list" item="item" separator=",">
+                #{item}
+            </foreach>
+        ) ORDER BY news_date DESC;
+    </select>
+</mapper>

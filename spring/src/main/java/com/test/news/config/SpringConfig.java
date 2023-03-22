@@ -1,9 +1,10 @@
-package com.test.news;
+package com.test.news.config;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -17,8 +18,10 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.test.news.NewsApplication;
 
 @Configuration
+@MapperScan(basePackages = "com.test.news.mapper")
 @ComponentScan(basePackageClasses = NewsApplication.class)
 public class SpringConfig {
 

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Board Detail</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="card">
+            <div class="card-header">
+                <h2 th:text="${curNews.boardTitle}"></h2>
+            </div>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>언론사</th>
+                        <th>제목</th>
+                        <th>날짜</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:object="${curNews}">
+                        <td th:text="${curNews.boardNewsPress}"></td>
+                        <td>
+                            <a th:href="${curNews.boardNewsLink}" th:text="${curNews.boardNewsTitle}" target="_blank"></a>
+                        </td>
+                        <td th:text="${curNews.boardNewsDate}"></td>
+                    </tr>
+                    <tr th:each="history : ${history}">
+                        <td th:text="${history.newsPress}"></td>
+                        <td>
+                            <a th:href="${history.newsLink}" th:text="${history.newsTitle}" target="_blank"></a>
+                        </td>
+                        <td th:text="${history.newsDate}"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="card-body">
+                <p th:text="${curNews.boardContent}"></p>
+                <p><strong>Writer:</strong> <span th:text="${curNews.boardWriterId}"></span></p>
+                <p><strong>Created Date:</strong> <span th:text="${curNews.boardCreateDate}"></span></p>
+                <p><strong>Updated Date:</strong> <span th:text="${curNews.boardUpdateDate}"></span></p>
+            </div>
+            
+            <div class="card-footer text-right">
+                <a href="/board/list" class="btn btn-secondary">Back to List</a>
+                <a th:href="@{/board/modify/{id}(id=${curNews.boardId})}" class="btn btn-primary">Update</a>
+                <form method="post" th:action="@{/board/delete}" class="d-inline-block">
+                    <input type="hidden" name="id" th:value="${curNews.boardId}">
+                    <button type="submit" class="btn btn-danger" onclick="return confirm('정말로 글을 삭제하시겠습니까?')">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.mins.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNSLZ7N"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+</body>
+</html>

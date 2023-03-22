@@ -1,0 +1,4 @@
+spring.datasource.driver-class-name=org.mariadb.jdbc.Driver
+spring.datasource.url=jdbc:mariadb://.?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+spring.datasource.username=.
+spring.datasource.password=.
