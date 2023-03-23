@@ -30,8 +30,6 @@
         </foreach>;
     </insert>
 
-
-        
     <update id="update" parameterType="com.test.news.dto.Board">
         UPDATE board 
         SET board_title = #{boardTitle}, board_content = #{boardContent}, board_writer_id = #{boardWriterId}, 
