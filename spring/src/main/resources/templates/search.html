@@ -29,9 +29,24 @@
                     <td>
                         <th:block th:if="${#temporals.format(news.newsDate.minusDays(1), 'yyyy-MM-dd') &gt;= '2021-01-01'}">
                             <form action="/search" method="get">
+                                <select class="form-control" name="newsPress">
+                                    <option value="경향신문" th:selected="${news.newsPress == '경향신문'}">경향신문</option>
+                                    <option value="국민일보" th:selected="${news.newsPress == '국민일보'}">국민일보</option>
+                                    <option value="뉴스1" th:selected="${news.newsPress == '뉴스1'}">뉴스1</option>
+                                    <option value="뉴시스" th:selected="${news.newsPress == '뉴시스'}">뉴시스</option>
+                                    <option value="동아일보" th:selected="${news.newsPress == '동아일보'}">동아일보</option>
+                                    <option value="문화일보" th:selected="${news.newsPress == '문화일보'}">문화일보</option>
+                                    <option value="서울신문" th:selected="${news.newsPress == '서울신문'}">서울신문</option>
+                                    <option value="세계일보" th:selected="${news.newsPress == '세계일보'}">세계일보</option>
+                                    <option value="연합뉴스" th:selected="${news.newsPress == '연합뉴스'}">연합뉴스</option>
+                                    <option value="조선일보" th:selected="${news.newsPress == '조선일보'}">조선일보</option>
+                                    <option value="중앙일보" th:selected="${news.newsPress == '중앙일보'}">중앙일보</option>
+                                    <option value="한겨레" th:selected="${news.newsPress == '한겨레'}">한겨레</option>
+                                    <option value="한국일보" th:selected="${news.newsPress == '한국일보'}">한국일보</option>
+                                </select>
                                 <input type="hidden" name="newsId" th:value="${news.newsId}"/>
                                 <input type="hidden" name="newsLink" th:value="${news.newsLink}"/>
-                                <input type="hidden" name="newsPress" th:value="${news.newsPress}"/>
+                                <!-- <input type="hidden" name="newsPress" th:value="${news.newsPress}" class="newsPressInput" /> -->
                                 <input type="hidden" name="newsStartDate" value="2021-01-01"/>
                                 <input type="hidden" name="newsHistory" th:value="${newsHistory}"/>
                                 <input type="hidden" name="newsEndDate" th:value="${#temporals.format(news.newsDate.minusDays(1), 'yyyy-MM-dd')}"/>

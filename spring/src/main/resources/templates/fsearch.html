@@ -10,21 +10,6 @@
 <body>
     <div class="container my-5" id="newsFormWrapper">
         <h1 class="text-center">뉴스</h1>
-        <select class="form-control" name="selectedPress" th:onchange="changeNewsPress(this.value)">
-            <option value="경향신문" selected>경향신문</option>
-            <option value="국민일보">국민일보</option>
-            <option value="뉴스1">뉴스1</option>
-            <option value="뉴시스">뉴시스</option>
-            <option value="동아일보">동아일보</option>
-            <option value="문화일보">문화일보</option>
-            <option value="서울신문">서울신문</option>
-            <option value="세계일보">세계일보</option>
-            <option value="연합뉴스">연합뉴스</option>
-            <option value="조선일보">조선일보</option>
-            <option value="중앙일보">중앙일보</option>
-            <option value="한겨레">한겨레</option>
-            <option value="한국일보">한국일보</option>
-        </select>
         <table class="table table-striped table-hover">
             <thead>
                 <tr>
@@ -46,8 +31,23 @@
                         <th:block
                             th:if="${#temporals.format(news.newsDate.minusDays(1), 'yyyy-MM-dd') &gt;= '2021-01-01'}">
                             <form id="newsForm" action="/search" method="get">
+                                <select class="form-control" name="newsPress">
+                                    <option value="경향신문" selected>경향신문</option>
+                                    <option value="국민일보">국민일보</option>
+                                    <option value="뉴스1">뉴스1</option>
+                                    <option value="뉴시스">뉴시스</option>
+                                    <option value="동아일보">동아일보</option>
+                                    <option value="문화일보">문화일보</option>
+                                    <option value="서울신문">서울신문</option>
+                                    <option value="세계일보">세계일보</option>
+                                    <option value="연합뉴스">연합뉴스</option>
+                                    <option value="조선일보">조선일보</option>
+                                    <option value="중앙일보">중앙일보</option>
+                                    <option value="한겨레">한겨레</option>
+                                    <option value="한국일보">한국일보</option>
+                                </select>
                                 <input type="hidden" name="newsLink" th:value="${news.newsLink}" />
-                                <input type="hidden" name="newsPress" value="경향신문" class="newsPressInput" />
+                                <!-- <input type="hidden" name="newsPress" value="경향신문" class="newsPressInput" /> -->
                                 <input type="hidden" name="newsStartDate" value="2021-01-01" />
                                 <input type="hidden" name="newsEndDate" th:value="${#temporals.format(#temporals.createNow().minusDays(1), 'yyyy-MM-dd')}"/>
                                 <button type="submit" class="btn btn-primary">Choose</button>
