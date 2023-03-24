@@ -17,13 +17,19 @@ public interface BoardMapper {
 
     List<Integer> selectByNewsId(Integer id);
 
+    List<String> selectByComment(Integer id);
+
     void inputCurNews(NewsForm.response curNews);
 
     void write(Board board);
 
-    void putList(@Param("id") Integer id, @Param("boardNewsList") List<Integer> boardNewsList);
+    void putList(@Param("id") Integer id, @Param("boardIdList") List<Integer> boardIdList,
+            @Param("boardNewsComment") List<String> boardNewsComment);
 
     void update(Board board);
+
+    void updateComment(@Param("boardComment") List<String> boardComment, @Param("boardId") Integer id,
+            @Param("newsIdList") List<Integer> newsIdList);
 
     void delete(int id);
 

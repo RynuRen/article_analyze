@@ -19,6 +19,7 @@
                         <th>언론사</th>
                         <th>제목</th>
                         <th>날짜</th>
+                        <th>코멘트</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -28,14 +29,18 @@
                             <a th:href="${curNews.boardNewsLink}" th:text="${curNews.boardNewsTitle}" target="_blank"></a>
                         </td>
                         <td th:text="${curNews.boardNewsDate}"></td>
+                        <td th:text="${comment[0]}"></td>
                     </tr>
-                    <tr th:each="history : ${history}">
+                    <tr th:each="history, i : ${history}">
                         <td th:text="${history.newsPress}"></td>
                         <td>
                             <a th:href="${history.newsLink}" th:text="${history.newsTitle}" target="_blank"></a>
                         </td>
                         <td th:text="${history.newsDate}"></td>
+                        <td th:text="${comment[{i.count}]}"></td>                   
                     </tr>
+                </tr>
+
                 </tbody>
             </table>
             <div class="card-body">

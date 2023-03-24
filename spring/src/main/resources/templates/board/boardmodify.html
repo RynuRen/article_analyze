@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>게시글 수정</title>
+    <title>게시글 작성</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 </head>
@@ -10,7 +10,6 @@
     <div class="container">
         <h1>게시글 수정</h1>
         <form method="POST" th:action="@{/board/update/{id}(id=${curNews.boardId})}">
-            <input type="hidden" name="boardId" th:value="${curNews.boardId}">
             <div class="form-group">
                 <label for="title">제목</label>
                 <input type="text" class="form-control" id="title" name="boardTitle" th:value="${curNews.boardTitle}" required>
@@ -21,6 +20,7 @@
                         <th>언론사</th>
                         <th>제목</th>
                         <th>날짜</th>
+                        <th>코멘트</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -30,26 +30,44 @@
                             <a th:href="${curNews.boardNewsLink}" th:text="${curNews.boardNewsTitle}" target="_blank"></a>
                         </td>
                         <td th:text="${curNews.boardNewsDate}"></td>
+                        <td>
+                            <div class="form-group">
+                                <textarea  class="form-control"  id="comment" name="boardComment" rows="1" th:text="${comment[0]}" required></textarea>
+                            </div>
+                          </td>
                     </tr>
-                    <tr th:each="history : ${history}">
+                    <tr th:each="history , i : ${history}">
                         <td th:text="${history.newsPress}"></td>
                         <td>
                             <a th:href="${history.newsLink}" th:text="${history.newsTitle}" target="_blank"></a>
                         </td>
                         <td th:text="${history.newsDate}"></td>
-                    </tr>
+                        <td>
+                            <div class="form-group">
+                              <textarea  class="form-control"  id="comment" name="boardComment" rows="1" th:text="${comment[{i.count}]}" required></textarea>
+                            </div>
+                          </td>
                 </tbody>
             </table>
             <div class="form-group">
                 <label for="content">내용</label>
                 <textarea class="form-control" id="content" name="boardContent" rows="5" th:text=${curNews.boardContent} required></textarea>
             </div>
-            <button type="submit" class="btn btn-primary">수정</button>
+            <button type="submit" class="btn btn-primary" id="write-btn">수정</button>
         </form>
+        <a href="/board/list" class="btn btn-secondary">목록으로 돌아가기</a>
     </div>
     <!-- Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script>
+        const writeBtn = document.querySelector('#write-btn');
+        writeBtn.addEventListener('click', () => {
+            setTimeout(() => {
+                window.location.href = "/board/list";
+            }, 1000);
+        });
+    </script>
 </body>
 </html>

@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class NewsController {
@@ -20,28 +21,25 @@ public class NewsController {
     NewsService newsService;
 
     @GetMapping("/")
-    public String home() {
-        return "home";
-    }
-
-    @GetMapping("/main")
     public String main() {
         return "main";
     }
 
-    @GetMapping("/fsearch")
+    @GetMapping("/query_search")
     public String fsearch(NewsForm.query query, Model model) {
         List<NewsForm.response> newsList = newsService.newsHj(query);
 
         model.addAttribute("newsList", newsList);
-        return "fsearch";
+        return "query_search";
     }
 
     @GetMapping("/search")
-    public String search(NewsForm.request newsRequest, Model model, HttpServletRequest request,
+    public String search(NewsForm.request newsRequest, Model model,
+            @RequestParam("selectNewsPress") String selectNewsPress, HttpServletRequest request,
             HttpServletResponse response) throws JsonProcessingException {
+        System.out.println(selectNewsPress);
 
-        NewsForm.serviceReturn newsRes = newsService.newsApi(newsRequest);
+        NewsForm.serviceReturn newsRes = newsService.newsApi(newsRequest, selectNewsPress);
 
         model.addAttribute("newsList", newsRes.getNewsList());
         model.addAttribute("newsHistory", newsRes.getToNext());
