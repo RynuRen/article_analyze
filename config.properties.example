@@ -1,4 +1,19 @@
 spring.datasource.driver-class-name=org.mariadb.jdbc.Driver
-spring.datasource.url=jdbc:mariadb://.?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+spring.datasource.url=jdbc:mariadb://.?serverTimezone=Asia/Seoul&characterEncoding=UTF-8&allowMultiQueries=true
 spring.datasource.username=.
 spring.datasource.password=.
+
+# kakao api
+oauth.kakao.client-id=.
+oauth.kakao.url.auth=https://kauth.kakao.com
+oauth.kakao.url.api=https://kapi.kakao.com
+
+# naver api
+oauth.naver.secret=.
+oauth.naver.client-id=.
+oauth.naver.url.auth=https://nid.naver.com
+oauth.naver.url.api=https://openapi.naver.com
+
+# jwt
+jwt.secret-key=.
+
