@@ -48,10 +48,11 @@ def app_search():
 @app.route("/research", methods=["GET"])
 def app_research():
     news_press = unquote(request.args.get('newsPress'))
+    select_news_press = unquote(request.args.get('selectNewsPress'))
     news_id = request.args.get('newsId')
     news_startdate = request.args.get('newsStartDate')
     news_enddate = request.args.get('newsEndDate')
-    res = build_result_df(news_press, news_id, news_startdate, news_enddate)
+    res = build_result_df(news_press, select_news_press, news_id, news_startdate, news_enddate)
     return res
 
 @app.route("/daum", methods=["GET"])

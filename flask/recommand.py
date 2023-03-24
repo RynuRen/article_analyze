@@ -56,12 +56,12 @@ def get_fst_recommend(content, n, drange, press):
     rst = content_return_top(tfidf_content, n, drange, press)
     return rst
 
-def get_recommend(news_id, n, drange, press):
+def get_recommend(news_id, n, drange, tpress):
     from datetime import datetime, timedelta
     category = "society"
     date_dt = datetime.strptime(drange[1], '%Y%m%d') + timedelta(days=1)
-    path = f"dtm_data/{category}/{press_dict[press]}/{date_dt.year}/{date_dt.month}/{date_dt.day}.bin"
+    path = f"dtm_data/{category}/{press_dict[tpress[0]]}/{date_dt.year}/{date_dt.month}/{date_dt.day}.bin"
     id_list, dtm_list = dataload.open_pickle(path)
     tfidf_content = dtm_list[int(news_id) - int(id_list[0])]
-    rst = content_return_top(tfidf_content, n, drange, press)
+    rst = content_return_top(tfidf_content, n, drange, tpress[1])
     return rst
