@@ -164,8 +164,6 @@ public class BoardController {
         Board boardTemp = boardMapper.selectById(id);
         boardTemp.setBoardTitle(board.getBoardTitle());
         boardTemp.setBoardContent(board.getBoardContent());
-        System.out.println(boardComment);
-        System.out.println(id);
 
         List<Integer> newsIdList = boardMapper.selectByNewsId(id);
         boardMapper.update(boardTemp);
