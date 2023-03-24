@@ -1,4 +1,4 @@
-package com.test.news.authentication.domain.oauth;
+package com.test.news.model.oauth;
 
 import java.util.List;
 import java.util.Map;

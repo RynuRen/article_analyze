@@ -1,4 +1,4 @@
-package com.test.news.authentication.service.kakao;
+package com.test.news.service.kakao;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

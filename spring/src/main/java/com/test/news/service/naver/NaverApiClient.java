@@ -1,4 +1,4 @@
-package com.test.news.authentication.service.naver;
+package com.test.news.service.naver;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -9,10 +9,10 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import com.test.news.authentication.domain.oauth.OAuthApiClient;
-import com.test.news.authentication.domain.oauth.OAuthInfoResponse;
-import com.test.news.authentication.domain.oauth.OAuthLoginParams;
-import com.test.news.authentication.domain.oauth.OAuthProvider;
+import com.test.news.model.oauth.OAuthApiClient;
+import com.test.news.model.oauth.OAuthInfoResponse;
+import com.test.news.model.oauth.OAuthLoginParams;
+import com.test.news.model.oauth.OAuthProvider;
 
 import lombok.RequiredArgsConstructor;
 

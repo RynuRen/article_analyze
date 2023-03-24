@@ -1,10 +1,10 @@
-package com.test.news.authentication.service.naver;
+package com.test.news.service.naver;
 
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-import com.test.news.authentication.domain.oauth.OAuthLoginParams;
-import com.test.news.authentication.domain.oauth.OAuthProvider;
+import com.test.news.model.oauth.OAuthLoginParams;
+import com.test.news.model.oauth.OAuthProvider;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

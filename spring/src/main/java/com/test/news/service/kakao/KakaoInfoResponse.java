@@ -1,9 +1,9 @@
-package com.test.news.authentication.service.kakao;
+package com.test.news.service.kakao;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.test.news.authentication.domain.oauth.OAuthInfoResponse;
-import com.test.news.authentication.domain.oauth.OAuthProvider;
+import com.test.news.model.oauth.OAuthInfoResponse;
+import com.test.news.model.oauth.OAuthProvider;
 
 import lombok.Getter;
 

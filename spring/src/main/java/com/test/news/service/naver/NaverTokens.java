@@ -1,4 +1,4 @@
-package com.test.news.authentication.service.naver;
+package com.test.news.service.naver;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

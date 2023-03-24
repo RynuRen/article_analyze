@@ -1,4 +1,4 @@
-package com.test.news.authentication.domain;
+package com.test.news.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

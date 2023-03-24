@@ -1,4 +1,4 @@
-package com.test.news.authentication.domain.oauth;
+package com.test.news.model.oauth;
 
 public interface OAuthApiClient {
 

@@ -2,13 +2,14 @@ package com.test.news.dto;
 
 import java.time.LocalDate;
 
-import com.test.news.authentication.domain.oauth.OAuthProvider;
+import com.test.news.model.Role;
+import com.test.news.model.oauth.OAuthProvider;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Data
+@Getter
 @NoArgsConstructor
 public class User {
 
@@ -17,12 +18,16 @@ public class User {
     private String nickname;
     private OAuthProvider oAuthProvider;
     private LocalDate createDate;
+    private Role role;
 
     @Builder
-    public User(String email, String nickname, OAuthProvider oAuthProvider) {
+    public User(Long userId, String email, String nickname, OAuthProvider oAuthProvider, LocalDate createDate, Role role) {
+        this.userId = userId;
         this.email = email;
         this.nickname = nickname;
         this.oAuthProvider = oAuthProvider;
+        this.createDate = createDate;
+        this.role = role;
     }
 
 }
