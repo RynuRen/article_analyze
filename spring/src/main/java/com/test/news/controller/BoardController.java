@@ -64,17 +64,17 @@ public class BoardController {
     }
 
     @PostMapping("hiswritepro")
-    public String boardHisWirte(Board board, Model model) throws IOException {
+    public String boardHisWirte(Board board, Model model, @RequestParam("boardComment") List<String> boardNewsComment)
+            throws IOException {
 
         Board boardwrite = objectMapper.readValue(board.getCurNews(), Board.class);
         boardwrite.setBoardContent(board.getBoardContent());
         boardwrite.setBoardTitle(board.getBoardTitle());
-        List<Integer> boardNewsList = objectMapper.readValue(board.getSelNews(), new TypeReference<List<Integer>>() {
+        List<Integer> boardIdList = objectMapper.readValue(board.getSelNews(), new TypeReference<List<Integer>>() {
         });
-
+        boardIdList.add(0, 0);
         boardMapper.write(boardwrite);
-        boardwrite.getBoardId();
-        boardMapper.putList(boardwrite.getBoardId(), boardNewsList);
+        boardMapper.putList(boardwrite.getBoardId(), boardIdList, boardNewsComment);
 
         model.addAttribute("title", "알림");
         model.addAttribute("text", "작성이 완료되었습니다.");
@@ -130,7 +130,7 @@ public class BoardController {
         List<Integer> newsList = boardMapper.selectByNewsId(id);
         model.addAttribute("history", newsMapper.findHisAll(newsList));
         model.addAttribute("curNews", boardMapper.selectById(id));
-
+        model.addAttribute("comment", boardMapper.selectByComment(id));
         return "board/boardview";
 
     }
@@ -153,17 +153,24 @@ public class BoardController {
         List<Integer> newsList = boardMapper.selectByNewsId(id);
         model.addAttribute("history", newsMapper.findHisAll(newsList));
         model.addAttribute("curNews", boardMapper.selectById(id));
+        model.addAttribute("comment", boardMapper.selectByComment(id));
         return "board/boardmodify";
     }
 
     @PostMapping("update/{id}")
-    public String boardUpdate(@PathVariable("id") Integer id, Board board, Model model) {
+    public String boardUpdate(@PathVariable("id") Integer id, @RequestParam("boardComment") List<String> boardComment,
+            Board board, Model model) {
 
         Board boardTemp = boardMapper.selectById(id);
         boardTemp.setBoardTitle(board.getBoardTitle());
         boardTemp.setBoardContent(board.getBoardContent());
+        System.out.println(boardComment);
+        System.out.println(id);
 
+        List<Integer> newsIdList = boardMapper.selectByNewsId(id);
         boardMapper.update(boardTemp);
+        boardMapper.updateComment(boardComment, id, newsIdList);
+
         model.addAttribute("title", "알림");
         model.addAttribute("text", "수정이 완료되었습니다.");
         model.addAttribute("buttonText", "확인");

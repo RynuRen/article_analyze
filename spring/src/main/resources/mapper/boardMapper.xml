@@ -14,6 +14,10 @@
         SELECT board_select_id FROM board_selected_news WHERE board_id = #{id}
     </select>
 
+    <select id="selectByComment" parameterType="int" resultType="java.lang.String">
+        SELECT board_comment FROM board_selected_news WHERE board_id = #{id}
+    </select>
+
     <insert id="write" parameterType="com.test.news.dto.Board">
         INSERT INTO board (board_title, board_content, board_writer_id, board_create_date, board_update_date, board_news_press, board_news_title, board_news_link, board_news_date) 
         VALUES (#{boardTitle}, #{boardContent}, #{boardWriterId}, now() , #{boardUpdateDate}, #{boardNewsPress}, #{boardNewsTitle}, #{boardNewsLink}, #{boardNewsDate})
@@ -23,18 +27,27 @@
     </insert>
 
      <insert id="putList" >       
-            INSERT INTO board_selected_news (board_id, board_select_id)
-            VALUES
-        <foreach item="newsId" collection="boardNewsList" separator=",">
-            (#{id}, #{newsId})
-        </foreach>;
+        INSERT INTO board_selected_news (board_id, board_select_id, board_comment)
+        VALUES
+        <foreach item="boardIdList" index="index" collection="boardIdList" separator=",">
+            (#{id}, #{boardIdList}, #{boardNewsComment[${index}]})
+        </foreach>
     </insert>
-
+       
     <update id="update" parameterType="com.test.news.dto.Board">
         UPDATE board 
         SET board_title = #{boardTitle}, board_content = #{boardContent}, board_writer_id = #{boardWriterId}, 
             board_create_date = #{boardCreateDate}, board_update_date = now() 
         WHERE board_id = #{boardId}
+    </update>
+
+    <update id="updateComment">
+        <foreach item="comment" index="index" collection="boardComment" separator=";">
+            UPDATE board_selected_news
+                SET board_comment = #{comment}
+            WHERE board_id = #{boardId} 
+            AND board_select_id = #{newsIdList[${index}]}
+        </foreach>
     </update>
     
     <delete id="delete" parameterType="int">
