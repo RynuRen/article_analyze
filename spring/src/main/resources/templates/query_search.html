@@ -47,7 +47,7 @@
                                     <option value="한국일보">한국일보</option>
                                 </select>
                                 <input type="hidden" name="newsLink" th:value="${news.newsLink}" />
-                                <!-- <input type="hidden" name="newsPress" value="경향신문" class="newsPressInput" /> -->
+                                <input type="hidden" name="selectNewsPress" th:value="${news.newsPress}" />
                                 <input type="hidden" name="newsStartDate" value="2021-01-01" />
                                 <input type="hidden" name="newsEndDate" th:value="${#temporals.format(#temporals.createNow().minusDays(1), 'yyyy-MM-dd')}"/>
                                 <button type="submit" class="btn btn-primary">Choose</button>
@@ -57,7 +57,7 @@
                 </tr>
             </tbody>
         </table>
-        <a href="/main" class="btn btn-primary mt-3">메인으로</a>
+        <a href="/" class="btn btn-primary mt-3">메인으로</a>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>

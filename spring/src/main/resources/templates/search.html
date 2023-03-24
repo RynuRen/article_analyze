@@ -29,7 +29,7 @@
                     <td>
                         <th:block th:if="${#temporals.format(news.newsDate.minusDays(1), 'yyyy-MM-dd') &gt;= '2021-01-01'}">
                             <form action="/search" method="get">
-                                <select class="form-control" name="newsPress">
+                                <select class="form-control" name="selectNewsPress">
                                     <option value="경향신문" th:selected="${news.newsPress == '경향신문'}">경향신문</option>
                                     <option value="국민일보" th:selected="${news.newsPress == '국민일보'}">국민일보</option>
                                     <option value="뉴스1" th:selected="${news.newsPress == '뉴스1'}">뉴스1</option>
@@ -46,7 +46,7 @@
                                 </select>
                                 <input type="hidden" name="newsId" th:value="${news.newsId}"/>
                                 <input type="hidden" name="newsLink" th:value="${news.newsLink}"/>
-                                <!-- <input type="hidden" name="newsPress" th:value="${news.newsPress}" class="newsPressInput" /> -->
+                                <input type="hidden" name="newsPress" th:value="${news.newsPress}" class="newsPressInput" />
                                 <input type="hidden" name="newsStartDate" value="2021-01-01"/>
                                 <input type="hidden" name="newsHistory" th:value="${newsHistory}"/>
                                 <input type="hidden" name="newsEndDate" th:value="${#temporals.format(news.newsDate.minusDays(1), 'yyyy-MM-dd')}"/>
@@ -83,7 +83,7 @@
                 </tr>
             </tbody>
         </table>
-        <a href="/main" class="btn btn-primary mt-3">메인으로</a>
+        <a href="/" class="btn btn-primary mt-3">메인으로</a>
         <form action="/board/hiswrite" method="get">
             <input type="hidden" name="toNext" th:value="${newsHistory}"/>     
             <button type="submit" class="btn btn-primary">글쓰기</button>

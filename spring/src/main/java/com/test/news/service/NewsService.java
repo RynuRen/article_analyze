@@ -15,6 +15,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -52,9 +53,11 @@ public class NewsService {
         return responseEntity.getBody();
     }
 
-    public NewsForm.serviceReturn newsApi(NewsForm.request newsRequest) throws JsonProcessingException {
+    public NewsForm.serviceReturn newsApi(NewsForm.request newsRequest,
+            @RequestParam(required = false) String selectNewsPress)
+            throws JsonProcessingException {
         // API 요청
-        NewsForm.apiResponse newsResponse = requestFlask(newsRequest);
+        NewsForm.apiResponse newsResponse = requestFlask(newsRequest, selectNewsPress);
 
         // API로 돌려받은 값 처리
         List<NewsForm.response> newsList = newsSort(newsResponse);
@@ -84,24 +87,29 @@ public class NewsService {
     }
 
     // Flaks API
-    private NewsForm.apiResponse requestFlask(NewsForm.request newsRequest) {
+    private NewsForm.apiResponse requestFlask(NewsForm.request newsRequest,
+            @RequestParam(required = false) String selectNewsPress) {
         RestTemplate restTemplate = new RestTemplate();
 
         UriComponentsBuilder builder = UriComponentsBuilder.newInstance();
         if (newsRequest.getNewsId() == 0) {
-            String url = String.format("http://%s:5000/search", apiUrl);
+            // String url = String.format("http://%s:5000/search", apiUrl);
+            String url = "http://192.168.10.48:5000/search";
             builder = UriComponentsBuilder.fromUriString(url)
                     .queryParam("newsPress", newsRequest.getNewsPress())
                     .queryParam("newsLink", newsRequest.getNewsLink())
                     .queryParam("newsStartDate", newsRequest.getNewsStartDate())
                     .queryParam("newsEndDate", newsRequest.getNewsEndDate());
         } else {
-            String url = String.format("http://%s:5000/research", apiUrl);
+            // String url = String.format("http://%s:5000/research", apiUrl);
+            String url = "http://192.168.10.48:5000/research";
             builder = UriComponentsBuilder.fromUriString(url)
                     .queryParam("newsPress", newsRequest.getNewsPress())
                     .queryParam("newsId", newsRequest.getNewsId())
                     .queryParam("newsStartDate", newsRequest.getNewsStartDate())
-                    .queryParam("newsEndDate", newsRequest.getNewsEndDate());
+                    .queryParam("newsEndDate", newsRequest.getNewsEndDate())
+                    .queryParam("selectNewsPress", selectNewsPress);
+
         }
 
         HttpHeaders headers = new HttpHeaders();
