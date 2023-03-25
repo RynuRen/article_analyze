@@ -22,12 +22,12 @@ import lombok.RequiredArgsConstructor;
 public class UserController {
     private final OAuthLoginService oAuthLoginService;
 
-    @Value("${api-url}")
-    private String apiUrl; 
+    @Value("${was-url}")
+    private String wasUrl; 
 
     @GetMapping("/login")
     public String login(Model model) {
-        model.addAttribute("apiUrl", apiUrl);
+        model.addAttribute("wasUrl", wasUrl);
         System.out.println(model);
         return "user/login";
     }

@@ -3,6 +3,9 @@ spring.datasource.url=jdbc:mariadb://.?serverTimezone=Asia/Seoul&characterEncodi
 spring.datasource.username=.
 spring.datasource.password=.
 
+# was source
+was-url=.
+
 # kakao api
 oauth.kakao.client-id=.
 oauth.kakao.url.auth=https://kauth.kakao.com
