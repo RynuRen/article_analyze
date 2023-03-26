@@ -34,27 +34,13 @@
         </ul>
     </nav>
 
+    Nickname: <span sec:authentication="name"></span><br>
+    변경기능 넣어야 겠네<br>
+    Roles: <span sec:authentication="principal.authorities"></span><br>
+    Email: <span sec:authentication="principal.attributes['email']"></span><br>
+    oAuthProvider: <span sec:authentication="principal.attributes['oAuthProvider']"></span><br>
+    createDate: <span sec:authentication="principal.attributes['createDate']"></span><br>
 
-
-    <!-- 로고 -->
-    <h1 id="logo">
-        <span>G</span>
-        <span>a</span>
-        <span>a</span>
-        <span>g</span>
-        <span>l</span>
-        <span>e</span>
-    </h1>
-
-    <!-- 검색창 -->
-    <form th:action="@{/query_search}" method="get">
-        <input type="text" name="query" placeholder="Gaagle 검색 ">
-        <!-- 검색버튼 -->
-        <div class="button_box">
-            <button type="submit">검색</button>
-            <button type="submit">I'm Feeling Lucky</button>
-        </div>
-    </form>
 </body>
 
 </html>

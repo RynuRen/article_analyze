@@ -1,11 +1,14 @@
 package com.test.news.config;
 
+import org.springframework.context.annotation.Configuration;
+
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
 
 @OpenAPIDefinition(info = @Info(title = "Kakao Mint News Researcher with Swagger",
-		description = "카카오 민트 뉴스 연구소", version = "v2"))
+		description = "카카오 민트 뉴스 연구소", version = "v2.5"))
 
+@Configuration
 public class SwaggerConfig {}
 // @Configuration
 // public class SwaggerConfig {

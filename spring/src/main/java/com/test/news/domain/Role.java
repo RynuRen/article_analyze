@@ -1,4 +1,4 @@
-package com.test.news.model;
+package com.test.news.domain;
 
 public enum Role {
     ROLE_USER("ROLE_USER"),

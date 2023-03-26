@@ -1,9 +1,8 @@
-package com.test.news.dto;
+package com.test.news.domain;
 
 import java.time.LocalDate;
 
-import com.test.news.model.Role;
-import com.test.news.model.oauth.OAuthProvider;
+import com.test.news.oauth2.provider.OAuthProvider;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -11,7 +10,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class User {
+public class Member {
 
     private Long userId;
     private String email;
@@ -21,7 +20,7 @@ public class User {
     private Role role;
 
     @Builder
-    public User(Long userId, String email, String nickname, OAuthProvider oAuthProvider, LocalDate createDate, Role role) {
+    public Member(Long userId, String email, String nickname, OAuthProvider oAuthProvider, LocalDate createDate, Role role) {
         this.userId = userId;
         this.email = email;
         this.nickname = nickname;
