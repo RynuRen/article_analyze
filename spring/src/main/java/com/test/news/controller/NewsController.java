@@ -37,7 +37,6 @@ public class NewsController {
     public String search(NewsForm.request newsRequest, Model model,
             @RequestParam("selectNewsPress") String selectNewsPress, HttpServletRequest request,
             HttpServletResponse response) throws JsonProcessingException {
-        System.out.println(selectNewsPress);
 
         NewsForm.serviceReturn newsRes = newsService.newsApi(newsRequest, selectNewsPress);
 

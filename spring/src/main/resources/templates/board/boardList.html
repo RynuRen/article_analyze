@@ -29,20 +29,17 @@
                 <tr>
                     <th>ID</th>
                     <th>Title</th>
-                    <th>Content</th>
                     <th>Writer</th>
                     <th>Created Date</th>
-                    <th>Updated Date</th>
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="board : ${list}">
                     <td th:text="${board.boardId}"></td>
                     <td>
-                        <a th:text="${board.boardTitle}" th:href="@{/board/view(id=${board.boardId})}"></a>
+                        <a th:text="${board.boardTitle}" th:href="@{/board/list/view(id=${board.boardId})}"></a>
                     </td> 
-                    <td th:text="${board.boardContent}"></td>
-                    <td th:text="${board.boardWriterId}"></td>
+                    <td th:text="${board.nickName}"></td>
                     <td>
                         <th:block th:with="nowDay=${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}">
                             <th:block th:if="${nowDay} == ${#dates.format(board.boardCreateDate, 'yyyy-MM-dd')}">
@@ -53,7 +50,7 @@
                             </th:block>
                         </th:block>
                     </td>
-                    <td>
+                    <!-- <td>
                         <th:block th:with="nowDay=${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}">
                             <th:block th:if="${nowDay} == ${#dates.format(board.boardUpdateDate, 'yyyy-MM-dd')}">
                                 <span th:text="${#dates.format(board.boardUpdateDate, 'HH:mm')}"></span>
@@ -62,7 +59,7 @@
                                 <span th:text="${#dates.format(board.boardUpdateDate, 'yyyy-MM-dd')}"></span>
                             </th:block>
                         </th:block>
-                    </td>
+                    </td> -->
                 </tr>
             </tbody>
         </table>
@@ -89,7 +86,7 @@
                 </ul>
             </nav>
         </div>
-        <a class="btn btn-primary mb-3" href="/board/write">write</a>
+        <!-- <a class="btn btn-primary mb-3" href="/board/write">write</a> -->
         <a class="btn btn-primary mb-3" href="/">Home</a>
     </div>
     <!-- Bootstrap JS -->

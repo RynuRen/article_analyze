@@ -3,7 +3,7 @@
 <mapper namespace="com.test.news.mapper.BoardMapper">
     
     <select id="selectAll" resultType="com.test.news.dto.Board">
-        SELECT * FROM board
+        SELECT * FROM board WHERE board_del = 0 AND board_pub = 0;
     </select>
     
     <select id="selectById" parameterType="int" resultType="com.test.news.dto.Board">
@@ -50,16 +50,16 @@
         </foreach>
     </update>
     
-    <delete id="delete" parameterType="int">
-        DELETE FROM board WHERE board_id = #{id}
-    </delete>
+    <update id="delete" parameterType="int">
+         UPDATE board SET board_del = 1 WHERE board_id = #{id}
+    </update>
 
     <select id="getBoardList" parameterType="map" resultType="com.test.news.dto.Board">
-    SELECT * FROM board ORDER BY board_id DESC LIMIT #{startRow}, #{pageSize}
+    SELECT B.board_id, B.board_title, B.board_writer_id, B.board_create_date, U.nickname FROM board B INNER JOIN user U ON B.board_writer_id = U.user_id WHERE board_del = 0 AND board_pub = 0 ORDER BY board_id DESC LIMIT #{startRow}, #{pageSize}
     </select>
 
     <select id="getBoardCount" resultType="int">
-        SELECT COUNT(*) FROM board
+        SELECT COUNT(*) FROM board WHERE board_del = 0 AND board_pub = 0
     </select>
 
     <select id="searchBoards" parameterType="map" resultType="com.test.news.dto.Board">

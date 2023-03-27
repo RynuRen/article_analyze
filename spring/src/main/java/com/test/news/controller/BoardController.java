@@ -20,6 +20,9 @@ import com.test.news.dto.NewsForm.response;
 import com.test.news.mapper.BoardMapper;
 import com.test.news.mapper.NewsMapper;
 
+import lombok.extern.log4j.Log4j2;
+
+@Log4j2
 @Controller
 @RequestMapping("board")
 public class BoardController {
@@ -32,12 +35,6 @@ public class BoardController {
 
     @Autowired
     NewsMapper newsMapper;
-
-    @GetMapping("write")
-    public String boardWriteForm() {
-
-        return "board/boardwrite";
-    }
 
     @GetMapping("hiswrite")
     public String boardHisWrite(NewsForm.serviceReturn newsRes, Model model) throws IOException {
@@ -66,13 +63,15 @@ public class BoardController {
     @PostMapping("hiswritepro")
     public String boardHisWirte(Board board, Model model, @RequestParam("boardComment") List<String> boardNewsComment)
             throws IOException {
-
+        log.info(board.getBoardWriterId());
         Board boardwrite = objectMapper.readValue(board.getCurNews(), Board.class);
         boardwrite.setBoardContent(board.getBoardContent());
         boardwrite.setBoardTitle(board.getBoardTitle());
+        boardwrite.setBoardWriterId(board.getBoardWriterId());
         List<Integer> boardIdList = objectMapper.readValue(board.getSelNews(), new TypeReference<List<Integer>>() {
         });
         boardIdList.add(0, 0);
+
         boardMapper.write(boardwrite);
         boardMapper.putList(boardwrite.getBoardId(), boardIdList, boardNewsComment);
 
@@ -81,16 +80,6 @@ public class BoardController {
         model.addAttribute("buttonText", "확인");
         model.addAttribute("redirectUrl", "/board/list");
 
-        return "message";
-    }
-
-    @PostMapping("writepro")
-    public String boardWritePro(Board board, Model model) {
-        boardMapper.write(board);
-        model.addAttribute("title", "알림");
-        model.addAttribute("text", "작성이 완료되었습니다.");
-        model.addAttribute("buttonText", "확인");
-        model.addAttribute("redirectUrl", "/board/list");
         return "message";
     }
 
@@ -124,7 +113,7 @@ public class BoardController {
         return "board/boardList";
     }
 
-    @GetMapping("view")
+    @GetMapping("/list/view")
     public String boardView(Model model, Integer id) {
 
         List<Integer> newsList = boardMapper.selectByNewsId(id);
@@ -157,7 +146,7 @@ public class BoardController {
         return "board/boardmodify";
     }
 
-    @PostMapping("update/{id}")
+    @PostMapping("modify/{id}")
     public String boardUpdate(@PathVariable("id") Integer id, @RequestParam("boardComment") List<String> boardComment,
             Board board, Model model) {
 

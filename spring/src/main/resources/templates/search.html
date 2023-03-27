@@ -1,10 +1,52 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <title>뉴스 결과</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <style>
+        #sidebar {
+            width: 50%;
+        }
+
+        ul.timeline-3 {
+            list-style-type: none;
+            position: relative;
+        }
+
+        ul.timeline-3:before {
+            content: " ";
+            background: #d4d9df;
+            display: inline-block;
+            position: absolute;
+            left: 29px;
+            width: 2px;
+            height: 100%;
+            z-index: 400;
+        }
+
+        ul.timeline-3>li {
+            margin: 20px 0;
+            padding-left: 20px;
+        }
+
+        ul.timeline-3>li:before {
+            content: " ";
+            background: white;
+            display: inline-block;
+            position: absolute;
+            border-radius: 50%;
+            border: 3px solid #22c0e8;
+            left: 20px;
+            width: 20px;
+            height: 20px;
+            z-index: 400;
+        }
+    </style>
 </head>
+
 <body>
     <div class="container my-5">
         <h1 class="text-center">뉴스</h1>
@@ -27,7 +69,8 @@
                     </td>
                     <td th:text="${#temporals.format(news.newsDate, 'yyyy년 MM월 dd일')}"></td>
                     <td>
-                        <th:block th:if="${#temporals.format(news.newsDate.minusDays(1), 'yyyy-MM-dd') &gt;= '2021-01-01'}">
+                        <th:block
+                            th:if="${#temporals.format(news.newsDate.minusDays(1), 'yyyy-MM-dd') &gt;= '2021-01-01'}">
                             <form action="/search" method="get">
                                 <select class="form-control" name="selectNewsPress">
                                     <option value="경향신문" th:selected="${news.newsPress == '경향신문'}">경향신문</option>
@@ -44,53 +87,68 @@
                                     <option value="한겨레" th:selected="${news.newsPress == '한겨레'}">한겨레</option>
                                     <option value="한국일보" th:selected="${news.newsPress == '한국일보'}">한국일보</option>
                                 </select>
-                                <input type="hidden" name="newsId" th:value="${news.newsId}"/>
-                                <input type="hidden" name="newsLink" th:value="${news.newsLink}"/>
-                                <input type="hidden" name="newsPress" th:value="${news.newsPress}" class="newsPressInput" />
-                                <input type="hidden" name="newsStartDate" value="2021-01-01"/>
-                                <input type="hidden" name="newsHistory" th:value="${newsHistory}"/>
-                                <input type="hidden" name="newsEndDate" th:value="${#temporals.format(news.newsDate.minusDays(1), 'yyyy-MM-dd')}"/>
+                                <input type="hidden" name="newsId" th:value="${news.newsId}" />
+                                <input type="hidden" name="newsLink" th:value="${news.newsLink}" />
+                                <input type="hidden" name="newsPress" th:value="${news.newsPress}"
+                                    class="newsPressInput" />
+                                <input type="hidden" name="newsStartDate" value="2021-01-01" />
+                                <input type="hidden" name="newsHistory" th:value="${newsHistory}" />
+                                <input type="hidden" name="newsEndDate"
+                                    th:value="${#temporals.format(news.newsDate.minusDays(1), 'yyyy-MM-dd')}" />
                                 <button type="submit" class="btn btn-primary">Search</button>
-                            </form> 
+                            </form>
                         </th:block>
                     </td>
-                </tr>       
-            </tbody>
-        </table>
-        <h2 class="my-5">검색 기록</h2>
-        <table class="table table-striped table-hover">
-            <thead>
-                <tr>
-                    <th>언론사</th>
-                    <th>제목</th>
-                    <th>날짜</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:object="${history['curNews']}">
-                    <td th:text="*{newsPress}"></td>
-                    <td>
-                        <a th:href="*{newsLink}" th:text="*{newsTitle}" target="_blank"></a>
-                    </td>
-                    <td th:text="*{newsDate}"></td>
-                </tr>
-                <tr th:each="history : ${history['newsHisList']}">
-                    <td th:text="${history.newsPress}"></td>
-                    <td>
-                        <a th:href="${history.newsLink}" th:text="${history.newsTitle}" target="_blank"></a>
-                    </td>
-                    <td th:text="${history.newsDate}"></td>
                 </tr>
             </tbody>
         </table>
         <a href="/" class="btn btn-primary mt-3">메인으로</a>
-        <form action="/board/hiswrite" method="get">
-            <input type="hidden" name="toNext" th:value="${newsHistory}"/>     
-            <button type="submit" class="btn btn-primary">글쓰기</button>
-        </form> 
+        <div class="position-fixed top-0 end-0 m-3">
+            <button type="button" class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#sidebar">
+                <i class="bi bi-list"></i>
+            </button>
+        </div>
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="sidebar">
+        <div class="offcanvas-header">
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4 class="inline-block" style="margin-left: 1.2rem;">News History
+                            <form class="inline-block" action="/board/hiswrite" method="get"
+                                sec:authorize="isAuthenticated()">
+                                <input type="hidden" name="toNext" th:value="${newsHistory}" />
+                                <button type="submit" class="btn btn-primary mt-3">글쓰기</button>
+                            </form>
+                        </h4>
+
+                        <ul class="timeline-3">
+                            <li th:object="${history['curNews']}">
+                                <a th:href="*{newsLink}" th:text="*{newsTitle}" target="_blank"
+                                    style="margin-left: 1.2rem;"></a>
+                                <br>
+                                <a th:text="*{newsPress}"></a>
+                                <a class="float-end" th:text="*{newsDate}"></a>
+                            </li>
+                            <li th:each="history : ${history['newsHisList']}">
+                                <a th:href="${history.newsLink}" th:text="${history.newsTitle}" target="_blank"
+                                    style="margin-left: 1.2rem;"></a>
+                                <br>
+                                <a th:text="${history.newsPress}"></a>
+                                <a class="float-end" th:text="${history.newsDate}"></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
 </body>
+
 </html>

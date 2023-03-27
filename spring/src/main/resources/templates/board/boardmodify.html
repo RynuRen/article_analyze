@@ -9,7 +9,7 @@
 <body>
     <div class="container">
         <h1>게시글 수정</h1>
-        <form method="POST" th:action="@{/board/update/{id}(id=${curNews.boardId})}">
+        <form method="POST" th:action="@{/board/modify/{id}(id=${curNews.boardId})}">
             <div class="form-group">
                 <label for="title">제목</label>
                 <input type="text" class="form-control" id="title" name="boardTitle" th:value="${curNews.boardTitle}" required>

@@ -20,53 +20,54 @@ import lombok.RequiredArgsConstructor;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-    private final CustomOAuthUserService customOAuthUserService;
-    private final CustomAccessDenyHandler customAccessDenyHandler;
+        private final CustomOAuthUserService customOAuthUserService;
+        private final CustomAccessDenyHandler customAccessDenyHandler;
 
-    private static final String[] URL_TO_PERMITALL = {
-            "/images/**", "/css/**", // 리소스
-            "PropertySource", "/", "/main", // 메인
-            "/v3/api-docs/**", "/swagger-ui/**", // swagger util
-            "/query_search", "/search", // 검색 페이지
-            "/user/denied"
-    };
+        private static final String[] URL_TO_PERMITALL = {
+                        "/images/**", "/css/**", // 리소스
+                        "PropertySource", "/", "/main", // 메인
+                        "/v3/api-docs/**", "/swagger-ui/**", // swagger util
+                        "/query_search", "/search", // 검색 페이지
+                        "/user/denied", "/board/list/**"
 
-    private static final String[] URL_TO_PERMIT_USER = {
-            "/board/list"
-    };
+        };
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(withDefaults())
-                .exceptionHandling(handling -> handling
-                        .accessDeniedHandler(customAccessDenyHandler)
-                        .accessDeniedPage("/user/denied"))
-                .authorizeHttpRequests(request -> request
-                        .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-                        .requestMatchers(URL_TO_PERMITALL).permitAll()
-                        .requestMatchers(URL_TO_PERMIT_USER).hasRole("USER")
-                        .anyRequest().authenticated());
-        http
-                .formLogin(formlogin -> formlogin.disable())
-                .oauth2Login(login -> login
-                        .loginPage("/user/login").defaultSuccessUrl("/")
-                        .failureUrl("/user/login").permitAll()
-                        .authorizationEndpoint()
-                        .baseUri("/oauth2/authorize")
-                        .and()
-                        .redirectionEndpoint()
-                        .baseUri("/oauth2/callback/*")
-                        .and()
-                        .userInfoEndpoint()
-                        .userService(customOAuthUserService));
+        private static final String[] URL_TO_PERMIT_USER = {
 
-        http
-                .logout(logout -> logout
-                        .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
-                        .logoutSuccessUrl("/")
-                        .invalidateHttpSession(true));
+        };
 
-        return http.build();
-    }
+        @Bean
+        public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+                http
+                                .csrf(csrf -> csrf.disable())
+                                .exceptionHandling(handling -> handling
+                                                .accessDeniedHandler(customAccessDenyHandler)
+                                                .accessDeniedPage("/user/denied"))
+                                .authorizeHttpRequests(request -> request
+                                                .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
+                                                .requestMatchers(URL_TO_PERMITALL).permitAll()
+                                                .requestMatchers(URL_TO_PERMIT_USER).hasRole("USER")
+                                                .anyRequest().authenticated());
+                http
+                                .formLogin(formlogin -> formlogin.disable())
+                                .oauth2Login(login -> login
+                                                .loginPage("/user/login").defaultSuccessUrl("/")
+                                                .failureUrl("/user/login").permitAll()
+                                                .authorizationEndpoint()
+                                                .baseUri("/oauth2/authorize")
+                                                .and()
+                                                .redirectionEndpoint()
+                                                .baseUri("/oauth2/callback/*")
+                                                .and()
+                                                .userInfoEndpoint()
+                                                .userService(customOAuthUserService));
+
+                http
+                                .logout(logout -> logout
+                                                .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
+                                                .logoutSuccessUrl("/")
+                                                .invalidateHttpSession(true));
+
+                return http.build();
+        }
 }
