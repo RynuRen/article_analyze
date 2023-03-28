@@ -23,4 +23,6 @@ public interface MemberMapper {
     void deleteById(Long userId);
 
     void update(Member member);
+
+    
 }

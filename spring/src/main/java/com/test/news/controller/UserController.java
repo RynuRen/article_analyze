@@ -14,6 +14,7 @@ import com.test.news.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 
 @Tag(name = "[@Tag] 유저 컨트롤러")
 @Controller
@@ -28,7 +29,10 @@ public class UserController {
     @Operation(summary = "로그인 페이지", description = "[@Operation] 로그인 처리 화면")
     @GetMapping("/login")
     public String login(
+            HttpServletRequest request,
             @Parameter(name = "모델", description = "view에 넘기기 위한 model") Model model) {
+        String referrer = request.getHeader("Referer");
+        request.getSession().setAttribute("prevPage", referrer);
         model.addAttribute("wasUrl", wasUrl);
         return "user/login";
     }
