@@ -6,8 +6,6 @@
     <title>뉴스 결과</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-
-    <link rel="stylesheet" href="/css/loader.css">
     <style>
         #sidebar {
             width: 50%;
@@ -49,6 +47,8 @@
     </style>
 </head>
 
+<div th:include="navbar :: header"></div>
+
 <body>
     <div class="container my-5">
         <h1 class="text-center">뉴스</h1>
@@ -63,17 +63,29 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="news : ${newsList}">
+                <tr th:each="news  : ${newsList}">
                     <td th:text="${#numbers.formatPercent(news.newsSim,2,2)}"></td>
                     <td th:text="${news.newsPress}"></td>
                     <td>
-                        <a th:href="${news.newsLink}" th:text="${news.newsTitle}" target="_blank"></a>
-                    </td>
+                        <a href="#" id="myLink" data-bs-toggle="modal" th:data-bs-target="'#myModal-' + ${news.newsId}" th:text="${news.newsTitle}"></a>
+                        <div class="modal fade" th:id="'myModal-' + ${news.newsId}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <div class="modal-body">
+                                <iframe th:src="${news.newsLink}" width="100%" height="600" frameborder="0"></iframe>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </td>
                     <td th:text="${#temporals.format(news.newsDate, 'yyyy년 MM월 dd일')}"></td>
                     <td>
                         <th:block
                             th:if="${#temporals.format(news.newsDate.minusDays(1), 'yyyy-MM-dd') &gt;= '2021-01-01'}">
-                            <form action="/search" method="get" onsubmit="showLoader()">
+                            <form action="/search" method="get">
                                 <select class="form-control" name="selectNewsPress">
                                     <option value="경향신문" th:selected="${news.newsPress == '경향신문'}">경향신문</option>
                                     <option value="국민일보" th:selected="${news.newsPress == '국민일보'}">국민일보</option>
@@ -105,7 +117,7 @@
             </tbody>
         </table>
         <a href="/" class="btn btn-primary mt-3">메인으로</a>
-        <div class="position-fixed top-0 end-0 m-3">
+        <div class="position-fixed top-50 end-0 m-3">
             <button type="button" class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#sidebar">
                 <i class="bi bi-list"></i>
             </button>
@@ -126,7 +138,6 @@
                                 <button type="submit" class="btn btn-primary mt-3">글쓰기</button>
                             </form>
                         </h4>
-
                         <ul class="timeline-3">
                             <li th:object="${history['curNews']}">
                                 <a th:href="*{newsLink}" th:text="*{newsTitle}" target="_blank"
@@ -150,21 +161,7 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
-        crossorigin="anonymous">
-    </script>
-
-
-
-    <!-- 스피너 -->
-    <div class="d-none" id="loader"></div>
-    <script>
-        function showLoader() {
-        document.getElementById("loader").classList.remove("d-none");
-        }
-    </script>
-
-
-
+        crossorigin="anonymous"></script>
 </body>
 
 </html>
