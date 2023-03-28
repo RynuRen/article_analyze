@@ -25,7 +25,7 @@
         SELECT * FROM user;
     </select>
     <update id="deleteById" parameterType="Long">
-        UPDATE user SET provider_id = 0, email = null, nickname = "탈퇴한 유저" WHERE user_id = #{userId};
+        UPDATE user SET provider_id = 0, email = null WHERE user_id = #{userId};
     </update>
     <update id="update" parameterType="Member">
         UPDATE user SET nickname = #{nickname} WHERE user_id = #{userId};
