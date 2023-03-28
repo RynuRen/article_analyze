@@ -12,7 +12,9 @@ import com.test.news.oauth2.provider.OAuthProvider;
 import com.test.news.oauth2.provider.OAuthUserInfo;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 
+@Log4j2
 @Service
 @RequiredArgsConstructor
 public class CustomOAuthUserService extends DefaultOAuth2UserService {
@@ -32,7 +34,7 @@ public class CustomOAuthUserService extends DefaultOAuth2UserService {
         OAuthProvider provider = OAuthProvider
                 .valueOf(userRequest.getClientRegistration().getRegistrationId().toUpperCase());
         OAuthUserInfo oAuthUserInfo = requestOAuthInfoService.identifyProvider(oAuth2User.getAttributes(), provider);
-
+        log.info(oAuthUserInfo.getProviderId());
         Member member = findOrCreateUser(oAuthUserInfo);
 
         return CustomUserDetails.create(member);
@@ -44,7 +46,9 @@ public class CustomOAuthUserService extends DefaultOAuth2UserService {
     }
 
     private Member newUser(OAuthUserInfo oAuthUserInfo) {
+        log.info(oAuthUserInfo.getProviderId());
         Member user = Member.builder()
+                .providerId(oAuthUserInfo.getProviderId())
                 .email(oAuthUserInfo.getEmail())
                 .nickname(oAuthUserInfo.getNickname())
                 .oAuthProvider(oAuthUserInfo.getProvider())

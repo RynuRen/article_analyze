@@ -17,6 +17,10 @@ public interface MemberMapper {
     Optional<Member> findByEmail(String email);
 
     Optional<Member> findById(Long userId);
+    
+    String findPIDById(Long userId);
 
     List<Member> findAll();
+
+    void deleteById(Long userId);
 }

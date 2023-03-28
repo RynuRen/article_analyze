@@ -42,6 +42,12 @@
     oAuthProvider: <span sec:authentication="principal.attributes['oAuthProvider']"></span><br>
     createDate: <span sec:authentication="principal.attributes['createDate']"></span><br>
 
+    <form method="post" th:action="@{/user/delete}">
+        <input type="hidden" name="userId" th:value="${#authentication.principal.userId}">
+        <input type="hidden" name="oAuthProvider" th:value="${#authentication.principal.attributes['oAuthProvider']}">
+        <button type="submit" onclick="return confirm('정말로 탈퇴 하시겠습니까?')">회원 탈퇴</button>
+    </form>
+
 </body>
 
 </html>

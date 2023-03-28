@@ -10,7 +10,7 @@
         <result property="role" column='role' />
     </resultMap>
     <insert id="joinUser" parameterType="Member">
-        INSERT INTO user (email, nickname, oauth_provider, create_date) VALUES (#{email}, #{nickname}, #{oAuthProvider}, now());
+        INSERT INTO user (provider_id, email, nickname, oauth_provider, create_date) VALUES (#{providerId}, #{email}, #{nickname}, #{oAuthProvider}, now());
     </insert>
     <select id="findByEmail" parameterType="String" resultType="Member">
         SELECT * FROM user WHERE email = #{email};
@@ -18,7 +18,13 @@
     <select id="findById" parameterType="Long" resultType="Member">
         SELECT * FROM user WHERE user_id = #{userId};
     </select>
+    <select id="findPIDById" parameterType="Long" resultType="String">
+        SELECT provider_id FROM user WHERE user_id = #{userId};
+    </select>
     <select id="findAll" resultMap="findAllMap">
         SELECT * FROM user;
     </select>
+    <update id="deleteById" parameterType="Long">
+        UPDATE user SET provider_id = 0, email = null, nickname = "탈퇴한 유저" WHERE user_id = #{userId};
+    </update>
 </mapper>
