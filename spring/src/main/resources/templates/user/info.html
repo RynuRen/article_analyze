@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/main.css">
+    <!-- <link rel="stylesheet" href="/css/main.css"> -->
 
     <title>Gaagle</title>
 
@@ -34,14 +34,16 @@
         </ul>
     </nav>
 
-    userId: <span sec:authentication="principal.userId"></span><br>
-    Nickname: <span sec:authentication="name"></span><br>
-    변경기능 넣어야 겠네<br>
-    Roles: <span sec:authentication="principal.authorities"></span><br>
-    Email: <span sec:authentication="principal.attributes['email']"></span><br>
-    oAuthProvider: <span sec:authentication="principal.attributes['oAuthProvider']"></span><br>
-    createDate: <span sec:authentication="principal.attributes['createDate']"></span><br>
-
+    <form method="post" th:action="@{/user/update}">
+        <input type="hidden" name="userId" th:value="${#authentication.principal.userId}">
+        Nickname: <input type="text" name="nickname" th:value="${#authentication.name}">
+        <button type="submit">변경</button><br>
+        Nickname: <span sec:authentication="name"></span><br>
+        Roles: <span sec:authentication="principal.authorities"></span><br>
+        Email: <span sec:authentication="principal.attributes['email']"></span><br>
+        oAuthProvider: <span sec:authentication="principal.attributes['oAuthProvider']"></span><br>
+        createDate: <span sec:authentication="principal.attributes['createDate']"></span><br>
+    </form>
     <form method="post" th:action="@{/user/delete}">
         <input type="hidden" name="userId" th:value="${#authentication.principal.userId}">
         <input type="hidden" name="oAuthProvider" th:value="${#authentication.principal.attributes['oAuthProvider']}">
