@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/loader.css">
 
     <title>Gaagle</title>
 
@@ -47,7 +48,7 @@
     </h1>
 
     <!-- 검색창 -->
-    <form th:action="@{/query_search}" method="get">
+    <form th:action="@{/query_search}" method="get" onsubmit="showLoader()">
         <input type="text" name="query" placeholder="Gaagle 검색 ">
         <!-- 검색버튼 -->
         <div class="button_box">
@@ -55,6 +56,17 @@
             <button type="submit">I'm Feeling Lucky</button>
         </div>
     </form>
+
+
+    <!-- 스피너 -->
+    <div class="d-none" id="loader"></div>
+    <script>
+        function showLoader() {
+        document.getElementById("loader").classList.remove("d-none");
+        }
+    </script>
+
+
 </body>
 
 </html>
