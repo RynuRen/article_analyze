@@ -6,6 +6,7 @@
     <title>뉴스 결과</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <style>
         #sidebar {
             width: 50%;
@@ -67,20 +68,24 @@
                     <td th:text="${#numbers.formatPercent(news.newsSim,2,2)}"></td>
                     <td th:text="${news.newsPress}"></td>
                     <td>
-                        <a href="#" id="myLink" data-bs-toggle="modal" th:data-bs-target="'#myModal-' + ${news.newsId}" th:text="${news.newsTitle}"></a>
-                        <div class="modal fade" th:id="'myModal-' + ${news.newsId}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                          <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                              </div>
-                              <div class="modal-body">
-                                <iframe th:src="${news.newsLink}" width="100%" height="600" frameborder="0"></iframe>
-                              </div>
+                        <a href="#" id="myLink[[${index.index}]]" data-bs-toggle="modal"
+                            th:data-bs-target="'#myModal-' + ${news.newsId}" th:text="${news.newsTitle}"></a>
+                        <div class="modal fade" th:id="'myModal-' + ${news.newsId}" tabindex="-1"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <iframe th:src="${news.newsLink}" width="100%" height="600"
+                                            frameborder="0"></iframe>
+                                    </div>
+                                </div>
                             </div>
-                          </div>
                         </div>
-                      </td>
+                    </td>
                     <td th:text="${#temporals.format(news.newsDate, 'yyyy년 MM월 dd일')}"></td>
                     <td>
                         <th:block
@@ -119,49 +124,51 @@
         <a href="/" class="btn btn-primary mt-3">메인으로</a>
         <div class="position-fixed top-50 end-0 m-3">
             <button type="button" class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#sidebar">
-                <i class="bi bi-list"></i>
+                <i class="bi bi-book"></i>
             </button>
         </div>
-    </div>
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="sidebar">
         <div class="offcanvas-header">
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
-        <div class="offcanvas-body">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h4 class="inline-block" style="margin-left: 1.2rem;">News History
-                            <form class="inline-block" action="/board/hiswrite" method="get"
-                                sec:authorize="isAuthenticated()">
-                                <input type="hidden" name="toNext" th:value="${newsHistory}" />
-                                <button type="submit" class="btn btn-primary mt-3">글쓰기</button>
-                            </form>
-                        </h4>
-                        <ul class="timeline-3">
-                            <li th:object="${history['curNews']}">
-                                <a th:href="*{newsLink}" th:text="*{newsTitle}" target="_blank"
-                                    style="margin-left: 1.2rem;"></a>
-                                <br>
-                                <a th:text="*{newsPress}"></a>
-                                <a class="float-end" th:text="*{newsDate}"></a>
-                            </li>
-                            <li th:each="history : ${history['newsHisList']}">
-                                <a th:href="${history.newsLink}" th:text="${history.newsTitle}" target="_blank"
-                                    style="margin-left: 1.2rem;"></a>
-                                <br>
-                                <a th:text="${history.newsPress}"></a>
-                                <a class="float-end" th:text="${history.newsDate}"></a>
-                            </li>
-                        </ul>
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="sidebar">
+            <div class="offcanvas-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4 class="inline-block" style="margin-left: 1.2rem;">News History
+                                <form class="inline-block" action="/board/hiswrite" method="get"
+                                    sec:authorize="isAuthenticated()">
+                                    <input type="hidden" name="toNext" th:value="${newsHistory}" />
+                                    <button type="submit" class="btn btn-primary mt-3">글쓰기</button>
+                                </form>
+                            </h4>
+                            <ul class="timeline-3">
+                                <li th:object="${history['curNews']}">
+                                    <a th:href="*{newsLink}" th:text="*{newsTitle}" target="_blank"
+                                        style="margin-left: 1.2rem;"></a>
+                                    <br>
+                                    <a th:text="*{newsPress}"></a>
+                                    <a class="float-end" th:text="*{newsDate}"></a>
+                                </li>
+                                <li th:each="history : ${history['newsHisList']}">
+                                    <a th:href="${history.newsLink}" th:text="${history.newsTitle}" target="_blank"
+                                        style="margin-left: 1.2rem;"></a>
+                                    <br>
+                                    <a th:text="${history.newsPress}"></a>
+                                    <a class="float-end" th:text="${history.newsDate}"></a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
-        crossorigin="anonymous"></script>
+
+        <div th:include="footer :: footer"></div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+            crossorigin="anonymous"></script>
 </body>
 
 </html>

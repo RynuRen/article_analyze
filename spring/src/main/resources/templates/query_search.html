@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="/css/loader.css">
 </head>
 
+<div th:include="navbar :: header"></div>
+
 <body>
     <div class="container my-5" id="newsFormWrapper">
         <h1 class="text-center">뉴스</h1>
@@ -92,6 +94,8 @@
         document.getElementById("loader").classList.remove("d-none");
         }
     </script>
+
+<div th:include="footer :: footer"></div>
 </body>
 
 </html>
