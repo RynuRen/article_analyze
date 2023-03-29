@@ -1,5 +1,7 @@
 package com.test.news.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -14,6 +16,9 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import com.test.news.domain.Member;
+import com.test.news.dto.Board;
+import com.test.news.dto.Pagination;
+import com.test.news.dto.PagingResponse;
 import com.test.news.mapper.MemberMapper;
 import com.test.news.oauth2.CustomUserDetails;
 import com.test.news.oauth2.provider.OAuthProvider;
@@ -29,9 +34,37 @@ public class MemberServiceImpl implements MemberService {
     private final String KAKAO_UNLINK_URI = "https://kapi.kakao.com/v1/user/unlink";
     private final MemberMapper memberMapper;
 
+    /**
+     * 게시글 리스트 조회
+     * @param search 정보
+     * @return list & pagination 정보
+     */
+    @Override
+    public PagingResponse<Board> findBoardByMemId(int pageNum, String keyword, String searchType) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserDetails user = (CustomUserDetails) authentication.getPrincipal();
+        Long userId = Long.parseLong(user.getName());
+        int pageSize = 10; // 페이지당 글 개수
+        int startRow = (pageNum - 1) * pageSize; // 시작 행 번호
+        int totalCount = 0;
+        List<Board> list = null;
+        Pagination pagination = null;
+        
+        if (keyword != null && !keyword.isEmpty()) { // 키워드 검색
+            totalCount = memberMapper.countByMemIdByKeyword(userId, keyword); // 검색된 글 개수
+            pagination = new Pagination(totalCount, pageNum, pageSize);
+            list = memberMapper.findBoardByMemIdByKeyword(userId, keyword, searchType, startRow, pageSize); // DB에서 키워드 검색
+        } else { // 일반 목록
+            totalCount = memberMapper.countByMemId(userId); // 전체 글 개수 조회
+            pagination = new Pagination(totalCount, pageNum, pageSize);
+            list = memberMapper.findBoardByMemId(userId, startRow, pageSize); // DB에서 목록 조회
+        }
+        return new PagingResponse<>(list, pagination);
+    }
+
     @Override
     @Transactional
-    public void update(Long userId, String nickname) {
+    public void updateMember(Long userId, String nickname) {
         Member member = memberMapper.findById(userId).orElseThrow();
         Member memberModified = Member.builder()
                                     .userId(userId)
@@ -51,7 +84,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional
-    public void delete(Long userId, OAuthProvider oAuthProvider) {
+    public void deleteMember(Long userId, OAuthProvider oAuthProvider) {
         String providerId = memberMapper.findPIDById(userId);
 
         HttpHeaders headers = new HttpHeaders();

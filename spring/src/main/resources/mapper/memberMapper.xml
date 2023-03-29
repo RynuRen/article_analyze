@@ -1,16 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.test.news.mapper.MemberMapper">
-    <resultMap id='findAllMap' type='com.test.news.domain.Member'>
-        <id property='userId' column='user_id' />
-        <result property="email" column='email' />
-        <result property="nickname" column='nickname' />
-        <result property="oAuthProvider" column='oauth_provider' />
-        <result property="createDate" column='create_date' />
-        <result property="role" column='role' />
-    </resultMap>
     <insert id="joinUser" parameterType="Member">
-        INSERT INTO user (provider_id, email, nickname, oauth_provider, create_date) VALUES (#{providerId}, #{email}, #{nickname}, #{oAuthProvider}, now());
+        INSERT INTO user (provider_id, email, nickname, oauth_provider, create_date)
+        VALUES (#{providerId}, #{email}, #{nickname}, #{oAuthProvider}, now());
     </insert>
     <select id="findByEmail" parameterType="String" resultType="Member">
         SELECT * FROM user WHERE email = #{email};
@@ -21,13 +14,51 @@
     <select id="findPIDById" parameterType="Long" resultType="String">
         SELECT provider_id FROM user WHERE user_id = #{userId};
     </select>
-    <select id="findAll" resultMap="findAllMap">
-        SELECT * FROM user;
-    </select>
+
     <update id="deleteById" parameterType="Long">
         UPDATE user SET provider_id = 0, email = null WHERE user_id = #{userId};
     </update>
     <update id="update" parameterType="Member">
         UPDATE user SET nickname = #{nickname} WHERE user_id = #{userId};
     </update>
+
+    <select id="countByMemId" resultType="int">
+        SELECT COUNT(*)
+        FROM board
+        WHERE board_writer_id = #{userId}
+        AND board_del = 0;
+    </select>
+    <select id="findBoardByMemId" resultType="com.test.news.dto.Board">
+        SELECT board_id, board_title, board_create_date
+        FROM board
+        WHERE board_writer_id = #{userId} AND board_del = 0
+        ORDER BY board_id DESC
+        LIMIT #{startRow}, #{pageSize};
+    </select>
+    <select id="countByMemIdByKeyword" resultType="int">
+        SELECT COUNT(*)
+        FROM board
+        WHERE board_writer_id = #{userId}
+        AND board_del = 0
+        AND board_title LIKE CONCAT('%', #{keyword}, '%');
+    </select>
+    <select id="findBoardByMemIdByKeyword" resultType="com.test.news.dto.Board">
+        SELECT board_id, board_title, board_create_date
+        FROM board
+        <where>
+            board_writer_id = #{userId} AND board_del = 0
+            <if test="searchType != null">
+                <choose>
+                    <when test="searchType == 'title'">
+                        AND board_title LIKE CONCAT('%', #{keyword}, '%')
+                    </when>
+                    <when test="searchType == 'content'">
+                        AND board_content LIKE CONCAT('%', #{keyword}, '%')
+                    </when>
+                </choose>
+            </if>
+        </where>
+        ORDER BY board_id DESC
+        LIMIT #{startRow}, #{pageSize};
+    </select>
 </mapper>
