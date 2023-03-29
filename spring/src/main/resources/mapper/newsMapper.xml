@@ -24,4 +24,6 @@
             </foreach>
         ) ORDER BY news_date DESC;
     </select>
+
+
 </mapper>

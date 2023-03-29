@@ -1,8 +1,12 @@
 package com.test.news.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -114,9 +118,28 @@ public class BoardController {
     }
 
     @GetMapping("/list/view")
-    public String boardView(Model model, Integer id) {
+    public String boardView(Model model, Integer id) throws IOException {
 
         List<Integer> newsList = boardMapper.selectByNewsId(id);
+        List<response> newsIn = newsMapper.findHisAll(newsList);
+        List<String> newsSrcList = new ArrayList<>();
+
+        String defaultImageUrl = "https://post-phinf.pstatic.net/MjAxODAyMjZfMTM4/MDAxNTE5NjI0MTMyMTI0.FWwP0Zwb9nBLXkloL8awQT6WLGYTbCAUtkzD-oISGvAg.U8oEPBRh6i1vgVvyM2jE2iNYJ-XWXSnMQKm84DhFpqIg.JPEG/20180226%EB%B3%B4%EB%8F%84%EA%B8%B0%EC%82%ACa984_%281%29.jpg";
+
+        for (NewsForm.response response : newsIn) {
+            String newsLink = response.getNewsLink();
+            Document doc = Jsoup.connect(newsLink).get();
+
+            Element articleBody = doc.selectFirst("div.article_view > section");
+
+            Element image = articleBody.select("img").first();
+
+            String imageUrl = (image != null) ? image.attr("src") : defaultImageUrl;
+
+            newsSrcList.add(imageUrl);
+        }
+
+        model.addAttribute("newsSrcList", newsSrcList);
         model.addAttribute("history", newsMapper.findHisAll(newsList));
         model.addAttribute("curNews", boardMapper.selectById(id));
         model.addAttribute("comment", boardMapper.selectByComment(id));

@@ -11,4 +11,5 @@ public interface NewsMapper {
     public List<response> findAll(List<Integer> newsIdList);
 
     public List<response> findHisAll(List<Integer> newsIdList);
+
 }

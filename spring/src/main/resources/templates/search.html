@@ -132,6 +132,14 @@
                             </h1>
                             <br>
                             <ul class="timeline">
+                                <li class="timeline-item mb-5" th:object="${history['curNews']}">
+                                    <h5 class="fw-bold" th:href="*{newsLink}" th:text="*{newsTitle}" target="_blank"></h5>
+                                    <p class="text-muted mb-2 fw-bold" th:text="*{newsDate}"></p>
+                                    <p class="text-muted" th:text="*{newsPress}">
+                                    </p>
+                                </li>                    
+                            </ul>
+                            <ul class="timeline">
                                 <li class="timeline-item mb-5" th:each="history : ${history['newsHisList']}">
                                     <h5 class="fw-bold" th:href="${history.newsLink}" th:text="${history.newsTitle}" target="_blank"></h5>
                                     <p class="text-muted mb-2 fw-bold" th:text="${history.newsDate}"></p>
