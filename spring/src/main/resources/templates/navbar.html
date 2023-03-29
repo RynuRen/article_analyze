@@ -28,7 +28,7 @@
             </th:block>
             <th:block sec:authorize="isAuthenticated()">
               <li class="nav-item">
-                  <a class="nav-link" th:href="@{/user/logout}">로그아웃</a>
+                  <a class="nav-link" th:href="@{/user/logout}" onclick="return confirm('로그아웃 하시겠습니까?')">로그아웃</a>
               </li>
           </th:block>
         </div>

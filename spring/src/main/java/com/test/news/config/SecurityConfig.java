@@ -8,10 +8,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
 import com.test.news.oauth2.CustomAccessDenyHandler;
 import com.test.news.oauth2.CustomOAuthUserService;
+import com.test.news.oauth2.LoginSuccessHandler;
 
 import jakarta.servlet.DispatcherType;
 import lombok.RequiredArgsConstructor;
@@ -51,7 +50,8 @@ public class SecurityConfig {
                 http
                                 .formLogin(formlogin -> formlogin.disable())
                                 .oauth2Login(login -> login
-                                                .loginPage("/user/login").defaultSuccessUrl("/")
+                                                .loginPage("/user/login")
+                                                .successHandler(new LoginSuccessHandler("/"))
                                                 .failureUrl("/user/login").permitAll()
                                                 .authorizationEndpoint()
                                                 .baseUri("/oauth2/authorize")
@@ -63,9 +63,15 @@ public class SecurityConfig {
                                                 .userService(customOAuthUserService));
 
                 http
+                                .sessionManagement(manage -> manage
+                                                .maximumSessions(1)
+                                                .maxSessionsPreventsLogin(false));
+
+                http
                                 .logout(logout -> logout
                                                 .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
                                                 .logoutSuccessUrl("/")
+                                                .clearAuthentication(true)
                                                 .invalidateHttpSession(true));
 
                 return http.build();
