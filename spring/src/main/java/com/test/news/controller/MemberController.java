@@ -31,7 +31,7 @@ public class MemberController {
     @Operation(summary = "로그인 페이지", description = "[@Operation] 로그인 처리 화면")
     @GetMapping("/login")
     public String login(
-            HttpServletRequest request,
+            @Parameter(name = "리퀘스트", description = "이전 페이지를 확인하기 위해 리퀘스트를 분석") HttpServletRequest request,
             @Parameter(name = "모델", description = "view에 넘기기 위한 model") Model model) {
         String referrer = request.getHeader("Referer");
         request.getSession().setAttribute("prevPage", referrer);

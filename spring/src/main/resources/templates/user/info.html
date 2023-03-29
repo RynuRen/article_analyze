@@ -11,6 +11,8 @@
 
 </head>
 
+<div th:include="navbar :: header"></div>
+
 <body>
     <form method="post" th:action="@{/user/update}">
         <input type="hidden" name="userId" th:value="${#authentication.principal.userId}">
