@@ -1,0 +1,23 @@
+h1 {
+    text-align: center;
+    vertical-align: middle;
+}
+
+
+/* 테이블 내용들 가운데정렬 */
+th, tr {
+    text-align: center;
+    vertical-align: middle;
+    font-size: 90%;
+}
+
+th {
+    font-size: 100%;
+}
+
+
+/* 기사제목만 왼쪽정렬 */
+#left_aligned_title {
+    text-align: left;
+    font-size: 110%;
+}
