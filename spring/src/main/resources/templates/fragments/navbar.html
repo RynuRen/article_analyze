@@ -1,4 +1,4 @@
-<header>
+<div th:fragment="navbarFg">
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container-fluid">
       <a class="navbar-brand" href="/">Gaggle</a>
@@ -14,27 +14,26 @@
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           <li class="nav-item">
             <a class="nav-link" th:href="@{/board/list}">게시판</a>
-        </li>
+          </li>
           <div class="ms-auto d-flex">
-          <th:block sec:authorize="isAnonymous()">
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/user/login}">로그인</a>
-                </li>
-            </th:block>
-            <th:block sec:authorize="isAuthenticated()">  
+            <th:block sec:authorize="isAnonymous()">
               <li class="nav-item">
-                  <a class="nav-link" th:href="@{/user/info}">내 정보</a>
+                <a class="nav-link" th:href="@{/user/login}">로그인</a>
               </li>
             </th:block>
             <th:block sec:authorize="isAuthenticated()">
               <li class="nav-item">
-                  <a class="nav-link" th:href="@{/user/logout}" onclick="return confirm('로그아웃 하시겠습니까?')">로그아웃</a>
+                <a class="nav-link" th:href="@{/user/info}">내 정보</a>
               </li>
-          </th:block>
-        </div>
+            </th:block>
+            <th:block sec:authorize="isAuthenticated()">
+              <li class="nav-item">
+                <a class="nav-link" th:href="@{/user/logout}" onclick="return confirm('로그아웃 하시겠습니까?')">로그아웃</a>
+              </li>
+            </th:block>
+          </div>
         </ul>
       </div>
     </div>
   </nav>
-
-</header>
+</div>

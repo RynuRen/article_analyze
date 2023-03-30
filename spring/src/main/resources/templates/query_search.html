@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/default_layout}"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="UTF-8">
@@ -9,9 +11,9 @@
     <link rel="stylesheet" href="/css/loader.css">
 </head>
 
-<div th:include="navbar :: header"></div>
 
-<body>
+
+    <div layout:fragment="content">
     <div class="container my-5" id="newsFormWrapper">
         <h1 class="text-center">뉴스</h1>
         <table class="table table-striped table-hover">
@@ -95,7 +97,7 @@
         }
     </script>
 
-<div th:include="footer :: footer"></div>
-</body>
+
+</div>
 
 </html>

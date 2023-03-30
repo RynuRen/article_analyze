@@ -1,0 +1,18 @@
+<html lagn="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <th:block th:replace="~{fragments/navbar :: navbarFg}"></th:block>
+    <div id="body-wrapper">
+        <div id="body-content">
+            <th:block layout:fragment="content"></th:block>
+        </div>
+        <!-- <th:block th:replace="fragments/footer :: footerFg"></th:block> -->
+    </div>
+</body>
+
+</html>
