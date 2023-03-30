@@ -1,37 +1,49 @@
 from flask import Flask, request
 from urllib.parse import unquote
 from recommand import get_fst_recommend, get_recommend
-from preprocessing import cur_news_scraper
+from preprocessing import cur_news_scraper, ContentTooShort, ConnectLinkError
 from daum_search import search_rst
 
 def build_fst_result_df(news_press, news_link, news_startdate, news_enddate):
+    res = {}
     startdate = ''.join(list(news_startdate.split('-')))
     enddate = ''.join(list(news_enddate.split('-')))
     startdate, enddate = sorted([startdate, enddate])
-    scrap = cur_news_scraper(news_link)
-    if not scrap:
-        return "False"
-    cur_news, content = scrap
+    try:
+        scrap = cur_news_scraper(news_link)
+        # if not scrap:
+        #     return "False"
+        cur_news, content = scrap
+        res['curNews'] = cur_news
 
-    id_list = get_fst_recommend(content, 10, (startdate, enddate), news_press)
-    if type(id_list) == bool:
-        return "False"
-    res = {}
-    res['curNews'] = cur_news
-    print(id_list)
-    res['recNews'] = id_list
+        id_list = get_fst_recommend(content, 10, (startdate, enddate), news_press)
+        # if type(id_list) == bool:
+        #     return "False"
+        res['recNews'] = id_list
+        res['status'] = 0
+    except (AttributeError, KeyError):
+        res['status'] = 1
+    except ContentTooShort:
+        res['status'] = 2
+    except ConnectLinkError:
+        res['status'] = 3
     return res
 
-def build_result_df(news_press, news_id, news_startdate, news_enddate):
+def build_result_df(news_press, select_news_press, news_id, news_startdate, news_enddate):
+    res = {}
     startdate = ''.join(list(news_startdate.split('-')))
     enddate = ''.join(list(news_enddate.split('-')))
     startdate, enddate = sorted([startdate, enddate])
-
-    id_list = get_recommend(news_id, 10, (startdate, enddate), news_press)
-    if type(id_list) == bool:
-        return "False"
-    res = {}
-    res['recNews'] = id_list
+    try:
+        id_list = get_recommend(news_id, 10, (startdate, enddate), (news_press, select_news_press))
+        # if type(id_list) == bool:
+        #     return "False"
+        res['recNews'] = id_list
+        res['status'] = 0
+    except ContentTooShort:
+        res['status'] = 2
+    except ConnectLinkError:
+        res['status'] = 3
     return res
 
 app = Flask(__name__)
