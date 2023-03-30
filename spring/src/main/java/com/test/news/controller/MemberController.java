@@ -31,11 +31,9 @@ public class MemberController {
     @Operation(summary = "로그인 페이지", description = "[@Operation] 로그인 처리 화면")
     @GetMapping("/login")
     public String login(
-            HttpServletRequest request,
-            @Parameter(name = "모델", description = "view에 넘기기 위한 model") Model model) {
+            @Parameter(name = "리퀘스트", description = "이전 페이지를 확인하기 위해 리퀘스트를 분석") HttpServletRequest request) {
         String referrer = request.getHeader("Referer");
         request.getSession().setAttribute("prevPage", referrer);
-        model.addAttribute("wasUrl", wasUrl);
         return "user/login";
     }
 
@@ -48,18 +46,15 @@ public class MemberController {
     @Operation(summary = "유저 정보 페이지", description = "[@Operation] 유저 정보 처리 화면")
     @GetMapping("/info")
     public String info(
-            @Parameter(name = "페이지 번호", description = "페이지 번호", example = "1")
-            @RequestParam(defaultValue = "1") int pageNum,
-            @Parameter(name = "검색어", description = "검색할 단어", example = "기사")
-            @RequestParam(required = false) String keyword,
-            @Parameter(name = "검색타입", description = "검색할 위치", example = "제목")
-            @RequestParam(required = false) String searchType,
+            @Parameter(name = "페이지 번호", description = "페이지 번호", example = "1") @RequestParam(defaultValue = "1") int pageNum,
+            @Parameter(name = "검색어", description = "검색할 단어", example = "기사") @RequestParam(required = false) String keyword,
+            @Parameter(name = "검색타입", description = "검색할 위치", example = "제목") @RequestParam(required = false) String searchType,
             @Parameter(name = "모델", description = "view에 넘기기 위한 model") Model model) {
         PagingResponse<Board> response = memberService.findBoardByMemId(pageNum, keyword, searchType);
 
         model.addAttribute("response", response);
         model.addAttribute("pageNum", pageNum);
-        
+
         return "user/info";
     }
 

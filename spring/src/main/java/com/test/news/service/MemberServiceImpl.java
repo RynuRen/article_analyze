@@ -24,8 +24,10 @@ import com.test.news.oauth2.CustomUserDetails;
 import com.test.news.oauth2.provider.OAuthProvider;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import net.minidev.json.JSONObject;
 
+@Log4j2
 @Service
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
@@ -90,16 +92,21 @@ public class MemberServiceImpl implements MemberService {
         HttpHeaders headers = new HttpHeaders();
         RestTemplate restTemplate = new RestTemplate();
 
-        // oAuthProvider에 따라 분류 추가해야뎀
-        headers.add("Authorization", "KakaoAK " + KAKAO_ADMIN_KEY);
-        headers.add("Content-Type", MediaType.APPLICATION_FORM_URLENCODED_VALUE + ";charset=UTF-8");
+        // oAuthProvider에 따라 accessToken을 provider에서 재발급 받아 그 token으로 처리하는걸로 수정해야뎀-git코드 되돌리자..
+        if (oAuthProvider == OAuthProvider.KAKAO) {
+            headers.add("Authorization", "KakaoAK " + KAKAO_ADMIN_KEY);
+            headers.add("Content-Type", MediaType.APPLICATION_FORM_URLENCODED_VALUE + ";charset=UTF-8");
 
-        MultiValueMap<String, Object> param = new LinkedMultiValueMap<>();
-        param.set("target_id_type", "user_id");
-        param.set("target_id", providerId);
+            MultiValueMap<String, Object> param = new LinkedMultiValueMap<>();
+            param.set("target_id_type", "user_id");
+            param.set("target_id", providerId);
 
-        HttpEntity<MultiValueMap<String, Object>> restRequest = new HttpEntity<>(param, headers);
-        restTemplate.postForEntity(KAKAO_UNLINK_URI, restRequest, JSONObject.class);
+            HttpEntity<MultiValueMap<String, Object>> restRequest = new HttpEntity<>(param, headers);
+            restTemplate.postForEntity(KAKAO_UNLINK_URI, restRequest, JSONObject.class);
+        } else if (oAuthProvider == OAuthProvider.NAVER) {
+            log.info("네이버 회원 탈퇴 구현중..");
+        }
+        
 
         memberMapper.deleteById(userId);
     }
