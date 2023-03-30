@@ -67,7 +67,7 @@ public class BoardController {
     @PostMapping("hiswritepro")
     public String boardHisWirte(Board board, Model model, @RequestParam("boardComment") List<String> boardNewsComment)
             throws IOException {
-        log.info(board.getBoardWriterId());
+
         Board boardwrite = objectMapper.readValue(board.getCurNews(), Board.class);
         boardwrite.setBoardContent(board.getBoardContent());
         boardwrite.setBoardTitle(board.getBoardTitle());
@@ -136,12 +136,16 @@ public class BoardController {
         for (NewsForm.response response : newsIn) {
             String newsLink = response.getNewsLink();
             Document doc = Jsoup.connect(newsLink).get();
+            String imageUrl = "";
+            try {
 
-            Element articleBody = doc.selectFirst("div.article_view > section");
+                Element articleBody = doc.selectFirst("div.article_view > section");
+                Element image = articleBody.select("img").first();
+                imageUrl = (image != null) ? image.attr("src") : defaultImageUrl;
 
-            Element image = articleBody.select("img").first();
-
-            String imageUrl = (image != null) ? image.attr("src") : defaultImageUrl;
+            } catch (Exception e) {
+                imageUrl = defaultImageUrl;
+            }
 
             newsSrcList.add(imageUrl);
         }
