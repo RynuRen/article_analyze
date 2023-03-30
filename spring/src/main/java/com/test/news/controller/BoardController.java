@@ -123,6 +123,13 @@ public class BoardController {
         List<Integer> newsList = boardMapper.selectByNewsId(id);
         List<response> newsIn = newsMapper.findHisAll(newsList);
         List<String> newsSrcList = new ArrayList<>();
+        Board boardInfo = boardMapper.selectById(id);
+        NewsForm.response curNewsIn = new response();
+        curNewsIn.setNewsDate(boardInfo.getBoardNewsDate());
+        curNewsIn.setNewsLink(boardInfo.getBoardNewsLink());
+        curNewsIn.setNewsPress(boardInfo.getBoardNewsPress());
+        curNewsIn.setNewsTitle(boardInfo.getBoardNewsTitle());
+        newsIn.add(0, curNewsIn);
 
         String defaultImageUrl = "https://post-phinf.pstatic.net/MjAxODAyMjZfMTM4/MDAxNTE5NjI0MTMyMTI0.FWwP0Zwb9nBLXkloL8awQT6WLGYTbCAUtkzD-oISGvAg.U8oEPBRh6i1vgVvyM2jE2iNYJ-XWXSnMQKm84DhFpqIg.JPEG/20180226%EB%B3%B4%EB%8F%84%EA%B8%B0%EC%82%ACa984_%281%29.jpg";
 
@@ -140,7 +147,7 @@ public class BoardController {
         }
 
         model.addAttribute("newsSrcList", newsSrcList);
-        model.addAttribute("history", newsMapper.findHisAll(newsList));
+        model.addAttribute("history", newsIn);
         model.addAttribute("curNews", boardMapper.selectById(id));
         model.addAttribute("comment", boardMapper.selectByComment(id));
         return "board/boardview";
