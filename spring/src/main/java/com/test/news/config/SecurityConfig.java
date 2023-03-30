@@ -27,7 +27,7 @@ public class SecurityConfig {
                         "PropertySource", "/", "/main", // 메인
                         "/v3/api-docs/**", "/swagger-ui/**", // swagger util
                         "/query_search", "/search", // 검색 페이지
-                        "/user/denied", "/board/list/**"
+                        "/user/denied", "/board/list/**", "/user/login"
 
         };
 
@@ -50,9 +50,9 @@ public class SecurityConfig {
                 http
                                 .formLogin(formlogin -> formlogin.disable())
                                 .oauth2Login(login -> login
-                                                .loginPage("/user/login")
+                                                // .loginPage("/user/login")
                                                 .successHandler(new LoginSuccessHandler("/"))
-                                                .failureUrl("/user/login").permitAll()
+                                                // .failureUrl("/user/login")
                                                 .authorizationEndpoint()
                                                 .baseUri("/oauth2/authorize")
                                                 .and()
