@@ -27,11 +27,9 @@ def content_return_top(tfidf_content, n, drange, press):
     # 기간 & 언론사
     start = time.time()
     path_list = filepathmaker("society", press, drange)
-    print(f"make path: {time.time() - start}")
 
     start = time.time()
     id_list, cos_sim_res = dataload.read_parallel(tfidf_content, path_list)
-    print(f"load + calc: {time.time() - start}")
 
     ## 데이터 준비
     # 유사도 정렬, 추출

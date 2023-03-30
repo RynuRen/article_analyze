@@ -50,7 +50,7 @@ public class SecurityConfig {
                 http
                                 .formLogin(formlogin -> formlogin.disable())
                                 .oauth2Login(login -> login
-                                                // .loginPage("/user/login")
+                                                .loginPage("/user/denied")
                                                 .successHandler(new LoginSuccessHandler("/"))
                                                 // .failureUrl("/user/login")
                                                 .authorizationEndpoint()

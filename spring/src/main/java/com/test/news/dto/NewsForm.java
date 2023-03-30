@@ -48,6 +48,7 @@ public class NewsForm {
 
     @Data
     public static class apiResponse {
+        private int status;
         private response curNews;
         private Map<Integer, Double> recNews;
     }

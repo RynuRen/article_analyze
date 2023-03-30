@@ -11,7 +11,14 @@ public class Pagination {
 
     public Pagination(int totalCount, int pageNum, int pageSize) {
         this.totalCount = totalCount;
-        this.calculation(pageNum, pageSize);
+        if (totalCount == 0) {
+            this.pageCount = 1;
+            this.startPage = 1;
+            this.endPage = 1;
+        } else {
+            this.calculation(pageNum, pageSize);
+        }
+        
     }
 
     private void calculation(int pageNum, int pageSize) {

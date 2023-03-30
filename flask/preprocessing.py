@@ -1,6 +1,12 @@
 from logger import ErrorLog_scraping
 import dataload
 
+class ContentTooShort(Exception):
+    pass
+
+class ConnectLinkError(Exception):
+    pass
+
 stop_content = ["SBS Biz에 제보", "네이버에서 SBS Biz", "당신의 제보가 뉴스로 만들어집니다.", "무단전재", "재배포금지","저작권자 ⓒ 서울신문사","무단복제 및 전재","무단 전재 및 재배포","제보는 카톡", "☞", "무단 전재-재배포", "▶연합뉴스 앱 지금 바로 다운받기~"]
 except_list = ['Exclamation', 'Josa', 'KoreanParticle', 'Determiner',  'Eomi', 'Suffix',  'VerbPrefix', 'PreEomi']
 rep_list = ['기사내용 요약']
@@ -24,7 +30,7 @@ def create_soup(url):
             i += 1
             if i == 10 :
                 ErrorLog_scraping(str(traceback.format_exc()),"final_preprocessing : create_soup")
-                return False
+                raise ConnectLinkError
     return soup
 
 # 토크나이저 적용
@@ -92,7 +98,7 @@ def daumnews_scraper(link):
             content.append(c)
     content = ' '.join(content)
     if len(content) < 200:
-        return False
+        raise ContentTooShort()
     
     return cur_news, content
 
@@ -135,7 +141,7 @@ def newspaper_scraper(link):
             content.append(c)
     content = ' '.join(content)
     if len(content) < 200:
-        return False
+        raise ContentTooShort()
     
     return cur_news, content
 
