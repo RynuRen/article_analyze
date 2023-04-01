@@ -171,8 +171,9 @@ public class NewsServiceImpl implements NewsService {
         return newsHistoryForm;
     }
 
-    public Map<String, Object> addHistory(NewsForm.request newsRequest)
+    public NewsForm.serviceReturn addHistory(NewsForm.request newsRequest)
             throws JsonProcessingException {
+        NewsForm.serviceReturn serviceReturn = new NewsForm.serviceReturn();
         String newsHistoryStr = newsRequest.getNewsHistory();
         // 검색 결과에 뉴스 id 갱신
 
@@ -185,8 +186,12 @@ public class NewsServiceImpl implements NewsService {
         newsHistoryList = new HashMap<>();
         newsHistoryList.put("curNews", newsHistoryForm.getCurNews());
         newsHistoryList.put("newsHisList", newsHisList);
+        String history = objectMapper.writeValueAsString(newsHistoryForm);
 
-        return newsHistoryList;
+        serviceReturn.setToNext(history);
+        serviceReturn.setHisNews(newsHistoryList);
+
+        return serviceReturn;
     }
 
 }

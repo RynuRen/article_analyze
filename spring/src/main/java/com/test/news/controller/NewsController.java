@@ -57,8 +57,10 @@ public class NewsController {
         if (!newsRequest.getNewsEndDate().isEqual(LocalDate.parse("2020-01-01"))) {
             newsRes = newsService.newsApi(newsRequest, selectNewsPress);
         } else {
-            Map<String, Object> newsFinal = newsService.addHistory(newsRequest);
-            newsRes.setHisNews(newsFinal);
+            NewsForm.serviceReturn newsFinal = newsService.addHistory(newsRequest);
+            newsRes.setHisNews(newsFinal.getHisNews());
+            newsRes.setToNext(newsFinal.getToNext());
+
         }
 
         if (newsRes.getHisNews() == null) {
