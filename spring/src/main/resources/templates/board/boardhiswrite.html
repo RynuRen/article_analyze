@@ -6,8 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <title>게시글 작성</title>
-    <!-- Bootstrap CSS -->
-   
+
 </head>
 
 <body>
@@ -46,9 +45,9 @@
                                     target="_blank"></a>
                             </td>
                             <td th:text="${curNews.boardNewsDate}"></td>
-                            <td>                
-                                    <input type="text" class="form-control" placeholder="코멘트를 작성해주세요" id="comment1"
-                                        name="boardComment" required>                  
+                            <td>
+                                <input type="text" class="form-control" placeholder="코멘트를 작성해주세요" id="comment1"
+                                    name="boardComment" required>
                             </td>
                         </tr>
                         <tr th:each="history : ${history}">
@@ -57,9 +56,9 @@
                                 <a th:href="${history.newsLink}" th:text="${history.newsTitle}" target="_blank"></a>
                             </td>
                             <td th:text="${history.newsDate}"></td>
-                            <td>                
-                                    <input type="text" class="form-control" placeholder="코멘트를 작성해주세요" id="comment2"
-                                        name="boardComment" required>
+                            <td>
+                                <input type="text" class="form-control" placeholder="코멘트를 작성해주세요" id="comment2"
+                                    name="boardComment" required>
                             </td>
                     </tbody>
                 </table>
