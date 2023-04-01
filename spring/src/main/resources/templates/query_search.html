@@ -88,6 +88,29 @@
                 </tbody>
             </table>
         </div>
+        <div>
+            <nav>
+                <ul class="pagination">
+                    <li th:class="${pageNum == 1} ? 'page-item disabled' : 'page-item'">
+                        <a class="page-link" th:href="@{/query_search(pageNum=1, query=${query})}">First</a>
+                    </li>
+                    <li th:class="${pageNum == 1} ? 'page-item disabled' : 'page-item'">
+                        <a class="page-link" th:href="@{/query_search(pageNum=${pageNum - 1}, query=${query})}">Previous</a>
+                    </li>
+                    <th:block th:each="page : ${#numbers.sequence(pagination.startPage, pagination.endPage)}">
+                        <li th:class="${pageNum == page} ? 'page-item active' : 'page-item'">
+                            <a class="page-link" th:href="@{/query_search(pageNum=${page}, query=${query})}" th:text="${page}"></a>
+                        </li>
+                    </th:block>
+                    <li th:class="${pageNum == pagination.pageCount} ? 'page-item disabled' : 'page-item'">
+                        <a class="page-link" th:href="@{/query_search(pageNum=${pageNum + 1}, query=${query})}">Next</a>
+                    </li>
+                    <li th:class="${pageNum == pagination.pageCount} ? 'page-item disabled' : 'page-item'">
+                        <a class="page-link" th:href="@{/query_search(pageNum=${pagination.pageCount}, query=${query})}">Last</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
         <!-- <a href="/" class="btn btn-primary mt-3">메인으로</a> -->
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"

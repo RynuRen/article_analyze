@@ -48,6 +48,13 @@ def build_result_df(news_press, select_news_press, news_id, news_startdate, news
 
 app = Flask(__name__)
 
+@app.route("/daum", methods=["GET"])
+def app_daum():
+    query = unquote(request.args.get('query'))
+    page = request.args.get('page')
+    res = search_rst(query, page)
+    return res
+
 @app.route("/search", methods=["GET"])
 def app_search():
     news_press = unquote(request.args.get('newsPress'))
@@ -67,14 +74,7 @@ def app_research():
     res = build_result_df(news_press, select_news_press, news_id, news_startdate, news_enddate)
     return res
 
-@app.route("/daum", methods=["GET"])
-def app_daum():
-    query = unquote(request.args.get('query'))
-    page = request.args.get('page')
-    res = search_rst(query, page)
-    return res
-
 if __name__ == '__main__':
-    app.run(host="192.168.10.48", port=5000, debug=True)
-    # app.run(host="localhost", port=5000, debug=True)
+    # app.run(host="192.168.10.48", port=5000, debug=True)
+    app.run(host="localhost", port=5000, debug=True)
     # app.run(host="0.0.0.0", port=5000)

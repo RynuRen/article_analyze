@@ -9,12 +9,6 @@ import lombok.Data;
 @Data
 public class NewsForm {
     @Data
-    public static class query {
-        private String query;
-        private int page;
-    }
-
-    @Data
     public static class request {
         private int newsId;
         private String newsPress;

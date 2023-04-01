@@ -20,6 +20,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.test.news.dto.NewsForm;
+import com.test.news.dto.PagingResponse;
 import com.test.news.mapper.NewsMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -31,16 +32,16 @@ public class NewsServiceImpl implements NewsService {
     @Autowired
     ObjectMapper objectMapper;
     private final NewsMapper newsMapper;
-    
+
     @Value("${api-url}")
     private String apiUrl;
 
     @Override
-    public List<NewsForm.response> newsHj(NewsForm.query query) {
+    public PagingResponse<NewsForm.response> newsHj(int page, String query) {
         String url = String.format("http://%s:5000/daum", apiUrl);
         UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(url)
-                .queryParam("query", query.getQuery())
-                .queryParam("page", query.getPage());
+                .queryParam("query", query)
+                .queryParam("page", page);
 
         RestTemplate restTemplate = new RestTemplate();
 
@@ -48,11 +49,11 @@ public class NewsServiceImpl implements NewsService {
         headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
 
         HttpEntity<?> entity = new HttpEntity<>(headers);
-        ResponseEntity<List<NewsForm.response>> responseEntity = restTemplate.exchange(
+        ResponseEntity<PagingResponse<NewsForm.response>> responseEntity = restTemplate.exchange(
                 builder.toUriString(), HttpMethod.GET, entity,
-                new ParameterizedTypeReference<List<NewsForm.response>>() {
+                new ParameterizedTypeReference<PagingResponse<NewsForm.response>>() {
                 });
-
+                
         return responseEntity.getBody();
     }
 
@@ -62,7 +63,7 @@ public class NewsServiceImpl implements NewsService {
             throws JsonProcessingException {
         // API 요청
         NewsForm.apiResponse newsResponse = requestFlask(newsRequest, selectNewsPress);
-        
+
         int status = newsResponse.getStatus();
         List<NewsForm.response> newsList = null;
         String history = null;

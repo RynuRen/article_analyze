@@ -1,8 +1,10 @@
 package com.test.news.dto;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class Pagination {
     private int totalCount;   // 전체 데이터 수
     private int pageCount;     // 전체 페이지 수
@@ -20,7 +22,7 @@ public class Pagination {
         }
         
     }
-
+    
     private void calculation(int pageNum, int pageSize) {
         // 전체 페이지 수 계산
         pageCount = totalCount / pageSize + (totalCount % pageSize == 0 ? 0 : 1);
@@ -37,6 +39,22 @@ public class Pagination {
         endPage = startPage + 9 > pageCount ? pageCount : startPage + 9;
 
         // 끝 페이지가 전체 페이지 수보다 큰 경우, 끝 페이지 전체 페이지 수 저장
+        if (endPage > pageCount) {
+            endPage = pageCount;
+        }
+    }
+
+    public Pagination(int pageCount, int pageNum) {
+        this.pageCount = pageCount;
+        this.calculation(pageCount, pageNum, 0);
+    }
+
+    private void calculation(int pageCount, int pageNum, int dumy) {
+        if (pageNum > pageCount) {
+            pageNum = pageCount;
+        }
+        startPage = ((pageNum - 1) / 10) * 10 + 1;
+        endPage = startPage + 9 > pageCount ? pageCount : startPage + 9;
         if (endPage > pageCount) {
             endPage = pageCount;
         }

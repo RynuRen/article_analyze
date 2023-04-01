@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.test.news.dto.NewsForm;
+import com.test.news.dto.Pagination;
+import com.test.news.dto.PagingResponse;
 import com.test.news.service.NewsService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -25,10 +27,17 @@ public class NewsController {
     }
 
     @GetMapping("/query_search")
-    public String fsearch(NewsForm.query query, Model model) {
-        List<NewsForm.response> newsList = newsService.newsHj(query);
+    public String fsearch(@RequestParam(defaultValue = "1") int pageNum, String query, Model model) {
+        PagingResponse<NewsForm.response> queryResponse = newsService.newsHj(pageNum, query);
 
+        List<NewsForm.response> newsList = queryResponse.getList();
+        Pagination pagination = queryResponse.getPagination();
+        pagination = new Pagination(pagination.getPageCount(), pageNum);
+        
+        model.addAttribute("query", query);
         model.addAttribute("newsList", newsList);
+        model.addAttribute("pagination", pagination);
+        model.addAttribute("pageNum", pageNum);
         return "query_search";
     }
 
