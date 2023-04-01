@@ -3,9 +3,6 @@ spring.datasource.url=jdbc:mariadb://.?serverTimezone=Asia/Seoul&characterEncodi
 spring.datasource.username=.
 spring.datasource.password=.
 
-# was source
-was-url=.
-
 # Naver
 spring.security.oauth2.client.registration.naver.client-id=.
 spring.security.oauth2.client.registration.naver.client-secret=.
@@ -27,3 +24,4 @@ spring.security.oauth2.client.provider.kakao.authorization-uri=https://kauth.kak
 spring.security.oauth2.client.provider.kakao.token-uri=https://kauth.kakao.com/oauth/token
 spring.security.oauth2.client.provider.kakao.user-info-uri=https://kapi.kakao.com/v2/user/me
 spring.security.oauth2.client.provider.kakao.user-name-attribute=id
+kakao.admin-key=.

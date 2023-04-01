@@ -37,8 +37,11 @@ public class MemberServiceImpl implements MemberService {
     private final MemberMapper memberMapper;
 
     /**
-     * 게시글 리스트 조회
-     * @param search 정보
+     * 작성글 불러오기
+     * 
+     * @param pageNum    현제 페이지
+     * @param keyword    검색 키워드
+     * @param searchType 검색 타입
      * @return list & pagination 정보
      */
     @Override
@@ -51,11 +54,12 @@ public class MemberServiceImpl implements MemberService {
         int totalCount = 0;
         List<Board> list = null;
         Pagination pagination = null;
-        
+
         if (keyword != null && !keyword.isEmpty()) { // 키워드 검색
             totalCount = memberMapper.countByMemIdByKeyword(userId, keyword); // 검색된 글 개수
             pagination = new Pagination(totalCount, pageNum, pageSize);
-            list = memberMapper.findBoardByMemIdByKeyword(userId, keyword, searchType, startRow, pageSize); // DB에서 키워드 검색
+            list = memberMapper.findBoardByMemIdByKeyword(userId, keyword, searchType, startRow, pageSize); // DB에서 키워드
+                                                                                                            // 검색
         } else { // 일반 목록
             totalCount = memberMapper.countByMemId(userId); // 전체 글 개수 조회
             pagination = new Pagination(totalCount, pageNum, pageSize);
@@ -64,26 +68,39 @@ public class MemberServiceImpl implements MemberService {
         return new PagingResponse<>(list, pagination);
     }
 
+    /**
+     * 닉네임 변경
+     * 
+     * @param userId   유저ID
+     * @param nickname 바꿀 닉네임
+     */
     @Override
     @Transactional
     public void updateMember(Long userId, String nickname) {
         Member member = memberMapper.findById(userId).orElseThrow();
         Member memberModified = Member.builder()
-                                    .userId(userId)
-                                    .providerId(member.getProviderId())
-                                    .email(member.getEmail())
-                                    .nickname(nickname)
-                                    .oAuthProvider(member.getOAuthProvider())
-                                    .createDate(member.getCreateDate())
-                                    .role(member.getRole())
-                                    .build();
+                .userId(userId)
+                .providerId(member.getProviderId())
+                .email(member.getEmail())
+                .nickname(nickname)
+                .oAuthProvider(member.getOAuthProvider())
+                .createDate(member.getCreateDate())
+                .role(member.getRole())
+                .build();
         memberMapper.update(memberModified);
-        
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Authentication newAuth = new UsernamePasswordAuthenticationToken(CustomUserDetails.create(memberModified), authentication.getCredentials(), authentication.getAuthorities());
+        Authentication newAuth = new UsernamePasswordAuthenticationToken(CustomUserDetails.create(memberModified),
+                authentication.getCredentials(), authentication.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(newAuth);
     }
 
+    /**
+     * 회원 탈퇴
+     * 
+     * @param userId        유저ID
+     * @param oAuthProvider 인증 제공사
+     */
     @Override
     @Transactional
     public void deleteMember(Long userId, OAuthProvider oAuthProvider) {
@@ -92,7 +109,8 @@ public class MemberServiceImpl implements MemberService {
         HttpHeaders headers = new HttpHeaders();
         RestTemplate restTemplate = new RestTemplate();
 
-        // oAuthProvider에 따라 accessToken을 provider에서 재발급 받아 그 token으로 처리하는걸로 수정해야뎀-git코드 되돌리자..
+        // oAuthProvider에 따라 accessToken을 provider에서 재발급 받아 그 token으로 처리하는걸로 수정해야뎀-git코드
+        // 되돌리자..
         if (oAuthProvider == OAuthProvider.KAKAO) {
             headers.add("Authorization", "KakaoAK " + KAKAO_ADMIN_KEY);
             headers.add("Content-Type", MediaType.APPLICATION_FORM_URLENCODED_VALUE + ";charset=UTF-8");
@@ -106,7 +124,6 @@ public class MemberServiceImpl implements MemberService {
         } else if (oAuthProvider == OAuthProvider.NAVER) {
             log.info("네이버 회원 탈퇴 구현중..");
         }
-        
 
         memberMapper.deleteById(userId);
     }

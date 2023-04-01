@@ -1,6 +1,5 @@
 package com.test.news.controller;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,8 +23,6 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/user")
 @RequiredArgsConstructor
 public class MemberController {
-    @Value("${was-url}")
-    private String wasUrl;
     private final MemberService memberService;
 
     @Operation(summary = "로그인 페이지", description = "[@Operation] 로그인 처리 화면")
