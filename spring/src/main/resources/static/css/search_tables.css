@@ -21,3 +21,30 @@ th {
     text-align: left;
     font-size: 110%;
 }
+
+/* 검색 시작 기간 라디오 버튼 */
+.select_start_date {
+    padding: 15px 10px;
+}
+.select_start_date input[type=radio]{
+    display: none;
+}
+.select_start_date input[type=radio]+label{
+    display: inline-block;
+    cursor: pointer;
+    height: 24px;
+    width: 90px;
+    border: 1px solid #333;
+    line-height: 24px;
+    text-align: center;
+    font-weight:bold;
+    font-size:13px;
+}
+.select_start_date input[type=radio]+label{
+    background-color: #fff;
+    color: #333;
+}
+.select_start_date input[type=radio]:checked+label{
+    background-color: #b4d4ee;
+    color: #333;
+}
