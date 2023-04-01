@@ -138,7 +138,7 @@
                             <input type="hidden" name="newsId" th:value="${news.newsId}" />
                             <input type="hidden" name="newsHistory" th:value="${newsHistory}" />
                             <input type="hidden" name="newsEndDate"
-                                th:value="${#temporals.format(news.newsDate, 'yyyy-MM-dd')}" />
+                                th:value="${#temporals.format(news.newsDate.minusDays(1), 'yyyy-MM-dd')}" />
                             <input type="hidden" name="selectNewsPress" th:value="${news.newsPress}" />
                             <button type="submit" class="btn btn-info btn-sm"
                                 style="background: #b4d4ee; border:none;">Add</button>
