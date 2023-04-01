@@ -55,7 +55,7 @@
     </update>
 
     <select id="getBoardList" parameterType="map" resultType="com.test.news.dto.Board">
-    SELECT B.board_id, B.board_title, B.board_writer_id, B.board_create_date, U.nickname FROM board B INNER JOIN user U ON B.board_writer_id = U.user_id WHERE board_del = 0 AND board_pub = 0 ORDER BY board_id DESC LIMIT #{startRow}, #{pageSize}
+    SELECT B.board_id, B.board_title, B.board_writer_id, B.board_create_date, B.board_news_link, U.nickname FROM board B INNER JOIN user U ON B.board_writer_id = U.user_id WHERE board_del = 0 AND board_pub = 0 ORDER BY board_id DESC LIMIT #{startRow}, #{pageSize}
     </select>
 
     <select id="getBoardCount" resultType="int">
@@ -70,7 +70,7 @@
     </select>
 
     <select id="searchBoardList" parameterType="hashmap" resultType="com.test.news.dto.Board">
-        SELECT board_id, board_title, board_content, board_writer_id, board_create_date, board_update_date
+        SELECT board_id, board_title, board_content, board_writer_id, board_create_date, board_update_date, B.board_news_link
         FROM board
         <where>
             <if test="searchType != null">

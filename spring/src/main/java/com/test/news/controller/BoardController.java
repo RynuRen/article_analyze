@@ -89,8 +89,9 @@ public class BoardController {
 
     @GetMapping("list")
     public String getList(Model model, @RequestParam(defaultValue = "1") int pageNum,
-            @RequestParam(required = false) String keyword, @RequestParam(required = false) String searchType) {
-        int pageSize = 10; // 페이지당 글 개수
+            @RequestParam(required = false) String keyword, @RequestParam(required = false) String searchType)
+            throws IOException {
+        int pageSize = 9; // 페이지당 글 개수
         int startRow = (pageNum - 1) * pageSize; // 시작 행 번호
         List<Board> list = null;
         int totalCount = 0;
@@ -108,6 +109,28 @@ public class BoardController {
         pageCount = totalCount / pageSize + (totalCount % pageSize == 0 ? 0 : 1); // 전체 페이지 개수 계산
         startPage = ((pageNum - 1) / 10) * 10 + 1; // 시작 페이지 번호 계산
         endPage = startPage + 9 > pageCount ? pageCount : startPage + 9; // 끝 페이지 번호 계산
+
+        List<String> newsSrcList = new ArrayList<>();
+        String defaultImageUrl = "https://post-phinf.pstatic.net/MjAxODAyMjZfMTM4/MDAxNTE5NjI0MTMyMTI0.FWwP0Zwb9nBLXkloL8awQT6WLGYTbCAUtkzD-oISGvAg.U8oEPBRh6i1vgVvyM2jE2iNYJ-XWXSnMQKm84DhFpqIg.JPEG/20180226%EB%B3%B4%EB%8F%84%EA%B8%B0%EC%82%ACa984_%281%29.jpg";
+
+        for (Board board : list) {
+            String newsLink = board.getBoardNewsLink();
+            Document doc = Jsoup.connect(newsLink).get();
+            String imageUrl = "";
+            try {
+
+                Element articleBody = doc.selectFirst("div.article_view > section");
+                Element image = articleBody.select("img").first();
+                imageUrl = (image != null) ? image.attr("src") : defaultImageUrl;
+
+            } catch (Exception e) {
+                imageUrl = defaultImageUrl;
+            }
+
+            newsSrcList.add(imageUrl);
+        }
+
+        model.addAttribute("newsSrcList", newsSrcList);
         model.addAttribute("list", list);
         model.addAttribute("pageNum", pageNum);
         model.addAttribute("pageCount", pageCount);
