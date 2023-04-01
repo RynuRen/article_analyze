@@ -8,7 +8,9 @@ def build_fst_result_df(news_press, news_link, news_startdate, news_enddate):
     res = {}
     startdate = ''.join(list(news_startdate.split('-')))
     enddate = ''.join(list(news_enddate.split('-')))
-    startdate, enddate = sorted([startdate, enddate])
+    if startdate < 20200101:
+        startdate = 20200101
+    # startdate, enddate = sorted([startdate, enddate])
     try:
         scrap = cur_news_scraper(news_link)
         # if not scrap:
