@@ -10,4 +10,7 @@ public interface NewsService {
 
     // Flask API 통신
     NewsForm.serviceReturn newsApi(NewsForm.request newsRequest, String selectNewsPress) throws JsonProcessingException;
+
+    // 마지막기간 기사 처리(2020-01-01)
+    NewsForm.serviceReturn addHistory(NewsForm.request newsRequest) throws JsonProcessingException;
 }

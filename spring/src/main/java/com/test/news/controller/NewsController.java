@@ -1,21 +1,25 @@
 package com.test.news.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.test.news.dto.NewsForm;
 import com.test.news.dto.Pagination;
 import com.test.news.dto.PagingResponse;
+import com.test.news.dto.NewsForm.serviceReturn;
 import com.test.news.service.NewsService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+@Log4j2
 @Controller
 @RequiredArgsConstructor
 public class NewsController {
@@ -33,7 +37,7 @@ public class NewsController {
         List<NewsForm.response> newsList = queryResponse.getList();
         Pagination pagination = queryResponse.getPagination();
         pagination = new Pagination(pagination.getPageCount(), pageNum);
-        
+
         model.addAttribute("query", query);
         model.addAttribute("newsList", newsList);
         model.addAttribute("pagination", pagination);
@@ -46,7 +50,18 @@ public class NewsController {
             @RequestParam("selectNewsPress") String selectNewsPress, HttpServletRequest request,
             HttpServletResponse response) throws JsonProcessingException {
         String referer = request.getHeader("Referer");
-        NewsForm.serviceReturn newsRes = newsService.newsApi(newsRequest, selectNewsPress);
+
+        NewsForm.serviceReturn newsRes = new serviceReturn();
+
+        if (newsRequest.getNewsEndDate().isBefore(LocalDate.parse("2020-01-01"))) {
+            NewsForm.serviceReturn newsFinal = newsService.addHistory(newsRequest);
+            newsRes.setHisNews(newsFinal.getHisNews());
+            newsRes.setToNext(newsFinal.getToNext());
+
+        } else {
+            newsRes = newsService.newsApi(newsRequest, selectNewsPress);
+
+        }
 
         if (newsRes.getHisNews() == null) {
             int status = Integer.parseInt(newsRes.getToNext());
@@ -61,7 +76,7 @@ public class NewsController {
             } else {
                 errorMessage = "UNKNOWN 에러다 에러!";
             }
-            
+
             model.addAttribute("title", "알림");
             model.addAttribute("text", errorMessage);
             model.addAttribute("buttonText", "확인");
@@ -69,6 +84,7 @@ public class NewsController {
 
             return "message";
         }
+
         model.addAttribute("newsList", newsRes.getNewsList());
         model.addAttribute("newsHistory", newsRes.getToNext());
         model.addAttribute("history", newsRes.getHisNews());

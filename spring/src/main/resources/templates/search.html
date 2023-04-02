@@ -97,7 +97,7 @@
                         <td th:text="${#temporals.format(news.newsDate, 'yyyy년 MM월 dd일')}"></td>
                         <td>
                             <th:block
-                                th:if="${#temporals.format(news.newsDate.minusDays(1), 'yyyy-MM-dd') &gt;= '2021-01-01'}">
+                                th:if="${#temporals.format(news.newsDate.minusDays(1), 'yyyy-MM-dd') &gt;= '2020-01-01'}">
                                 <form action="/search" method="get" onsubmit="showLoader()">
                                     <select class="form-select form-select-sm" name="selectNewsPress" required
                                         style="width: auto; display: inline;">
@@ -128,6 +128,22 @@
                                         style="background: #b4d4ee; border:none;">Search</button>
                                 </form>
                             </th:block>
+                            <th:block
+                            th:if="${#temporals.format(news.newsDate.minusDays(1), 'yyyy-MM-dd') &lt; '2020-01-01'}">
+                            <form action="/search" method="get" onsubmit="showLoader()">
+                                <select class="form-select form-select-sm" name="selectNewsPress" required
+                                style="width: auto; display: inline;">
+                                <option value="" selected disabled>언론사 선택</option>
+                                <option value="" th:selected="${news.newsPress == '경향신문'}">기간종료</option>
+                            <input type="hidden" name="newsId" th:value="${news.newsId}" />
+                            <input type="hidden" name="newsHistory" th:value="${newsHistory}" />
+                            <input type="hidden" name="newsEndDate"
+                                th:value="${#temporals.format(news.newsDate.minusDays(1), 'yyyy-MM-dd')}" />
+                            <input type="hidden" name="selectNewsPress" th:value="${news.newsPress}" />
+                            <button type="submit" class="btn btn-info btn-sm"
+                                style="background: #b4d4ee; border:none;">Add</button>
+                            </form>
+                        </th:block>
                         </td>
                     </tr>
                 </tbody>

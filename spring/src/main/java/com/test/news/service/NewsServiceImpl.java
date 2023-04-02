@@ -36,13 +36,6 @@ public class NewsServiceImpl implements NewsService {
     @Value("${api-url}")
     private String apiUrl;
 
-    /**
-     * 최신 뉴스 가져오기
-     * 
-     * @param page  현제 페이지
-     * @param query 검색 키워드
-     * @return list & pagination 정보
-     */
     @Override
     public PagingResponse<NewsForm.response> newsHj(int page, String query) {
         String url = String.format("http://%s:5000/daum", apiUrl);
@@ -64,13 +57,6 @@ public class NewsServiceImpl implements NewsService {
         return responseEntity.getBody();
     }
 
-    /**
-     * Flask API 통신
-     * 
-     * @param newsRequest     비교할 기사 정보
-     * @param selectNewsPress 찾을 언론사
-     * @return serviceReturn 추천 기사 리스트 & 찾은 기사 히스토리
-     */
     @Override
     public NewsForm.serviceReturn newsApi(NewsForm.request newsRequest,
             String selectNewsPress)
@@ -154,17 +140,14 @@ public class NewsServiceImpl implements NewsService {
     // 추천 뉴스 정렬
     private List<NewsForm.response> newsSort(NewsForm.apiResponse newsResponse) {
         Map<Integer, Double> idSim = newsResponse.getRecNews();
-        List<Integer> idList = new ArrayList<>(idSim.keySet());
-        List<NewsForm.response> newsList = new ArrayList<>();
-        if (!idList.isEmpty()) {
-            newsList = newsMapper.findAll(idList);
-            // 리스트에 유사도 넣기
-            for (int i = 0; i < newsList.size(); i++) {
-                newsList.get(i).setNewsSim(idSim.get(newsList.get(i).getNewsId()));
-            }
-            // 유사도 순 정렬
-            Collections.sort(newsList);
+        List<Integer> newsIdList = new ArrayList<>(idSim.keySet());
+        List<NewsForm.response> newsList = newsMapper.findAll(newsIdList);
+        // 리스트에 유사도 넣기
+        for (int i = 0; i < newsList.size(); i++) {
+            newsList.get(i).setNewsSim(idSim.get(newsList.get(i).getNewsId()));
         }
+        // 유사도 순 정렬
+        Collections.sort(newsList);
 
         return newsList;
     }
@@ -186,6 +169,29 @@ public class NewsServiceImpl implements NewsService {
         }
 
         return newsHistoryForm;
+    }
+
+    public NewsForm.serviceReturn addHistory(NewsForm.request newsRequest)
+            throws JsonProcessingException {
+        NewsForm.serviceReturn serviceReturn = new NewsForm.serviceReturn();
+        String newsHistoryStr = newsRequest.getNewsHistory();
+        // 검색 결과에 뉴스 id 갱신
+
+        NewsForm.historyForm newsHistoryForm = objectMapper.readValue(newsHistoryStr, NewsForm.historyForm.class);
+        List<Integer> idList = newsHistoryForm.getIdList();
+        idList.add(newsRequest.getNewsId());
+
+        List<NewsForm.response> newsHisList = newsMapper.findHisAll(idList);
+        Map<String, Object> newsHistoryList = null;
+        newsHistoryList = new HashMap<>();
+        newsHistoryList.put("curNews", newsHistoryForm.getCurNews());
+        newsHistoryList.put("newsHisList", newsHisList);
+        String history = objectMapper.writeValueAsString(newsHistoryForm);
+
+        serviceReturn.setToNext(history);
+        serviceReturn.setHisNews(newsHistoryList);
+
+        return serviceReturn;
     }
 
 }
