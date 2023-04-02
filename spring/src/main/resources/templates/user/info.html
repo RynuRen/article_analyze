@@ -5,119 +5,116 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Gaagle</title>
-  
+    <title>Gaagle - 회원 정보</title>
+    <link rel="stylesheet" href="/css/search_tables.css">
 </head>
 
-
 <div id="wrapper" layout:fragment="content">
-    <div class="container my-5">
+    <div class="container mt-5">
         <div class="row">
             <div class="col-md-6">
+                <h1 class="text-center">회원 정보</h1>
                 <table class="table my-3">
                     <tbody>
-                    <tr>
-                        <th scope="row">Nickname:</th>
-                        <td>
-                            <form method="post" th:action="@{/user/update}">
-                                <input type="hidden" name="userId" th:value="${#authentication.principal.userId}">
-                                <div class="row">
-                                    <div class="col-8">
-                                      <input type="text" name="nickname" id="nickname" class="form-control" th:value="${#authentication.name}">
+                        <tr>
+                            <th scope="row">닉네임:</th>
+                            <td>
+                                <form method="post" th:action="@{/user/update}">
+                                    <input type="hidden" name="userId" th:value="${#authentication.principal.userId}">
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <input type="text" name="nickname" id="nickname" class="form-control"
+                                                th:value="${#authentication.name}">
+                                        </div>
+                                        <div class="col-4">
+                                            <button type="submit" class="btn btn-primary">변경</button>
+                                        </div>
                                     </div>
-                                    <div class="col-4">
-                                      <button type="submit" class="btn btn-primary">변경</button>
-                                    </div>
-                                  </div>
-                            </form> 
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Roles:</th>
-                        <td><span sec:authentication="principal.authorities"></span></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Email:</th>
-                        <td><span sec:authentication="principal.attributes['email']"></span></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">oAuthProvider:</th>
-                        <td><span sec:authentication="principal.attributes['oAuthProvider']"></span></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">createDate:</th>
-                        <td><span sec:authentication="principal.attributes['createDate']"></span></td>
-                    </tr>
+                                </form>
+                            </td>
+                        </tr>
+                        <!-- <tr>
+                            <th scope="row">권한:</th>
+                            <td><span sec:authentication="principal.authorities"></span></td>
+                        </tr> -->
+                        <tr>
+                            <th scope="row">E-mail:</th>
+                            <td><span sec:authentication="principal.attributes['email']"></span></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">서비스:</th>
+                            <td><span sec:authentication="principal.attributes['oAuthProvider']"></span> 계정으로 가입하셨습니다.</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">가입일:</th>
+                            <td><span sec:authentication="principal.attributes['createDate']"></span></td>
+                        </tr>
                     </tbody>
                 </table>
                 <form method="post" th:action="@{/user/delete}">
                     <input type="hidden" name="userId" th:value="${#authentication.principal.userId}">
                     <input type="hidden" name="oAuthProvider"
-                           th:value="${#authentication.principal.attributes['oAuthProvider']}">
-                    <button type="submit" class="btn btn-danger"
-                            onclick="return confirm('정말로 탈퇴 하시겠습니까?')">회원 탈퇴
+                        th:value="${#authentication.principal.attributes['oAuthProvider']}">
+                    <button type="submit" class="btn btn-danger" onclick="return confirm('정말로 탈퇴 하시겠습니까?')">회원 탈퇴
                     </button>
                 </form>
             </div>
-           
+        </div>
+        <h1 class="text-center">작성글</h1>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>제목</th>
+                    <th>글쓴이</th>
+                    <th>작성일</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="board : ${response.list}">
+                    <td th:text="${board.boardId}"></td>
+                    <td>
+                        <a th:text="${board.boardTitle}" th:href="@{/board/list/view(id=${board.boardId})}"></a>
+                    </td>
+                    <td th:text="${board.nickName}"></td>
+                    <td>
+                        <th:block th:with="nowDay=${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}">
+                            <th:block th:if="${nowDay} == ${#dates.format(board.boardCreateDate, 'yyyy-MM-dd')}">
+                                <span th:text="${#dates.format(board.boardCreateDate, 'HH:mm')}"></span>
+                            </th:block>
+                            <th:block th:unless="${nowDay} == ${#dates.format(board.boardCreateDate, 'yyyy-MM-dd')}">
+                                <span th:text="${#dates.format(board.boardCreateDate, 'yyyy-MM-dd')}"></span>
+                            </th:block>
+                        </th:block>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-center">
+            <nav>
+                <ul class="pagination">
+                    <li th:class="${pageNum == 1} ? 'page-item disabled' : 'page-item'">
+                        <a class="page-link" th:href="@{/user/info(pageNum=1)}">First</a>
+                    </li>
+                    <li th:class="${pageNum == 1} ? 'page-item disabled' : 'page-item'">
+                        <a class="page-link" th:href="@{/user/info(pageNum=${pageNum - 1})}">Previous</a>
+                    </li>
+                    <th:block
+                        th:each="page : ${#numbers.sequence(response.pagination.startPage, response.pagination.endPage)}">
+                        <li th:class="${pageNum == page} ? 'page-item active' : 'page-item'">
+                            <a class="page-link" th:href="@{/user/info(pageNum=${page})}" th:text="${page}"></a>
+                        </li>
+                    </th:block>
+                    <li th:class="${pageNum == response.pagination.pageCount} ? 'page-item disabled' : 'page-item'">
+                        <a class="page-link" th:href="@{/user/info(pageNum=${pageNum + 1})}">Next</a>
+                    </li>
+                    <li th:class="${pageNum == response.pagination.pageCount} ? 'page-item disabled' : 'page-item'">
+                        <a class="page-link" th:href="@{/user/info(pageNum=${response.pagination.pageCount})}">Last</a>
+                    </li>
+                </ul>
+            </nav>
         </div>
     </div>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Title</th>
-                <th>Writer</th>
-                <th>Created Date</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="board : ${response.list}">
-                <td th:text="${board.boardId}"></td>
-                <td>
-                    <a th:text="${board.boardTitle}" th:href="@{/board/list/view(id=${board.boardId})}"></a>
-                </td>
-                <td th:text="${board.nickName}"></td>
-                <td>
-                    <th:block th:with="nowDay=${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}">
-                        <th:block th:if="${nowDay} == ${#dates.format(board.boardCreateDate, 'yyyy-MM-dd')}">
-                            <span th:text="${#dates.format(board.boardCreateDate, 'HH:mm')}"></span>
-                        </th:block>
-                        <th:block th:unless="${nowDay} == ${#dates.format(board.boardCreateDate, 'yyyy-MM-dd')}">
-                            <span th:text="${#dates.format(board.boardCreateDate, 'yyyy-MM-dd')}"></span>
-                        </th:block>
-                    </th:block>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <div class="d-flex justify-content-center">
-        <nav>
-            <ul class="pagination">
-                <li th:class="${pageNum == 1} ? 'page-item disabled' : 'page-item'">
-                    <a class="page-link" th:href="@{/user/info(pageNum=1)}">First</a>
-                </li>
-                <li th:class="${pageNum == 1} ? 'page-item disabled' : 'page-item'">
-                    <a class="page-link" th:href="@{/user/info(pageNum=${pageNum - 1})}">Previous</a>
-                </li>
-                <th:block
-                    th:each="page : ${#numbers.sequence(response.pagination.startPage, response.pagination.endPage)}">
-                    <li th:class="${pageNum == page} ? 'page-item active' : 'page-item'">
-                        <a class="page-link" th:href="@{/user/info(pageNum=${page})}" th:text="${page}"></a>
-                    </li>
-                </th:block>
-                <li th:class="${pageNum == response.pagination.pageCount} ? 'page-item disabled' : 'page-item'">
-                    <a class="page-link" th:href="@{/user/info(pageNum=${pageNum + 1})}">Next</a>
-                </li>
-                <li th:class="${pageNum == response.pagination.pageCount} ? 'page-item disabled' : 'page-item'">
-                    <a class="page-link" th:href="@{/user/info(pageNum=${response.pagination.pageCount})}">Last</a>
-                </li>
-            </ul>
-        </nav>
-    </div>
-</div> 
-
-
-
+</div>
 
 </html>
