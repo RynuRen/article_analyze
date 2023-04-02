@@ -239,10 +239,10 @@
                 for (var i = 0, ilen = el.length; i < ilen; i++) {
                     var newsDt = newsDateList[i];
                     if (con[0] == "y") {
-                        newsDt = new Date((newsDt.getFullYear() - parseInt(con[1])), newsDt.getMonth(), newsDt.getDate());
+                        newsDt = new Date((newsDt.getFullYear() - parseInt(con[1])), (newsDt.getMonth() - 1), newsDt.getDate());
                     }
                     else if (con[0] == "m") {
-                        newsDt = new Date(newsDt.getFullYear(), (newsDt.getMonth() - parseInt(con[1])), newsDt.getDate());
+                        newsDt = new Date(newsDt.getFullYear(), (newsDt.getMonth() - parseInt(con[1]) - 1), newsDt.getDate());
                     }
                     el[i].value = toStringByFormatting(newsDt);
                 }
