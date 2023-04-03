@@ -24,6 +24,7 @@ import com.test.news.dto.NewsForm.response;
 import com.test.news.mapper.BoardMapper;
 import com.test.news.mapper.NewsMapper;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
@@ -41,26 +42,42 @@ public class BoardController {
     NewsMapper newsMapper;
 
     @GetMapping("hiswrite")
-    public String boardHisWrite(NewsForm.serviceReturn newsRes, Model model) throws IOException {
+    public String boardHisWrite(NewsForm.serviceReturn newsRes, Model model, HttpServletRequest request)
+            throws IOException {
+        String referer = request.getHeader("Referer");
 
         String newsSelect = newsRes.getToNext();
         NewsForm.historyForm newsHis = objectMapper.readValue(newsSelect, NewsForm.historyForm.class);
-        List<response> selHisnews = newsMapper.findHisAll(newsHis.getIdList());
-        NewsForm.response beCurNews = newsHis.getCurNews();
-        Board curNews = new Board();
-        curNews.setBoardNewsPress(beCurNews.getNewsPress());
-        curNews.setBoardNewsLink(beCurNews.getNewsLink());
-        curNews.setBoardNewsTitle(beCurNews.getNewsTitle());
-        curNews.setBoardNewsDate(beCurNews.getNewsDate());
-        String curNewsStr = objectMapper.writeValueAsString(curNews);
-        String selNewsStr = objectMapper.writeValueAsString(newsHis.getIdList());
 
-        model.addAttribute("curNews", curNews);
-        model.addAttribute("history", selHisnews);
-        model.addAttribute("curNewsStr", curNewsStr);
-        model.addAttribute("selNewsStr", selNewsStr);
+        if (!newsHis.getIdList().isEmpty()) {
 
-        return "board/boardhiswrite";
+            List<response> selHisnews = newsMapper.findHisAll(newsHis.getIdList());
+            NewsForm.response beCurNews = newsHis.getCurNews();
+            Board curNews = new Board();
+            curNews.setBoardNewsPress(beCurNews.getNewsPress());
+            curNews.setBoardNewsLink(beCurNews.getNewsLink());
+            curNews.setBoardNewsTitle(beCurNews.getNewsTitle());
+            curNews.setBoardNewsDate(beCurNews.getNewsDate());
+            String curNewsStr = objectMapper.writeValueAsString(curNews);
+            String selNewsStr = objectMapper.writeValueAsString(newsHis.getIdList());
+
+            model.addAttribute("curNews", curNews);
+            model.addAttribute("history", selHisnews);
+            model.addAttribute("curNewsStr", curNewsStr);
+            model.addAttribute("selNewsStr", selNewsStr);
+
+            return "board/boardhiswrite";
+
+        } else {
+
+            model.addAttribute("title", "알림");
+            model.addAttribute("text", "뉴스 히스토리를 추가해주세요.");
+            model.addAttribute("buttonText", "확인");
+            model.addAttribute("redirectUrl", referer);
+
+            return "message";
+
+        }
 
     }
 
@@ -72,6 +89,7 @@ public class BoardController {
         boardwrite.setBoardContent(board.getBoardContent());
         boardwrite.setBoardTitle(board.getBoardTitle());
         boardwrite.setBoardWriterId(board.getBoardWriterId());
+
         List<Integer> boardIdList = objectMapper.readValue(board.getSelNews(), new TypeReference<List<Integer>>() {
         });
         boardIdList.add(0, 0);
@@ -82,7 +100,7 @@ public class BoardController {
         model.addAttribute("title", "알림");
         model.addAttribute("text", "작성이 완료되었습니다.");
         model.addAttribute("buttonText", "확인");
-        model.addAttribute("redirectUrl", "/board/list");
+        // model.addAttribute("redirectUrl", "/board/list");
 
         return "message";
     }

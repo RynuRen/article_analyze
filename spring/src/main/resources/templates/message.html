@@ -16,7 +16,7 @@
             allowOutsideClick: false // 알림창 외부 클릭 방지
         }).then((result) => {
             if (result.isConfirmed) {
-                location.href='[[${redirectUrl}]]'; // 확인 버튼 클릭 시 리다이렉트 URL로 이동
+                location.href='[[${redirectUrl}]]'.replace(/&amp;/g, '&'); // 확인 버튼 클릭 시 리다이렉트 URL로 이동
             }
         });
     </script>
