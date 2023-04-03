@@ -5,7 +5,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Gaagle - 회원 정보</title>
+    <title>연관글비 - 회원 정보</title>
     <link rel="stylesheet" href="/css/search_tables.css">
 </head>
 
@@ -65,8 +65,8 @@
             <thead>
                 <tr>
                     <th>ID</th>
+                    <th>공개</th>
                     <th>제목</th>
-                    <th>글쓴이</th>
                     <th>작성일</th>
                 </tr>
             </thead>
@@ -74,9 +74,16 @@
                 <tr th:each="board : ${response.list}">
                     <td th:text="${board.boardId}"></td>
                     <td>
+                        <th:block th:if="${board.boardPub} == 0">
+                            공개
+                        </th:block>
+                        <th:block th:if="${board.boardPub} == 1">
+                            비공개
+                        </th:block>
+                    </td>
+                    <td>
                         <a th:text="${board.boardTitle}" th:href="@{/board/list/view(id=${board.boardId})}"></a>
                     </td>
-                    <td th:text="${board.nickName}"></td>
                     <td>
                         <th:block th:with="nowDay=${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}">
                             <th:block th:if="${nowDay} == ${#dates.format(board.boardCreateDate, 'yyyy-MM-dd')}">
