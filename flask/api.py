@@ -35,7 +35,7 @@ def build_result_df(news_press, select_news_press, news_id, news_startdate, news
     res = {}
     startdate = ''.join(list(news_startdate.split('-')))
     enddate = ''.join(list(news_enddate.split('-')))
-    startdate, enddate = sorted([startdate, enddate])
+    # startdate, enddate = sorted([startdate, enddate])
     try:
         id_list = get_recommend(news_id, 10, (startdate, enddate), (news_press, select_news_press))
         # if type(id_list) == bool:
@@ -54,7 +54,11 @@ app = Flask(__name__)
 def app_daum():
     query = unquote(request.args.get('query'))
     page = request.args.get('page')
-    res = search_rst(query, page)
+    try:
+        res = search_rst(query, page)
+        res['status'] = 0
+    except IndexError:
+        res['status'] = 4
     return res
 
 @app.route("/search", methods=["GET"])
