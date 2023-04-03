@@ -9,6 +9,10 @@ import com.test.news.dto.Pagination;
 import com.test.news.dto.PagingResponse;
 import com.test.news.dto.NewsForm.serviceReturn;
 import com.test.news.service.NewsService;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -18,22 +22,28 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+@Tag(name = "[@Tag] 뉴스 컨트롤러")
 @Controller
 @RequiredArgsConstructor
 public class NewsController {
     private final NewsService newsService;
 
+    @Operation(summary = "메인 페이지", description = "[@Operation] 메인 화면")
     @GetMapping("/")
     public String main() {
         return "main";
     }
 
+    @Operation(summary = "쿼리 검색", description = "[@Operation] 쿼리 검색 화면")
     @GetMapping("/query_search")
-    public String fsearch(@RequestParam(defaultValue = "1") int pageNum, String query, Model model, HttpServletRequest request) {
+    public String fsearch(
+            @Parameter(name = "pageNum", description = "페이지 번호", example = "1") @RequestParam(defaultValue = "1") int pageNum,
+            @Parameter(name = "query", description = "검색할 내용", example = "검색") String query,
+            Model model, HttpServletRequest request) {
         String referer = request.getHeader("Referer");
 
         PagingResponse<NewsForm.response> queryResponse = newsService.newsHj(pageNum, query);
-        
+
         int status = queryResponse.getStatus();
         if (status == 4) {
             String errorMessage = "검색 결과가 없습니다.";
@@ -56,10 +66,12 @@ public class NewsController {
         return "query_search";
     }
 
+    @Operation(summary = "뉴스 검색", description = "[@Operation] 뉴스 검색 화면")
     @GetMapping("/search")
-    public String search(NewsForm.request newsRequest, Model model,
-            @RequestParam("selectNewsPress") String selectNewsPress, HttpServletRequest request,
-            HttpServletResponse response) throws JsonProcessingException {
+    public String search(
+            @Parameter(name = "newsRequest", description = "검색 뉴스 정보") NewsForm.request newsRequest,
+            @Parameter(name = "selectNewsPress", description = "검색할 언론사", example = "") @RequestParam("selectNewsPress") String selectNewsPress,
+            HttpServletRequest request, HttpServletResponse response, Model model) throws JsonProcessingException {
         String referer = request.getHeader("Referer");
 
         NewsForm.serviceReturn newsRes = new serviceReturn();

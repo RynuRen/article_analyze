@@ -46,7 +46,7 @@ public class MemberController {
             @Parameter(name = "페이지 번호", description = "페이지 번호", example = "1") @RequestParam(defaultValue = "1") int pageNum,
             @Parameter(name = "검색어", description = "검색할 단어", example = "기사") @RequestParam(required = false) String keyword,
             @Parameter(name = "검색타입", description = "검색할 위치", example = "제목") @RequestParam(required = false) String searchType,
-            @Parameter(name = "모델", description = "view에 넘기기 위한 model") Model model) {
+            Model model) {
         PagingResponse<Board> response = memberService.findBoardByMemId(pageNum, keyword, searchType);
 
         model.addAttribute("response", response);
@@ -60,7 +60,7 @@ public class MemberController {
     public String update(
             @Parameter(name = "유저ID", description = "닉네임 변경할 유저ID", example = "1") Long userId,
             @Parameter(name = "닉네임", description = "변경할 닉네임", example = "닉네임") String nickname,
-            @Parameter(name = "모델", description = "view에 넘기기 위한 model") Model model) {
+            Model model) {
         memberService.updateMember(userId, nickname);
 
         model.addAttribute("title", "알림");
@@ -76,7 +76,7 @@ public class MemberController {
     public String delete(
             @Parameter(name = "유저ID", description = "삭제할 유저ID", example = "1") Long userId,
             @Parameter(name = "인증 제공자", description = "인증을 제공한 플렛폼", example = "KAKAO") OAuthProvider oAuthProvider,
-            @Parameter(name = "모델", description = "view에 넘기기 위한 model") Model model) {
+            Model model) {
         memberService.deleteMember(userId, oAuthProvider);
 
         model.addAttribute("title", "알림");
