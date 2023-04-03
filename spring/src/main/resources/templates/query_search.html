@@ -16,10 +16,13 @@
             결과가 뭔지 설명일 필요할듯여...
         </h2>
         <div class="select_start_date" align="right">
-            <div title="선택 기사 기준 이전 기간 검색">
-
-                <h6>기간 선택 <i class="bi bi-info-circle"></i></h6>
-                <input type="radio" id="select5" name="start_date" value="m 1"
+            <div>
+                <span class="tool-tip"><i class="bi bi-info-circle"></i> 기간 선택
+                    <span class="tooltiptext tooltip-top">
+                        선택 기사 기준 이전 기간 검색
+                    </span>
+                </span>
+                <input type="radio" id="select5" name="start_date" value="m 1" checked="checked"
                     onclick="changeStartDate(this.value)"><label for="select5">1개월</label>
                 <input type="radio" id="select4" name="start_date" value="m 3"
                     onclick="changeStartDate(this.value)"><label for="select4">3개월</label>
@@ -27,7 +30,7 @@
                     onclick="changeStartDate(this.value)"><label for="select3">6개월</label>
                 <input type="radio" id="select2" name="start_date" value="y 1"
                     onclick="changeStartDate(this.value)"><label for="select2">1년</label>
-                <input type="radio" id="select1" name="start_date" value="y 2" checked="checked"
+                <input type="radio" id="select1" name="start_date" value="y 2"
                     onclick="changeStartDate(this.value)"><label for="select1">2년</label>
             </div>
         </div>
@@ -42,7 +45,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- newsList를 반복하여 출력 -->
                     <tr th:each="news, iterStat : ${newsList}">
                         <td th:text="${news.newsPress}"></td>
                         <td id="left_aligned_title">
@@ -102,6 +104,8 @@
                 </tbody>
             </table>
         </div>
+        <a href="/" class="btn btn-info mt-3">메인으로</a>
+        <input class="btn btn-info mt-3" type="button" value="뒤로가기" onclick="history.back(-1)">
         <div class="d-flex justify-content-center">
                 <ul class="pagination" onclick="showLoader()">
                     <li th:class="${pageNum == 1} ? 'page-item disabled' : 'page-item'">
@@ -126,7 +130,6 @@
                     </li>
                 </ul>
         </div>
-        <!-- <a href="/" class="btn btn-primary mt-3">메인으로</a> -->
         <!-- 스피너 -->
         <div class="d-none" id="loader"></div>
         <script>

@@ -50,3 +50,49 @@ th {
     background-color: #b4d4ee;
     color: #333;
 }
+
+
+/* tool-tip */
+/* 컨테이너 설정 */
+.tool-tip {
+    position: relative;
+}
+
+/* 툴팁 기본 스타일 설정 */
+.tool-tip .tooltiptext {
+    visibility: hidden;
+    width: 60px;
+    background-color: rgb(226, 226, 226);
+    color: #000000;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+
+    position: absolute;
+    z-index: 1;
+}
+.tool-tip:hover .tooltiptext {
+    visibility: visible;
+}
+
+/* 툴팁 화살표 기본 스타일 설정 */
+.tool-tip .tooltiptext::after {
+    content: " ";
+    position: absolute;
+    border-style: solid;
+    border-width: 5px;
+}
+
+/* 위쪽 툴팁 시작 */
+.tool-tip .tooltip-top {
+    width: 120px;
+    bottom: 150%;
+    left: 50%;
+    margin-left: -60px;
+}
+.tool-tip .tooltip-top::after {
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-color: black transparent transparent transparent;
+}
