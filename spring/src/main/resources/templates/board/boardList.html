@@ -113,6 +113,7 @@
                     <select class="form-select" name="searchType" style="width: auto; ">
                         <option value="title">제목 검색</option>
                         <option value="content">본문 검색</option>
+                        <option value="writer">닉네임</option>
                     </select>
                     <input class="form-control" type="search" placeholder="검색어를 입력하세요" aria-label="Search"
                         name="keyword" style="width: auto; ">
@@ -130,23 +131,27 @@
             <div class="row">
                 <div class="col-sm-12 col-md-6 col-lg-4 mb-4" th:each="board, i : ${list}">
                     <div class="card text-white card-has-bg click-col"
-                    th:style="'background-image:url(\'' + ${newsSrcList[i.index]} + '\');'">
-                        <img id="myImage" class="card-img d-none" th:src="${newsSrcList[{i.index}]}"
-                            alt="None Image">
+                        th:style="'background-image:url(\'' + ${newsSrcList[i.index]} + '\');'">
+                        <img id="myImage" class="card-img d-none" th:src="${newsSrcList[{i.index}]}" alt="None Image">
                         <div class="card-img-overlay d-flex flex-column">
                             <div class="card-body">
                                 <small class="card-meta mb-2">News Timeline</small>
-                                <h4 class="card-title mt-0 "><a class="text-white" th:text="${board.boardTitle}" th:href="@{/board/list/view(id=${board.boardId})}"></a></h4>
-                                <small><i class="far fa-clock" >
-                                    <th:block th:with="nowDay=${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}">
-                                        <th:block th:if="${nowDay} == ${#dates.format(board.boardCreateDate, 'yyyy-MM-dd')}">
-                                            <span th:text="${#dates.format(board.boardCreateDate, 'HH:mm')}"></span>
+                                <h4 class="card-title mt-0 "><a class="text-white" th:text="${board.boardTitle}"
+                                        th:href="@{/board/list/view(id=${board.boardId})}"></a></h4>
+                                <small><i class="far fa-clock">
+                                        <th:block
+                                            th:with="nowDay=${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}">
+                                            <th:block
+                                                th:if="${nowDay} == ${#dates.format(board.boardCreateDate, 'yyyy-MM-dd')}">
+                                                <span th:text="${#dates.format(board.boardCreateDate, 'HH:mm')}"></span>
+                                            </th:block>
+                                            <th:block
+                                                th:unless="${nowDay} == ${#dates.format(board.boardCreateDate, 'yyyy-MM-dd')}">
+                                                <span
+                                                    th:text="${#dates.format(board.boardCreateDate, 'yyyy-MM-dd')}"></span>
+                                            </th:block>
                                         </th:block>
-                                        <th:block th:unless="${nowDay} == ${#dates.format(board.boardCreateDate, 'yyyy-MM-dd')}">
-                                            <span th:text="${#dates.format(board.boardCreateDate, 'yyyy-MM-dd')}"></span>
-                                        </th:block>
-                                    </th:block>
-                                </i> </small>
+                                    </i> </small>
                             </div>
                             <div class="card-footer">
                                 <div class="media">
