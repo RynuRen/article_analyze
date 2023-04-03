@@ -165,8 +165,6 @@ public class NewsServiceImpl implements NewsService {
             // 유사도 순 정렬
             Collections.sort(newsList);
         }
-        // 유사도 순 정렬
-        Collections.sort(newsList);
 
         return newsList;
     }
