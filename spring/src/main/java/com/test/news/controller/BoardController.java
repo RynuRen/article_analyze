@@ -89,6 +89,7 @@ public class BoardController {
         boardwrite.setBoardContent(board.getBoardContent());
         boardwrite.setBoardTitle(board.getBoardTitle());
         boardwrite.setBoardWriterId(board.getBoardWriterId());
+        boardwrite.setBoardPub(board.getBoardPub());
 
         List<Integer> boardIdList = objectMapper.readValue(board.getSelNews(), new TypeReference<List<Integer>>() {
         });
@@ -97,10 +98,12 @@ public class BoardController {
         boardMapper.write(boardwrite);
         boardMapper.putList(boardwrite.getBoardId(), boardIdList, boardNewsComment);
 
+        log.info(board.getBoardPub());
+
         model.addAttribute("title", "알림");
         model.addAttribute("text", "작성이 완료되었습니다.");
         model.addAttribute("buttonText", "확인");
-        // model.addAttribute("redirectUrl", "/board/list");
+        model.addAttribute("redirectUrl", "/board/list");
 
         return "message";
     }
@@ -228,6 +231,7 @@ public class BoardController {
         Board boardTemp = boardMapper.selectById(id);
         boardTemp.setBoardTitle(board.getBoardTitle());
         boardTemp.setBoardContent(board.getBoardContent());
+        boardTemp.setBoardPub(board.getBoardPub());
 
         List<Integer> newsIdList = boardMapper.selectByNewsId(id);
         boardMapper.update(boardTemp);

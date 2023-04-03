@@ -60,17 +60,43 @@
                     <textarea class="form-control" id="content" name="boardContent" rows="5"
                         th:text=${curNews.boardContent} required></textarea>
                 </div>
+                <div th:object="${curNews}">
+                <th:block th:if="${curNews.boardPub == 0}">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="boardPub" id="private" value="1" disabled>
+                    <label class="form-check-label" for="private">
+                      비공개
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="boardPub" id="public" value="0" checked>
+                    <label class="form-check-label" for="public">
+                      공개
+                    </label>
+                  </div>
+                </th:block>
+                <th:block th:if="${curNews.boardPub == 1}">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="boardPub" id="private" value="1" checked disabled>
+                    <label class="form-check-label" for="private">
+                      비공개
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="boardPub" id="public" value="0" >
+                    <label class="form-check-label" for="public">
+                      공개
+                    </label>
+                  </div>
+                </th:block>
+                </div>
                 <button type="submit" class="btn btn-primary" id="write-btn">수정</button>
             </form>
             <a href="/board/list" class="btn btn-secondary">목록으로 돌아가기</a>
         </div>
-        <!-- Bootstrap JS -->
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-        <script>
-         
-        </script>
-    </div>>
+
+   
+  
+    </div>
 
 </html>

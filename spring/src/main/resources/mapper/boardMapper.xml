@@ -19,8 +19,8 @@
     </select>
 
     <insert id="write" parameterType="com.test.news.dto.Board">
-        INSERT INTO board (board_title, board_content, board_writer_id, board_create_date, board_update_date, board_news_press, board_news_title, board_news_link, board_news_date) 
-        VALUES (#{boardTitle}, #{boardContent}, #{boardWriterId}, now() , #{boardUpdateDate}, #{boardNewsPress}, #{boardNewsTitle}, #{boardNewsLink}, #{boardNewsDate})
+        INSERT INTO board (board_title, board_content, board_writer_id, board_create_date, board_update_date, board_news_press, board_news_title, board_news_link, board_news_date, board_pub) 
+        VALUES (#{boardTitle}, #{boardContent}, #{boardWriterId}, now() , #{boardUpdateDate}, #{boardNewsPress}, #{boardNewsTitle}, #{boardNewsLink}, #{boardNewsDate}, #{boardPub})
         <selectKey keyProperty="boardId" order="AFTER" resultType="int">
                 SELECT LAST_INSERT_ID()
         </selectKey>
@@ -37,7 +37,7 @@
     <update id="update" parameterType="com.test.news.dto.Board">
         UPDATE board 
         SET board_title = #{boardTitle}, board_content = #{boardContent}, board_writer_id = #{boardWriterId}, 
-            board_create_date = #{boardCreateDate}, board_update_date = now() 
+            board_create_date = #{boardCreateDate}, board_update_date = now(), board_pub = #{boardPub}
         WHERE board_id = #{boardId}
     </update>
 
