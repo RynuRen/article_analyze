@@ -49,22 +49,29 @@
             연관 뉴스 검색 결과 설명 블라블라
         </h2>
         <div class="select_start_date" align="right">
-            <input type="radio" id="select1" name="start_date" value="y 2" checked="checked"
-                onclick="changeStartDate(this.value)"><label for="select1">2년</label>
-            <input type="radio" id="select2" name="start_date" value="y 1" onclick="changeStartDate(this.value)"><label
-                for="select2">1년</label>
-            <input type="radio" id="select3" name="start_date" value="m 6" onclick="changeStartDate(this.value)"><label
-                for="select3">6개월</label>
-            <input type="radio" id="select4" name="start_date" value="m 3" onclick="changeStartDate(this.value)"><label
-                for="select4">3개월</label>
-            <input type="radio" id="select5" name="start_date" value="m 1" onclick="changeStartDate(this.value)"><label
-                for="select5">1개월</label>
+            <div title="선택 기사 기준 이전 기간 검색">
+                <h6>기간 선택 <i class="bi bi-info-circle"></i></h6>
+                <input type="radio" id="select5" name="start_date" value="m 1"
+                    onclick="changeStartDate(this.value)"><label for="select5">1개월</label>
+                <input type="radio" id="select4" name="start_date" value="m 3"
+                    onclick="changeStartDate(this.value)"><label for="select4">3개월</label>
+                <input type="radio" id="select3" name="start_date" value="m 6"
+                    onclick="changeStartDate(this.value)"><label for="select3">6개월</label>
+                <input type="radio" id="select2" name="start_date" value="y 1"
+                    onclick="changeStartDate(this.value)"><label for="select2">1년</label>
+                <input type="radio" id="select1" name="start_date" value="y 2" checked="checked"
+                    onclick="changeStartDate(this.value)"><label for="select1">2년</label>
+            </div>
         </div>
         <div class="table">
             <table class="table table-striped table-hover">
                 <thead>
                     <tr>
-                        <th>유사</th>
+                        <th title="유사도 설명">유사도 <i class="bi bi-info-circle"></i><br>
+                            <button style="background-color:#EDFBFE; border: solid #FFFFFF; width: 20px; height: 20px; border-radius: 5px;">
+                            <button style="background-color:#b3f1ff; border: solid #FFFFFF; width: 20px; height: 20px; border-radius: 5px;">
+                            <button style="background-color:#37daff; border: solid #FFFFFF; width: 20px; height: 20px; border-radius: 5px;"></button>
+                            </th>
                         <th>언론사</th>
                         <th>제목</th>
                         <th>날짜</th>
@@ -74,15 +81,24 @@
                 <tbody>
                     <tr th:each="news  : ${newsList}">
                         <!-- <td th:text="${#numbers.formatPercent(news.newsSim,2,2)}"></td> -->
-                            <th:block th:if="0.1 > ${news.newsSim}">
-                                <td style="background-color:#EDFBFE; box-shadow: none;"></td>
-                            </th:block>
-                            <th:block th:if="0.3 > ${news.newsSim} and ${news.newsSim} >= 0.1">
-                                <td style="background-color:#b3f1ff; box-shadow: none;"></td>
-                            </th:block>
-                            <th:block th:if="${news.newsSim} >= 0.3">
-                                <td style="background-color:#37daff; box-shadow: none;"></td>
-                            </th:block>
+                        <th:block th:if="0.1 > ${news.newsSim}">
+                            <td>
+                                <button style="background-color:#EDFBFE; 
+                                border: solid #FFFFFF; width: 20px; height: 20px; border-radius: 5px;"></button>
+                            </td>
+                        </th:block>
+                        <th:block th:if="0.3 > ${news.newsSim} and ${news.newsSim} >= 0.1">
+                            <td>
+                                <button style="background-color:#b3f1ff; 
+                                border: solid #FFFFFF; width: 20px; height: 20px; border-radius: 5px;"></button>
+                            </td>
+                        </th:block>
+                        <th:block th:if="${news.newsSim} >= 0.3">
+                            <td>
+                                <button style="background-color:#37daff; 
+                                border: solid #FFFFFF; width: 20px; height: 20px; border-radius: 5px;"></button>
+                            </td>
+                        </th:block>
                         <td th:text="${news.newsPress}"></td>
                         <td id="left_aligned_title">
                             <a href="#" id="myLink[[${index.index}]]" data-bs-toggle="modal"
@@ -162,7 +178,7 @@
         <div class="position-fixed end-0 m-3" style="top: 10%;">
             <button type="button" class="btn btn-info" data-bs-toggle="offcanvas" data-bs-target="#sidebar"
                 style="background: #EDFBFE; border:none; ">
-                <i class="bi bi-box-arrow-left" style="font-size:30pt"></i><br>Selected News
+                <i class="bi bi-bookmark-plus-fill" style="font-size:30pt"></i><br><b>History</b>
             </button>
         </div>
         <div class="offcanvas offcanvas-end" tabindex="-1" id="sidebar">
