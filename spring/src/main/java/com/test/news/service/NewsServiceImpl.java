@@ -163,7 +163,7 @@ public class NewsServiceImpl implements NewsService {
                 newsList.get(i).setNewsSim(idSim.get(newsList.get(i).getNewsId()));
             }
             // 유사도 순 정렬
-            Collections.sort(newsList);
+            // Collections.sort(newsList);
         }
 
         return newsList;

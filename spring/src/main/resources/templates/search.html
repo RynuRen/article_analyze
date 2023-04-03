@@ -64,7 +64,7 @@
             <table class="table table-striped table-hover">
                 <thead>
                     <tr>
-                        <th>유사도</th>
+                        <th>유사</th>
                         <th>언론사</th>
                         <th>제목</th>
                         <th>날짜</th>
@@ -73,7 +73,16 @@
                 </thead>
                 <tbody>
                     <tr th:each="news  : ${newsList}">
-                        <td th:text="${#numbers.formatPercent(news.newsSim,2,2)}"></td>
+                        <!-- <td th:text="${#numbers.formatPercent(news.newsSim,2,2)}"></td> -->
+                            <th:block th:if="0.1 > ${news.newsSim}">
+                                <td style="background-color:#EDFBFE; box-shadow: none;"></td>
+                            </th:block>
+                            <th:block th:if="0.3 > ${news.newsSim} and ${news.newsSim} >= 0.1">
+                                <td style="background-color:#b3f1ff; box-shadow: none;"></td>
+                            </th:block>
+                            <th:block th:if="${news.newsSim} >= 0.3">
+                                <td style="background-color:#37daff; box-shadow: none;"></td>
+                            </th:block>
                         <td th:text="${news.newsPress}"></td>
                         <td id="left_aligned_title">
                             <a href="#" id="myLink[[${index.index}]]" data-bs-toggle="modal"
