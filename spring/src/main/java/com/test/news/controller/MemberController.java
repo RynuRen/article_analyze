@@ -1,5 +1,7 @@
 package com.test.news.controller;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.test.news.dto.Board;
 import com.test.news.dto.PagingResponse;
+import com.test.news.oauth2.CustomUserDetails;
 import com.test.news.oauth2.provider.OAuthProvider;
 import com.test.news.service.MemberService;
 
@@ -16,6 +19,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 @Tag(name = "[@Tag] 유저 컨트롤러")
@@ -33,6 +37,34 @@ public class MemberController {
         request.getSession().setAttribute("prevPage", referer);
         return "user/login";
     }
+
+    @Operation(summary = "로그인 성공 페이지", description = "[@Operation] 로그인 성공 처리")
+    @GetMapping("/loginSuccess")
+    public String loginSucess(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        String redirectUrl = "";
+        String message = "";
+        if (session != null) {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            CustomUserDetails user = (CustomUserDetails) authentication.getPrincipal();
+            String nickname = user.getNickname();
+            redirectUrl = (String) session.getAttribute("prevPage");
+            message = "어서오세요 " + nickname + " 님";
+            if (redirectUrl != null) {
+                session.removeAttribute("prevPage");
+            } else {
+                redirectUrl = "/";
+            }
+        } else {
+            redirectUrl = "/";
+        }
+        model.addAttribute("title", "알림");
+        model.addAttribute("text", message);
+        model.addAttribute("buttonText", "확인");
+        model.addAttribute("redirectUrl", redirectUrl);
+
+        return "message";
+}
 
     @Operation(summary = "접근 제한", description = "[@Operation] 접근 제한 화면")
     @GetMapping("/denied")

@@ -51,7 +51,8 @@ public class SecurityConfig {
                                 .formLogin(formlogin -> formlogin.disable())
                                 .oauth2Login(login -> login
                                                 .loginPage("/user/denied")
-                                                .successHandler(new LoginSuccessHandler("/"))
+                                                .defaultSuccessUrl("/user/loginSuccess")
+                                                // .successHandler(new LoginSuccessHandler("/"))
                                                 // .failureUrl("/user/login")
                                                 .authorizationEndpoint()
                                                 .baseUri("/oauth2/authorize")
