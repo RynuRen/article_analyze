@@ -7,14 +7,6 @@
     <meta charset="UTF-8">
     <title>Board List</title>
     <style>
-        body {
-            /* Created with https://www.css-gradient.com */
-            background: #23EC55;
-            background: -webkit-radial-gradient(top right, #23EC55, #2D51C1);
-            background: -moz-radial-gradient(top right, #23EC55, #2D51C1);
-            background: radial-gradient(to bottom left, #23EC55, #2D51C1);
-        }
-
         .wrapper {
             margin: 10vh;
         }
@@ -55,11 +47,11 @@
             bottom: 0;
             left: 0;
             background: inherit;
-            -webkit-filter: grayscale(1);
-            -moz-filter: grayscale(100%);
-            -ms-filter: grayscale(100%);
-            -o-filter: grayscale(100%);
-            filter: grayscale(100%);
+            -webkit-filter: grayscale(0);
+            -moz-filter: grayscale(0);
+            -ms-filter: grayscale(0);
+            -o-filter: grayscale(0);
+            filter: grayscale(0);
         }
 
         .card.card-has-bg:hover {
@@ -140,8 +132,8 @@
                 <div class="col-sm-12 col-md-6 col-lg-4 mb-4" th:each="board, i : ${list}">
                     <div class="card text-white card-has-bg click-col"
                     th:style="'background-image:url(\'' + ${newsSrcList[i.index]} + '\');'">
-                        <img class="card-img d-none" th:src="${newsSrcList[{i.index}]}"
-                            alt="Goverment Lorem Ipsum Sit Amet Consectetur dipisi?">
+                        <img id="myImage" class="card-img d-none" th:src="${newsSrcList[{i.index}]}"
+                            alt="None Image">
                         <div class="card-img-overlay d-flex flex-column">
                             <div class="card-body">
                                 <small class="card-meta mb-2">News Timeline</small>
@@ -161,7 +153,7 @@
                                 <div class="media">
                                     <img class="mr-3 rounded-circle"
                                         src="https://dimg.donga.com/wps/NEWS/IMAGE/2021/01/08/104838738.2.jpg"
-                                        alt="Generic placeholder image" style="max-width:50px">
+                                        alt="None Image" style="max-width:50px">
                                     <div class="media-body">
                                         <h6 class="my-0 text-white d-block" th:text="${board.nickName}"></h6>
                                         <small th:text="${board.boardId}"></small>
@@ -245,6 +237,7 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
 </div>
+
 
 
 </html>

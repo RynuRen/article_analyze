@@ -175,7 +175,6 @@ public class NewsServiceImpl implements NewsService {
             throws JsonProcessingException {
         NewsForm.serviceReturn serviceReturn = new NewsForm.serviceReturn();
         String newsHistoryStr = newsRequest.getNewsHistory();
-        // 검색 결과에 뉴스 id 갱신
 
         NewsForm.historyForm newsHistoryForm = objectMapper.readValue(newsHistoryStr, NewsForm.historyForm.class);
         List<Integer> idList = newsHistoryForm.getIdList();

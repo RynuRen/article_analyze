@@ -70,7 +70,7 @@
     </select>
 
     <select id="searchBoardList" parameterType="hashmap" resultType="com.test.news.dto.Board">
-        SELECT board_id, board_title, board_content, board_writer_id, board_create_date, board_update_date, B.board_news_link
+        SELECT board_id, board_title, board_content, board_writer_id, board_create_date, board_update_date, board_news_link
         FROM board
         <where>
             <if test="searchType != null">
