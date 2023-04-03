@@ -12,14 +12,12 @@ import com.test.news.service.NewsService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@Log4j2
 @Controller
 @RequiredArgsConstructor
 public class NewsController {
@@ -31,9 +29,22 @@ public class NewsController {
     }
 
     @GetMapping("/query_search")
-    public String fsearch(@RequestParam(defaultValue = "1") int pageNum, String query, Model model) {
-        PagingResponse<NewsForm.response> queryResponse = newsService.newsHj(pageNum, query);
+    public String fsearch(@RequestParam(defaultValue = "1") int pageNum, String query, Model model, HttpServletRequest request) {
+        String referer = request.getHeader("Referer");
 
+        PagingResponse<NewsForm.response> queryResponse = newsService.newsHj(pageNum, query);
+        
+        int status = queryResponse.getStatus();
+        if (status == 4) {
+            String errorMessage = "검색 결과가 없습니다.";
+
+            model.addAttribute("title", "알림");
+            model.addAttribute("text", errorMessage);
+            model.addAttribute("buttonText", "확인");
+            model.addAttribute("redirectUrl", referer);
+
+            return "message";
+        }
         List<NewsForm.response> newsList = queryResponse.getList();
         Pagination pagination = queryResponse.getPagination();
         pagination = new Pagination(pagination.getPageCount(), pageNum);

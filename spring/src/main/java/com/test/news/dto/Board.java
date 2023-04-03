@@ -18,6 +18,7 @@ public class Board {
     private String boardNewsLink;
     private LocalDate boardNewsDate;
     private String nickName;
+    private int boardPub;
     private String curNews;
     private String selNews;
 

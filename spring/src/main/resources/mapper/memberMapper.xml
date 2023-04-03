@@ -29,7 +29,7 @@
         AND board_del = 0;
     </select>
     <select id="findBoardByMemId" resultType="com.test.news.dto.Board">
-        SELECT board_id, board_title, board_create_date
+        SELECT board_id, board_pub, board_title, board_create_date
         FROM board
         WHERE board_writer_id = #{userId} AND board_del = 0
         ORDER BY board_id DESC
@@ -43,7 +43,7 @@
         AND board_title LIKE CONCAT('%', #{keyword}, '%');
     </select>
     <select id="findBoardByMemIdByKeyword" resultType="com.test.news.dto.Board">
-        SELECT board_id, board_title, board_create_date
+        SELECT board_id, board_pub, board_title, board_create_date
         FROM board
         <where>
             board_writer_id = #{userId} AND board_del = 0

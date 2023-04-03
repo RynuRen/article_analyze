@@ -4,7 +4,8 @@
       <a class="navbar-brand" href="/"><b>Gaagle</b></a>
       <form class="d-flex" role="search" th:action="@{/query_search}" method="get" onsubmit="showLoader()">
         <input class="form-control me-2" name="query" type="text" placeholder="Daum 뉴스 검색" aria-label="Search">
-        <button class="btn btn-primary opacity-50" type="submit" style="font-size:20px;"><i class="bi bi-search"></i></button>
+        <button class="btn btn-primary opacity-50" type="submit" style="font-size:20px;"><i
+            class="bi bi-search"></i></button>
 
       </form>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -13,27 +14,28 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link" th:href="@{/board/list}"
-            style="background-color:#ffffff; border-radius:5px; color:#3d4042; margin-left: 10px; opacity:90%; "><b>게시판</b></a>
-          </li>
           <div class="ms-auto d-flex">
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/board/list}"
+                style="background-color:#ffffff; border-radius:5px; color:#3d4042; margin-left: 10px; opacity:90%; "><b>게시판</b></a>
+            </li>
             <th:block sec:authorize="isAnonymous()">
               <li class="nav-item">
                 <a class="nav-link" th:href="@{/user/login}"
-                style="background-color:#ffffff; border-radius:5px; color:#3d4042; margin-left: 10px; opacity:90%; "><b>로그인</b></a>
+                  style="background-color:#ffffff; border-radius:5px; color:#3d4042; margin-left: 10px; opacity:90%; "><b>로그인</b></a>
               </li>
             </th:block>
             <th:block sec:authorize="isAuthenticated()">
               <li class="nav-item">
                 <a class="nav-link" th:href="@{/user/info}"
-                style="background-color:#ffffff; border-radius:5px; color:#3d4042; margin-left: 10px; opacity:90%; " ><b>내 정보</b></a>
+                  style="background-color:#ffffff; border-radius:5px; color:#3d4042; margin-left: 10px; opacity:90%; "><b>내
+                    정보</b></a>
               </li>
             </th:block>
             <th:block sec:authorize="isAuthenticated()">
               <li class="nav-item">
                 <a class="nav-link" th:href="@{/user/logout}" onclick="return confirm('로그아웃 하시겠습니까?')"
-                style="background-color:#ffffff; border-radius:5px; color:#3d4042; margin-left: 10px; opacity:90%; "><b>로그아웃</b></a>
+                  style="background-color:#ffffff; border-radius:5px; color:#3d4042; margin-left: 10px; opacity:90%; "><b>로그아웃</b></a>
               </li>
             </th:block>
           </div>
@@ -41,4 +43,10 @@
       </div>
     </div>
   </nav>
-</div>
+  <!-- 스피너 -->
+  <div class="d-none" id="loader"></div>
+  <script>
+    function showLoader() {
+      document.getElementById("loader").classList.remove("d-none");
+    }
+  </script> <!-- 스피너 -->

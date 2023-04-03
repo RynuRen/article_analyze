@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 public class PagingResponse<T> {
     private List<T> list = new ArrayList<>();
     private Pagination pagination;
+    private int status;
 
     public PagingResponse(List<T> list, Pagination pagination) {
         this.list = list;

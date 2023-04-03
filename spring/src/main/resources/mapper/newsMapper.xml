@@ -14,7 +14,7 @@
             <foreach collection="list" item="item" separator=",">
                 #{item}
             </foreach>
-        )
+        ) ORDER BY news_date DESC;
     </select>
     <select id="findHisAll" parameterType="java.util.List" resultMap="findAllMap">
         <!-- SELECT s.news_id, p.press_name, s.news_title, s.news_date, s.news_link FROM society s JOIN press p USING(press_id) WHERE news_id IN( -->
