@@ -14,11 +14,11 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link" th:href="@{/board/list}"
-              style="background-color:#ffffff; border-radius:5px; color:#3d4042; margin-left: 10px; opacity:90%; "><b>게시판</b></a>
-          </li>
           <div class="ms-auto d-flex">
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/board/list}"
+                style="background-color:#ffffff; border-radius:5px; color:#3d4042; margin-left: 10px; opacity:90%; "><b>게시판</b></a>
+            </li>
             <th:block sec:authorize="isAnonymous()">
               <li class="nav-item">
                 <a class="nav-link" th:href="@{/user/login}"
