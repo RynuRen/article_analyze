@@ -27,7 +27,7 @@ public class SecurityConfig {
                         "PropertySource", "/", "/main", // 메인
                         "/v3/api-docs/**", "/swagger-ui/**", // swagger util
                         "/query_search", "/search", // 검색 페이지
-                        "/user/denied", "/board/list/**", "/user/login"
+                        "/user/denied", "/board/list/**", "/user/login", "/favicon.ico"
 
         };
 
