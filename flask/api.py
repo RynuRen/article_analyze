@@ -35,6 +35,8 @@ def build_result_df(news_press, select_news_press, news_id, news_startdate, news
     res = {}
     startdate = ''.join(list(news_startdate.split('-')))
     enddate = ''.join(list(news_enddate.split('-')))
+    if int(startdate) < 20200101:
+        startdate = "20200101"
     # startdate, enddate = sorted([startdate, enddate])
     try:
         id_list = get_recommend(news_id, 10, (startdate, enddate), (news_press, select_news_press))
