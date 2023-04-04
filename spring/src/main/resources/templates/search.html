@@ -164,7 +164,7 @@
                                     <input type="hidden" name="newsLink" th:value="${news.newsLink}" />
                                     <input type="hidden" name="newsPress" th:value="${news.newsPress}" />
                                     <input type="hidden" name="newsStartDate"
-                                        th:value="${#temporals.format(news.newsDate.minusYears(2), 'yyyy-MM-dd')}" />
+                                        th:value="${#temporals.format(news.newsDate.minusMonths(1), 'yyyy-MM-dd')}" />
                                     <input type="hidden" name="newsEndDate"
                                         th:value="${#temporals.format(news.newsDate.minusDays(1), 'yyyy-MM-dd')}" />
                                     <input type="hidden" name="newsHistory" th:value="${newsHistory}" />
