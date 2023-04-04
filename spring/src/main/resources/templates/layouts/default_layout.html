@@ -4,6 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <th:block th:replace="~{fragments/header :: headerFg}"></th:block>
+    <style>
+           .form-control:focus {
+            border-color: #ced4da;
+            /* 클릭한 검색창의 테두리 색상을 변경 */
+            box-shadow: none;
+            /* 기존의 박스 쉐도우 스타일을 제거 */
+        }
+        .form-select:focus {
+            border-color: #ced4da;
+            /* 클릭한 검색창의 테두리 색상을 변경 */
+            box-shadow: none;
+            /* 기존의 박스 쉐도우 스타일을 제거 */
+        }
+        </style>
 </head>
 
 <body>
