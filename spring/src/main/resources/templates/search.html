@@ -52,7 +52,8 @@
             <div>
                 <span class="tool-tip">기간 선택 <i class="bi bi-info-circle"></i>
                     <span class="tooltiptext tooltip-top">
-                        선택 기사 기준 이전 기간 검색
+                        선택 기사를 기준으로 
+                        이전 기간 검색
                     </span>
                 </span>
                 <input type="radio" id="select5" name="start_date" value="m 1" checked="checked"
@@ -73,11 +74,13 @@
                     <tr>
                         <th class="tool-tip">유사도 <i class="bi bi-info-circle"></i>
                             <span class="tooltiptext tooltip-top">
-                                <button style="background-color:#EDFBFE; border: solid #FFFFFF; width: 20px; height: 20px; border-radius: 5px;">
-                                <button style="background-color:#b3f1ff; border: solid #FFFFFF; width: 20px; height: 20px; border-radius: 5px;">
-                                <button style="background-color:#b3f1ff; border: solid #FFFFFF; width: 20px; height: 20px; border-radius: 5px;">
-                                <button style="background-color:#b3f1ff; border: solid #FFFFFF; width: 20px; height: 20px; border-radius: 5px;">
-                                <button style="background-color:#37daff; border: solid #FFFFFF; width: 20px; height: 20px; border-radius: 5px;"></button>
+                                ←낮음 　 높음→
+                                <br>
+                                <button style="background-color:#cce5ff; border: solid 1px #FFFFFF; width: 20px; height: 20px; border-radius: 5px;">
+                                <button style="background-color:#99ccff; border: solid 1px #FFFFFF; width: 20px; height: 20px; border-radius: 5px;">
+                                <button style="background-color:#66b2ff; border: solid 1px #FFFFFF; width: 20px; height: 20px; border-radius: 5px;">
+                                <button style="background-color:#3399ff; border: solid 1px #FFFFFF; width: 20px; height: 20px; border-radius: 5px;">
+                                <button style="background-color:#0080ff; border: solid 1px #FFFFFF; width: 20px; height: 20px; border-radius: 5px;"></button>
                             </span>
                         </th>
                         <th>언론사</th>
@@ -90,32 +93,32 @@
                     <tr th:each="news  : ${newsList}">
                         <th:block th:if="0.2 > ${news.newsSim}">
                             <td>
-                                <button style="background-color:#EDFBFE; 
-                                border: solid #FFFFFF; width: 20px; height: 20px; border-radius: 5px;"></button>
+                                <button style="background-color:#cce5ff; 
+                                border: solid 1px #FFFFFF; width: 30px; height: 30px; border-radius: 5px;"></button>
                             </td>
                         </th:block>
                         <th:block th:if="0.4 > ${news.newsSim} and ${news.newsSim} >= 0.2">
                             <td>
-                                <button style="background-color:#b3f1ff; 
-                                border: solid #FFFFFF; width: 20px; height: 20px; border-radius: 5px;"></button>
+                                <button style="background-color:#99ccff; 
+                                border: solid 1px #FFFFFF; width: 30px; height: 30px; border-radius: 5px;"></button>
                             </td>
                         </th:block>
                         <th:block th:if="0.6 > ${news.newsSim} and ${news.newsSim} >= 0.4">
                             <td>
-                                <button style="background-color:#b3f1ff; 
-                                border: solid #FFFFFF; width: 20px; height: 20px; border-radius: 5px;"></button>
+                                <button style="background-color:#66b2ff; 
+                                border: solid 1px #FFFFFF; width: 30px; height: 30px; border-radius: 5px;"></button>
                             </td>
                         </th:block>
                         <th:block th:if="0.8 > ${news.newsSim} and ${news.newsSim} >= 0.6">
                             <td>
-                                <button style="background-color:#b3f1ff; 
-                                border: solid #FFFFFF; width: 20px; height: 20px; border-radius: 5px;"></button>
+                                <button style="background-color:#3399ff; 
+                                border: solid 1px #FFFFFF; width: 30px; height: 30px; border-radius: 5px;"></button>
                             </td>
                         </th:block>
                         <th:block th:if="${news.newsSim} >= 0.8">
                             <td>
-                                <button style="background-color:#37daff; 
-                                border: solid #FFFFFF; width: 20px; height: 20px; border-radius: 5px;"></button>
+                                <button style="background-color:#0080ff; 
+                                border: solid 1px #FFFFFF; width: 30px; height: 30px; border-radius: 5px;"></button>
                             </td>
                         </th:block>
                         <td th:text="${news.newsPress}"></td>

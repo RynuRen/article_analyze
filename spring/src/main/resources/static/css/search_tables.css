@@ -62,12 +62,11 @@ th {
 .tool-tip .tooltiptext {
     visibility: hidden;
     width: 60px;
-    background-color: rgb(226, 226, 226);
+    background-color: rgba(236, 236, 236, 0.9);
     color: #000000;
     text-align: center;
     border-radius: 6px;
     padding: 5px 0;
-
     position: absolute;
     z-index: 1;
 }
@@ -85,7 +84,7 @@ th {
 
 /* 위쪽 툴팁 시작 */
 .tool-tip .tooltip-top {
-    width: 120px;
+    width: 160px;
     bottom: 150%;
     left: 50%;
     margin-left: -60px;
