@@ -11,6 +11,12 @@
 
     <style>
         /* 히스토리 사이드바 */
+
+        .btn-outline-info {
+            border-color: #b4d4ee;
+            color: #000000;
+        }
+
         .timeline {
             border-left: 1px solid hsl(0, 0%, 90%);
             position: relative;
@@ -76,11 +82,16 @@
                             <span class="tooltiptext tooltip-top">
                                 ←낮음 　 높음→
                                 <br>
-                                <button style="background-color:#cce5ff; border: solid 1px #FFFFFF; width: 20px; height: 20px; border-radius: 5px;">
-                                <button style="background-color:#99ccff; border: solid 1px #FFFFFF; width: 20px; height: 20px; border-radius: 5px;">
-                                <button style="background-color:#66b2ff; border: solid 1px #FFFFFF; width: 20px; height: 20px; border-radius: 5px;">
-                                <button style="background-color:#3399ff; border: solid 1px #FFFFFF; width: 20px; height: 20px; border-radius: 5px;">
-                                <button style="background-color:#0080ff; border: solid 1px #FFFFFF; width: 20px; height: 20px; border-radius: 5px;"></button>
+                                <button
+                                    style="background-color:#cce5ff; border: solid 1px #FFFFFF; width: 20px; height: 20px; border-radius: 5px;">
+                                    <button
+                                        style="background-color:#99ccff; border: solid 1px #FFFFFF; width: 20px; height: 20px; border-radius: 5px;">
+                                        <button
+                                            style="background-color:#66b2ff; border: solid 1px #FFFFFF; width: 20px; height: 20px; border-radius: 5px;">
+                                            <button
+                                                style="background-color:#3399ff; border: solid 1px #FFFFFF; width: 20px; height: 20px; border-radius: 5px;">
+                                                <button
+                                                    style="background-color:#0080ff; border: solid 1px #FFFFFF; width: 20px; height: 20px; border-radius: 5px;"></button>
                             </span>
                         </th>
                         <th>언론사</th>
@@ -172,32 +183,32 @@
                                         th:value="${#temporals.format(news.newsDate.minusDays(1), 'yyyy-MM-dd')}" />
                                     <input type="hidden" name="newsHistory" th:value="${newsHistory}" />
                                     <button type="submit" class="btn btn-info btn-sm"
-                                        style="background: #b4d4ee; border:none;">Search</button>
+                                        style="background: #b4d4ee; border:none; font-weight: 700; color: #ffffff;">검색</button>
                                 </form>
                             </th:block>
                             <th:block
-                            th:if="${#temporals.format(news.newsDate.minusDays(1), 'yyyy-MM-dd') &lt; '2020-01-01'}">
-                            <form action="/search" method="get" onsubmit="showLoader()">
-                                <select class="form-select form-select-sm" name="selectNewsPress" required
-                                style="width: auto; display: inline;">
-                                <option value="" selected disabled>언론사 선택</option>
-                                <option value="" th:selected="${news.newsPress == '경향신문'}">기간종료</option>
-                            <input type="hidden" name="newsId" th:value="${news.newsId}" />
-                            <input type="hidden" name="newsHistory" th:value="${newsHistory}" />
-                            <input type="hidden" name="newsEndDate"
-                                th:value="${#temporals.format(news.newsDate.minusDays(1), 'yyyy-MM-dd')}" />
-                            <input type="hidden" name="selectNewsPress" th:value="${news.newsPress}" />
-                            <button type="submit" class="btn btn-info btn-sm"
-                                style="background: #b4d4ee; border:none;">Add</button>
-                            </form>
-                        </th:block>
+                                th:if="${#temporals.format(news.newsDate.minusDays(1), 'yyyy-MM-dd') &lt; '2020-01-01'}">
+                                <form action="/search" method="get" onsubmit="showLoader()">
+                                    <select class="form-select form-select-sm" name="selectNewsPress" required
+                                        style="width: auto; display: inline;">
+                                        <option value="" selected disabled>언론사 선택</option>
+                                        <option value="" th:selected="${news.newsPress == '경향신문'}">기간종료</option>
+                                        <input type="hidden" name="newsId" th:value="${news.newsId}" />
+                                        <input type="hidden" name="newsHistory" th:value="${newsHistory}" />
+                                        <input type="hidden" name="newsEndDate"
+                                            th:value="${#temporals.format(news.newsDate.minusDays(1), 'yyyy-MM-dd')}" />
+                                        <input type="hidden" name="selectNewsPress" th:value="${news.newsPress}" />
+                                        <button type="submit" class="btn btn-info btn-sm"
+                                            style="background: #b4d4ee; border:none; font-weight: 700; color: #ffffff;">추가</button>
+                                </form>
+                            </th:block>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
-        <a href="/" class="btn btn-info mt-3">메인으로</a>
-        <input class="btn btn-info mt-3" type="button" value="뒤로가기" onclick="history.back(-1)">
+        <a href="/" class="btn btn-outline-info">메인으로</a>
+        <input class="btn btn-outline-info float-end" type="button" value="뒤로가기" onclick="history.back(-1)">
         <div class="position-fixed end-0 m-3" style="top: 10%;">
             <button type="button" class="btn btn-info" data-bs-toggle="offcanvas" data-bs-target="#sidebar"
                 style="background: #EDFBFE; border:none; ">
@@ -234,8 +245,7 @@
                                     </p>
                                 </li>
                             </ul>
-                            <form class="inline-block" action="/user/login" method="get"
-                                sec:authorize="isAnonymous()">
+                            <form class="inline-block" action="/user/login" method="get" sec:authorize="isAnonymous()">
                                 로그인해서 게시글로 남겨보세요<br>
                                 <button type="submit" class="btn btn-info mt-3"
                                     style="background: #b4d4ee; border:none;">로그인</button>
@@ -263,7 +273,7 @@
 
             /*[# th:each="news : ${newsList}"]*/
             var stt = /*[[${news.newsDate}]]*/
-            stt = stt.split("-");
+                stt = stt.split("-");
             var newsDate = new Date(stt[0], stt[1], stt[2]);
             newsDateList.push(newsDate);
             /*[/]*/
