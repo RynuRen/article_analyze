@@ -220,6 +220,11 @@
             <div class="card-header">
                 <h2 th:text="${curNews.boardTitle}"></h2>
             </div>
+            <div class="card-body">
+                <p><strong>작성자:</strong> <span th:text="${curNews.boardWriterId}"></span></p>
+                <p style="text-align: right;"><strong>작성일:</strong> <span th:text="${#dates.format(curNews.boardCreateDate, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
+                <p style="text-align: right;"><strong>수정일:</strong> <span th:text="${#dates.format(curNews.boardUpdateDate, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
+            </div>
             <div class="container mt-4">
                 <div class="timeline-container" id="timeline-1">
                     <div class="timeline-header">
@@ -227,7 +232,7 @@
                         <h3 class="timeline-header__subtitle">News Timeline</h3>
                     </div>
                     <div class="timeline">
-                        <div class=" timeline-item" data-text="NEWS ARTICLE" th:each="newSrc, i  : ${newsSrcList}">
+                        <div class=" timeline-item" data-text="" th:each="newSrc, i  : ${newsSrcList}">
                             <div class="timeline__content">
                                 <img class="timeline__img" th:src="${newSrc}" />
                                 <h2 class="timeline__content-desc1" th:text="${#temporals.format(history[{i.index}].newsDate, 'yyyy년MM월dd일')}"></h2>
@@ -242,9 +247,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="demo-footer">
-                    <a href="http://www.turkishnews.com/Ataturk/life.htm" target="_blank">Source/Kaynak</a>
                 </div>
             </div>
             <div th:each="newSrc, i  : ${newsSrcList}">
@@ -264,24 +266,18 @@
                     </div>
                 </div>
             </div>
-
-
-            <div class="card-body">
-                <p th:text="${curNews.boardContent}"></p>
-                <p><strong>Writer:</strong> <span th:text="${curNews.boardWriterId}"></span></p>
-                <p><strong>Created Date:</strong> <span th:text="${curNews.boardCreateDate}"></span></p>
-                <p><strong>Updated Date:</strong> <span th:text="${curNews.boardUpdateDate}"></span></p>
+            <div class="card-body">              
+                <p th:utext="${curNews.boardContent}" style="white-space:pre; height:300px"></p>
             </div>
-
             <div class="card-footer text-right">
-                <a href="/board/list" class="btn btn-secondary">Back to List</a>
+                <a href="/board/list" class="btn btn-secondary">목록으로</a>
                 <th:block sec:authorize="isAuthenticated()">
                 <th:block th:if="${curNews.boardWriterId} == ${#authentication.principal.userId}">
-                    <a th:href="@{/board/modify/{id}(id=${curNews.boardId})}" class="btn btn-primary">Update</a>
+                    <a th:href="@{/board/modify/{id}(id=${curNews.boardId})}" class="btn btn-primary">수정</a>
                     <form method="post" th:action="@{/board/delete}" class="d-inline-block">
                         <input type="hidden" name="id" th:value="${curNews.boardId}" />
                         <button type="submit" class="btn btn-danger"
-                            onclick="return confirm('정말로 글을 삭제하시겠습니까?')">Delete</button>
+                            onclick="return confirm('정말로 글을 삭제하시겠습니까?')">삭제</button>
                     </form>
                 </th:block>
             </th:block>

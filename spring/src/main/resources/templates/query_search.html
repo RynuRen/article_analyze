@@ -9,11 +9,11 @@
     <link rel="stylesheet" href="/css/search_tables.css">
 
     <style>
-.btn-outline-info {
-  border-color: #b4d4ee;
-  color: #000000;
-}
-        </style>
+        .btn-outline-info {
+            border-color: #b4d4ee;
+            color: #000000;
+        }
+    </style>
 </head>
 
 <div layout:fragment="content">
@@ -116,28 +116,27 @@
         <a href="/" class="btn btn-outline-info">메인으로</a>
         <input class="btn btn-outline-info float-end" type="button" value="뒤로가기" onclick="history.back(-1)">
         <div class="d-flex justify-content-center">
-                <ul class="pagination" onclick="showLoader()">
-                    <li th:class="${pageNum == 1} ? 'page-item disabled' : 'page-item'">
-                        <a class="page-link" th:href="@{/query_search(pageNum=1, query=${query})}">First</a>
+            <ul class="pagination" onclick="showLoader()">
+                <li th:class="${pageNum == 1} ? 'page-item disabled' : 'page-item'">
+                    <a class="page-link" th:href="@{/query_search(pageNum=1, query=${query})}">First</a>
+                </li>
+                <li th:class="${pageNum == 1} ? 'page-item disabled' : 'page-item'">
+                    <a class="page-link" th:href="@{/query_search(pageNum=${pageNum - 1}, query=${query})}">Previous</a>
+                </li>
+                <th:block th:each="page : ${#numbers.sequence(pagination.startPage, pagination.endPage)}">
+                    <li th:class="${pageNum == page} ? 'page-item active' : 'page-item'">
+                        <a class="page-link" th:href="@{/query_search(pageNum=${page}, query=${query})}"
+                            th:text="${page}"></a>
                     </li>
-                    <li th:class="${pageNum == 1} ? 'page-item disabled' : 'page-item'">
-                        <a class="page-link"
-                            th:href="@{/query_search(pageNum=${pageNum - 1}, query=${query})}">Previous</a>
-                    </li>
-                    <th:block th:each="page : ${#numbers.sequence(pagination.startPage, pagination.endPage)}">
-                        <li th:class="${pageNum == page} ? 'page-item active' : 'page-item'">
-                            <a class="page-link" th:href="@{/query_search(pageNum=${page}, query=${query})}"
-                                th:text="${page}"></a>
-                        </li>
-                    </th:block>
-                    <li th:class="${pageNum == pagination.pageCount} ? 'page-item disabled' : 'page-item'">
-                        <a class="page-link" th:href="@{/query_search(pageNum=${pageNum + 1}, query=${query})}">Next</a>
-                    </li>
-                    <li th:class="${pageNum == pagination.pageCount} ? 'page-item disabled' : 'page-item'">
-                        <a class="page-link"
-                            th:href="@{/query_search(pageNum=${pagination.pageCount}, query=${query})}">Last</a>
-                    </li>
-                </ul>
+                </th:block>
+                <li th:class="${pageNum == pagination.pageCount} ? 'page-item disabled' : 'page-item'">
+                    <a class="page-link" th:href="@{/query_search(pageNum=${pageNum + 1}, query=${query})}">Next</a>
+                </li>
+                <li th:class="${pageNum == pagination.pageCount} ? 'page-item disabled' : 'page-item'">
+                    <a class="page-link"
+                        th:href="@{/query_search(pageNum=${pagination.pageCount}, query=${query})}">Last</a>
+                </li>
+            </ul>
         </div>
         <!-- 스피너 -->
         <div class="d-none" id="loader"></div>
@@ -147,7 +146,7 @@
             }
         </script><!-- 스피너 -->
         <!-- 상대기간 설정 -->
-            <script th:inline="javascript">
+        <script th:inline="javascript">
             let newsDateList = new Array();
 
             /*[# th:each="news : ${newsList}"]*/

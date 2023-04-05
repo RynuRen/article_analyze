@@ -233,6 +233,8 @@ public class BoardController {
         boardTemp.setBoardContent(board.getBoardContent());
         boardTemp.setBoardPub(board.getBoardPub());
 
+        log.info(board.getBoardPub());
+        log.info(boardTemp.getBoardPub());
         List<Integer> newsIdList = boardMapper.selectByNewsId(id);
         boardMapper.update(boardTemp);
         boardMapper.updateComment(boardComment, id, newsIdList);
