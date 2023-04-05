@@ -101,10 +101,10 @@
             <nav>
                 <ul class="pagination">
                     <li th:class="${pageNum == 1} ? 'page-item disabled' : 'page-item'">
-                        <a class="page-link" th:href="@{/user/info(pageNum=1)}">First</a>
+                        <a class="page-link" th:href="@{/user/info(pageNum=1)}">처음</a>
                     </li>
                     <li th:class="${pageNum == 1} ? 'page-item disabled' : 'page-item'">
-                        <a class="page-link" th:href="@{/user/info(pageNum=${pageNum - 1})}">Previous</a>
+                        <a class="page-link" th:href="@{/user/info(pageNum=${pageNum - 1})}">이전</a>
                     </li>
                     <th:block
                         th:each="page : ${#numbers.sequence(response.pagination.startPage, response.pagination.endPage)}">
@@ -113,10 +113,10 @@
                         </li>
                     </th:block>
                     <li th:class="${pageNum == response.pagination.pageCount} ? 'page-item disabled' : 'page-item'">
-                        <a class="page-link" th:href="@{/user/info(pageNum=${pageNum + 1})}">Next</a>
+                        <a class="page-link" th:href="@{/user/info(pageNum=${pageNum + 1})}">다음</a>
                     </li>
                     <li th:class="${pageNum == response.pagination.pageCount} ? 'page-item disabled' : 'page-item'">
-                        <a class="page-link" th:href="@{/user/info(pageNum=${response.pagination.pageCount})}">Last</a>
+                        <a class="page-link" th:href="@{/user/info(pageNum=${response.pagination.pageCount})}">끝</a>
                     </li>
                 </ul>
             </nav>
