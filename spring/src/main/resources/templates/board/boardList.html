@@ -106,7 +106,8 @@
 
 <div id="wrapper" layout:fragment="content">
     <div class="container mt-5">
-        <h1 class="mb-5">Board List</h1>
+        <!-- <h1 class="mb-5">Board List</h1> -->
+        <h1 class="col text-center mb-5">게시판</h1>
         <div class="input-group mb-3 d-flex justify-content-center">
             <form class="d-flex">
                 <div class="input-group" style="width: auto;">
@@ -123,10 +124,10 @@
         </div>
         <div class="container">
             <div class="row">
-                <div class="col text-center mb-5">
-                    <h1 class="display-4">게시판입니다 공유하세요</h1>
+                <!-- <div class="col text-center mb-5">
+                    <h1 class="display-4">게시판</h1>
                     <p class="lead">어쩌구 저쩌구 </p>
-                </div>
+                </div> -->
             </div>
             <div class="row">
                 <div class="col-sm-12 col-md-6 col-lg-4 mb-4" th:each="board, i : ${list}">
