@@ -10,7 +10,6 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.test.news.oauth2.CustomAccessDenyHandler;
 import com.test.news.oauth2.CustomOAuthUserService;
-import com.test.news.oauth2.LoginSuccessHandler;
 
 import jakarta.servlet.DispatcherType;
 import lombok.RequiredArgsConstructor;

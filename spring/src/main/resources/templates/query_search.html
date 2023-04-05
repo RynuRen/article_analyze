@@ -118,10 +118,10 @@
         <div class="d-flex justify-content-center">
             <ul class="pagination" onclick="showLoader()">
                 <li th:class="${pageNum == 1} ? 'page-item disabled' : 'page-item'">
-                    <a class="page-link" th:href="@{/query_search(pageNum=1, query=${query})}">First</a>
+                    <a class="page-link" th:href="@{/query_search(pageNum=1, query=${query})}">처음</a>
                 </li>
                 <li th:class="${pageNum == 1} ? 'page-item disabled' : 'page-item'">
-                    <a class="page-link" th:href="@{/query_search(pageNum=${pageNum - 1}, query=${query})}">Previous</a>
+                    <a class="page-link" th:href="@{/query_search(pageNum=${pageNum - 1}, query=${query})}">이전</a>
                 </li>
                 <th:block th:each="page : ${#numbers.sequence(pagination.startPage, pagination.endPage)}">
                     <li th:class="${pageNum == page} ? 'page-item active' : 'page-item'">
@@ -130,11 +130,11 @@
                     </li>
                 </th:block>
                 <li th:class="${pageNum == pagination.pageCount} ? 'page-item disabled' : 'page-item'">
-                    <a class="page-link" th:href="@{/query_search(pageNum=${pageNum + 1}, query=${query})}">Next</a>
+                    <a class="page-link" th:href="@{/query_search(pageNum=${pageNum + 1}, query=${query})}">다음</a>
                 </li>
                 <li th:class="${pageNum == pagination.pageCount} ? 'page-item disabled' : 'page-item'">
                     <a class="page-link"
-                        th:href="@{/query_search(pageNum=${pagination.pageCount}, query=${query})}">Last</a>
+                        th:href="@{/query_search(pageNum=${pagination.pageCount}, query=${query})}">끝</a>
                 </li>
             </ul>
         </div>
