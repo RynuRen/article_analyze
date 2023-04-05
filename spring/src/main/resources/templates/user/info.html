@@ -43,7 +43,8 @@
                         </tr>
                         <tr>
                             <th scope="row">서비스:</th>
-                            <td><span sec:authentication="principal.attributes['oAuthProvider']"></span> 계정으로 가입하셨습니다.</td>
+                            <td><span sec:authentication="principal.attributes['oAuthProvider']"></span> 계정으로 가입하셨습니다.
+                            </td>
                         </tr>
                         <tr>
                             <th scope="row">가입일:</th>
@@ -68,6 +69,7 @@
                     <th>공개</th>
                     <th>제목</th>
                     <th>작성일</th>
+                    <th>수정/삭제</th>
                 </tr>
             </thead>
             <tbody>
@@ -92,6 +94,16 @@
                             <th:block th:unless="${nowDay} == ${#dates.format(board.boardCreateDate, 'yyyy-MM-dd')}">
                                 <span th:text="${#dates.format(board.boardCreateDate, 'yyyy-MM-dd')}"></span>
                             </th:block>
+                        </th:block>
+                    </td>
+                    <td>
+                        <th:block>
+                            <a th:href="@{/board/modify/{id}(id=${board.boardId})}" class="btn btn-primary">수정</a>
+                            <form method="post" th:action="@{/board/delete}" class="d-inline-block">
+                                <input type="hidden" name="id" th:value="${board.boardId}" />
+                                <button type="submit" class="btn btn-danger"
+                                    onclick="return confirm('정말로 글을 삭제하시겠습니까?')">삭제</button>
+                            </form>
                         </th:block>
                     </td>
                 </tr>
