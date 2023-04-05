@@ -211,6 +211,11 @@
             display: inline-block;
             font-family: Cardo;
         }
+
+        .btn-outline-info {
+            border-color: #b4d4ee;
+            color: #000000;
+        }
     </style>
 </head>
 
@@ -223,7 +228,9 @@
             <div class="card-body">
                 <p><strong>작성자:</strong> <span th:text="${curNews.nickName}"></span></p>
                 <p style="text-align: right;"><strong>작성일:</strong> <span th:text="${#dates.format(curNews.boardCreateDate, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
-                <p style="text-align: right;"><strong>수정일:</strong> <span th:text="${#dates.format(curNews.boardUpdateDate, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
+                <th:block th:if="${curNews.boardUpdateDate} != null">
+                    <p style="text-align: right;"><strong>수정일:</strong> <span th:text="${#dates.format(curNews.boardUpdateDate, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
+                </th:block>
             </div>
             <div class="container mt-4">
                 <div class="timeline-container" id="timeline-1">
@@ -270,7 +277,7 @@
                 <p th:utext="${curNews.boardContent}" style="white-space:pre; height:300px"></p>
             </div>
             <div class="card-footer text-right">
-                <a href="/board/list" class="btn btn-secondary">목록으로</a>
+                <a href="/board/list" class="btn btn-outline-info">목록으로</a>
                 <th:block sec:authorize="isAuthenticated()">
                 <th:block th:if="${curNews.boardWriterId} == ${#authentication.principal.userId}">
                     <form method="post" th:action="@{/board/delete}" class="d-inline-block float-end">

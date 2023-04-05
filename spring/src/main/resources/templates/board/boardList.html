@@ -99,6 +99,11 @@
             background: #234f6d;
             background: linear-gradient(0deg, rgba(35, 79, 109, 0.3785889356) 0%, #455f71 100%);
         }
+
+        .btn-outline-info {
+            border-color: #b4d4ee;
+            color: #000000;
+        }
     </style>
 
 </head>
@@ -174,10 +179,10 @@
             <nav>
                 <ul class="pagination">
                     <li th:class="${pageNum == 1} ? 'page-item disabled' : 'page-item'">
-                        <a class="page-link" th:href="@{/board/list(pageNum=1)}">First</a>
+                        <a class="page-link" th:href="@{/board/list(pageNum=1)}">처음</a>
                     </li>
                     <li th:class="${pageNum == 1} ? 'page-item disabled' : 'page-item'">
-                        <a class="page-link" th:href="@{/board/list(pageNum=${pageNum - 1})}">Previous</a>
+                        <a class="page-link" th:href="@{/board/list(pageNum=${pageNum - 1})}">이전</a>
                     </li>
                     <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
                         <li th:class="${pageNum == page} ? 'page-item active' : 'page-item'">
@@ -185,16 +190,16 @@
                         </li>
                     </th:block>
                     <li th:class="${pageNum == pageCount} ? 'page-item disabled' : 'page-item'">
-                        <a class="page-link" th:href="@{/board/list(pageNum=${pageNum + 1})}">Next</a>
+                        <a class="page-link" th:href="@{/board/list(pageNum=${pageNum + 1})}">다음</a>
                     </li>
                     <li th:class="${pageNum == pageCount} ? 'page-item disabled' : 'page-item'">
-                        <a class="page-link" th:href="@{/board/list(pageNum=${pageCount})}">Last</a>
+                        <a class="page-link" th:href="@{/board/list(pageNum=${pageCount})}">끝</a>
                     </li>
                 </ul>
             </nav>
         </div>
         <!-- <a class="btn btn-primary mb-3" href="/board/write">write</a> -->
-        <a class="btn btn-primary mb-3" href="/">Home</a>
+        <a href="/" class="btn btn-outline-info mb-3">메인으로</a>
     </div>
     <!-- Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

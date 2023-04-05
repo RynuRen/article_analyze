@@ -7,6 +7,12 @@
     <meta charset="UTF-8">
     <title>연관글비 - 게시글 작성</title>
 
+    <style>
+        .btn-outline-info {
+            border-color: #b4d4ee;
+            color: #000000;
+        }
+    </style>
 </head>
 
 <body>
@@ -83,7 +89,7 @@
                 <input type="hidden" name="curNews" th:value="${curNewsStr}">
                 <input type="hidden" name="selNews" th:value="${selNewsStr}">
                 <button type="submit" class="btn btn-primary float-end" id="write-btn">작성</button>
-                <a href="/board/list" class="btn btn-secondary">목록으로</a>
+                <a href="/board/list" class="btn btn-outline-info">목록으로</a>
             </form>
         </div>   
     </div>
