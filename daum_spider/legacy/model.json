@@ -1,0 +1,27 @@
+{
+    "model" : {
+        "current" : {
+            "model_mecav_morphs_7" : {
+                "DB_sync" : true,
+                "tag_list" :  ["NNG", "NNP", "SL", "NNB", "NNBC", "NR", "NP", "SL" ]
+            }
+        },
+
+
+        "legacy" : {
+            "model_mecav_nouns" : { 
+                "DB_sync" : true
+            },
+            "model_mecav_morphs_8" : { 
+                "DB_sync" : true,
+                "tag_list" :  ["NNG", "NNP", "NR", "VV", "VA", "XR", "SL", "SN"]
+            },
+            "model_mecav_morphs_3" : {
+                "DB_sync" : true,
+                "tag_list" :  ["NNG", "NNP", "SL"]
+            }
+
+        }
+
+    }
+}
