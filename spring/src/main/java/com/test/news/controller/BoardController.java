@@ -25,9 +25,7 @@ import com.test.news.mapper.BoardMapper;
 import com.test.news.mapper.NewsMapper;
 
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.extern.log4j.Log4j2;
 
-@Log4j2
 @Controller
 @RequestMapping("board")
 public class BoardController {
@@ -97,8 +95,6 @@ public class BoardController {
 
         boardMapper.write(boardwrite);
         boardMapper.putList(boardwrite.getBoardId(), boardIdList, boardNewsComment);
-
-        log.info(board.getBoardPub());
 
         model.addAttribute("title", "알림");
         model.addAttribute("text", "작성이 완료되었습니다.");
@@ -233,8 +229,6 @@ public class BoardController {
         boardTemp.setBoardContent(board.getBoardContent());
         boardTemp.setBoardPub(board.getBoardPub());
 
-        log.info(board.getBoardPub());
-        log.info(boardTemp.getBoardPub());
         List<Integer> newsIdList = boardMapper.selectByNewsId(id);
         boardMapper.update(boardTemp);
         boardMapper.updateComment(boardComment, id, newsIdList);

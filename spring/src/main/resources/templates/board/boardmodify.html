@@ -55,12 +55,12 @@
                             </td>
                     </tbody>
                 </table>
-                <div class="form-group">
+                <div class="form-group" >
                     <label for="content">내용</label>
                     <textarea class="form-control" id="content" name="boardContent" rows="5"
                         th:text=${curNews.boardContent} required></textarea>
                 </div>
-                <div th:object="${curNews}">
+                <div th:object="${curNews}" class="d-flex justify-content-end">
                     <th:block th:if="${curNews.boardPub == 0}">
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="boardPub" id="private" value="1"
@@ -92,9 +92,9 @@
                         </div>
                     </th:block>
                 </div>
-                <button type="submit" class="btn btn-primary" id="write-btn">수정</button>
+                <button type="submit" class="btn btn-primary float-end" id="write-btn">수정</button>
+                <a href="/board/list" class="btn btn-secondary">목록으로</a>
             </form>
-            <a href="/board/list" class="btn btn-secondary">목록으로 돌아가기</a>
         </div>
 
 

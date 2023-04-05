@@ -221,7 +221,7 @@
                 <h2 th:text="${curNews.boardTitle}"></h2>
             </div>
             <div class="card-body">
-                <p><strong>작성자:</strong> <span th:text="${curNews.boardWriterId}"></span></p>
+                <p><strong>작성자:</strong> <span th:text="${curNews.nickName}"></span></p>
                 <p style="text-align: right;"><strong>작성일:</strong> <span th:text="${#dates.format(curNews.boardCreateDate, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
                 <p style="text-align: right;"><strong>수정일:</strong> <span th:text="${#dates.format(curNews.boardUpdateDate, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
             </div>
@@ -273,12 +273,12 @@
                 <a href="/board/list" class="btn btn-secondary">목록으로</a>
                 <th:block sec:authorize="isAuthenticated()">
                 <th:block th:if="${curNews.boardWriterId} == ${#authentication.principal.userId}">
-                    <a th:href="@{/board/modify/{id}(id=${curNews.boardId})}" class="btn btn-primary">수정</a>
-                    <form method="post" th:action="@{/board/delete}" class="d-inline-block">
+                    <form method="post" th:action="@{/board/delete}" class="d-inline-block float-end">
                         <input type="hidden" name="id" th:value="${curNews.boardId}" />
                         <button type="submit" class="btn btn-danger"
                             onclick="return confirm('정말로 글을 삭제하시겠습니까?')">삭제</button>
                     </form>
+                    <a th:href="@{/board/modify/{id}(id=${curNews.boardId})}" class="btn btn-primary float-end" style="margin-right: 5px;">수정</a>          
                 </th:block>
             </th:block>
             </div>

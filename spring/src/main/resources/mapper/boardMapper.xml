@@ -7,7 +7,10 @@
     </select>
     
     <select id="selectById" parameterType="int" resultType="com.test.news.dto.Board">
-        SELECT * FROM board WHERE board_id = #{id}
+        SELECT board.*, user.nickname
+        FROM board
+        JOIN user ON board.board_writer_id = user.user_id
+        WHERE board.board_id = #{id}
     </select>
 
     <select id="selectByNewsId" parameterType="int" resultType="java.lang.Integer">
