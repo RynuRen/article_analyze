@@ -5,7 +5,8 @@ h1 {
 
 
 /* 테이블 내용들 가운데정렬 */
-th, tr {
+th,
+tr {
     text-align: center;
     vertical-align: middle;
     font-size: 90%;
@@ -27,10 +28,12 @@ th {
 .select_start_date {
     padding: 15px 10px;
 }
-.select_start_date input[type=radio]{
+
+.select_start_date input[type=radio] {
     display: none;
 }
-.select_start_date input[type=radio]+label{
+
+.select_start_date input[type=radio]+label {
     display: inline-block;
     cursor: pointer;
     height: 24px;
@@ -39,14 +42,16 @@ th {
     border-radius: 4px;
     line-height: 24px;
     text-align: center;
-    font-weight:bold;
-    font-size:13px;
+    font-weight: bold;
+    font-size: 13px;
 }
-.select_start_date input[type=radio]+label{
+
+.select_start_date input[type=radio]+label {
     background-color: #fff;
     color: #333;
 }
-.select_start_date input[type=radio]:checked+label{
+
+.select_start_date input[type=radio]:checked+label {
     background-color: #b4d4ee;
     color: #333;
 }
@@ -61,7 +66,7 @@ th {
 /* 툴팁 기본 스타일 설정 */
 .tool-tip .tooltiptext {
     visibility: hidden;
-    width: 60px;
+    width: 120px;
     background-color: rgba(236, 236, 236, 0.9);
     color: #000000;
     text-align: center;
@@ -70,6 +75,7 @@ th {
     position: absolute;
     z-index: 1;
 }
+
 .tool-tip:hover .tooltiptext {
     visibility: visible;
 }
@@ -89,9 +95,26 @@ th {
     left: 50%;
     margin-left: -60px;
 }
+
 .tool-tip .tooltip-top::after {
     top: 100%;
     left: 50%;
     margin-left: -5px;
     border-color: black transparent transparent transparent;
+}
+
+/* 아래쪽 툴팁 시작 */
+.tool-tip .tooltip-bottom {
+    width: 3700%;
+    top: 150%;
+    left: -1430%;
+    margin-left: -60px;
+}
+
+
+.tool-tip .tooltip-bottom::after {
+    bottom: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-color: transparent transparent black transparent;
 }

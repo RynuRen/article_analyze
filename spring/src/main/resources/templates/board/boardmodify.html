@@ -15,104 +15,97 @@
     </style>
 </head>
 
-<body>
-
-
-    <div layout:fragment="content">
-        <div class="container">
-            <h1>게시글 수정</h1>
-            <form method="POST" th:action="@{/board/modify/{id}(id=${curNews.boardId})}">
-                <div class="form-group">
-                    <label for="title">제목</label>
-                    <input type="text" class="form-control" id="title" name="boardTitle"
-                        th:value="${curNews.boardTitle}" required>
-                </div>
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th>언론사</th>
-                            <th>제목</th>
-                            <th>날짜</th>
-                            <th>코멘트</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:object="${curNews}">
-                            <td th:text="${curNews.boardNewsPress}"></td>
-                            <td>
-                                <a th:href="${curNews.boardNewsLink}" th:text="${curNews.boardNewsTitle}"
-                                    target="_blank"></a>
-                            </td>
-                            <td th:text="${curNews.boardNewsDate}"></td>
-                            <td>
-                                <input type="text" class="form-control" id="comment1" name="boardComment" rows="1"
-                                    th:value="${comment[0]}" required></textarea>
-                            </td>
-                        </tr>
-                        <tr th:each="history , i : ${history}">
-                            <td th:text="${history.newsPress}"></td>
-                            <td>
-                                <a th:href="${history.newsLink}" th:text="${history.newsTitle}" target="_blank"></a>
-                            </td>
-                            <td th:text="${history.newsDate}"></td>
-                            <td>
-                                <input type="text" class="form-control" id="comment2" name="boardComment" rows="1"
-                                    th:value="${comment[{i.count}]}" required></textarea>
-                            </td>
-                    </tbody>
-                </table>
-                <div class="form-group" >
-                    <label for="content">내용</label>
-                    <textarea class="form-control" id="content" name="boardContent" rows="5"
-                        th:text=${curNews.boardContent} required></textarea>
-                </div>
-                <div th:object="${curNews}" class="d-flex justify-content-end">
-                    <th:block th:if="${curNews.boardPub == 0}">
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="boardPub" id="private" value="1"
-                                >
-                            <label class="form-check-label" for="private">
-                                비공개
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="boardPub" id="public" value="0" checked>
-                            <label class="form-check-label" for="public">
-                                공개
-                            </label>
-                        </div>
-                    </th:block>
-                    <th:block th:if="${curNews.boardPub == 1}">
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="boardPub" id="private" value="1" checked
-                            >
-                            <label class="form-check-label" for="private">
-                                비공개
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="boardPub" id="public" value="0">
-                            <label class="form-check-label" for="public">
-                                공개
-                            </label>
-                        </div>
-                    </th:block>
-                </div>
-                <button type="submit" class="btn btn-primary float-end" id="write-btn">수정</button>
-                <a href="/board/list" class="btn btn-outline-info">목록으로</a>
-            </form>
-        </div>
-
-
-        <script>
-            document.addEventListener("DOMContentLoaded", function(event) { 
-              var privateRadio = document.getElementById("private");
-              if (privateRadio.checked === false) {
-                privateRadio.disabled = true;
-              }
-            });
-            </script>
+<div layout:fragment="content">
+    <div class="container">
+        <h1>게시글 수정</h1>
+        <form method="POST" th:action="@{/board/modify/{id}(id=${curNews.boardId})}">
+            <div class="form-group">
+                <label for="title">제목</label>
+                <input type="text" class="form-control" id="title" name="boardTitle" th:value="${curNews.boardTitle}"
+                    required>
+            </div>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>언론사</th>
+                        <th>제목</th>
+                        <th>날짜</th>
+                        <th>코멘트</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:object="${curNews}">
+                        <td th:text="${curNews.boardNewsPress}"></td>
+                        <td>
+                            <a th:href="${curNews.boardNewsLink}" th:text="${curNews.boardNewsTitle}"
+                                target="_blank"></a>
+                        </td>
+                        <td th:text="${curNews.boardNewsDate}"></td>
+                        <td>
+                            <input type="text" class="form-control" id="comment1" name="boardComment" rows="1"
+                                th:value="${comment[0]}" required></textarea>
+                        </td>
+                    </tr>
+                    <tr th:each="history , i : ${history}">
+                        <td th:text="${history.newsPress}"></td>
+                        <td>
+                            <a th:href="${history.newsLink}" th:text="${history.newsTitle}" target="_blank"></a>
+                        </td>
+                        <td th:text="${history.newsDate}"></td>
+                        <td>
+                            <input type="text" class="form-control" id="comment2" name="boardComment" rows="1"
+                                th:value="${comment[{i.count}]}" required></textarea>
+                        </td>
+                </tbody>
+            </table>
+            <div class="form-group">
+                <label for="content">내용</label>
+                <textarea class="form-control" id="content" name="boardContent" rows="5" th:text=${curNews.boardContent}
+                    required></textarea>
+            </div>
+            <div th:object="${curNews}" class="d-flex justify-content-end">
+                <th:block th:if="${curNews.boardPub == 0}">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="boardPub" id="private" value="1">
+                        <label class="form-check-label" for="private">
+                            비공개
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="boardPub" id="public" value="0" checked>
+                        <label class="form-check-label" for="public">
+                            공개
+                        </label>
+                    </div>
+                </th:block>
+                <th:block th:if="${curNews.boardPub == 1}">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="boardPub" id="private" value="1" checked>
+                        <label class="form-check-label" for="private">
+                            비공개
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="boardPub" id="public" value="0">
+                        <label class="form-check-label" for="public">
+                            공개
+                        </label>
+                    </div>
+                </th:block>
+            </div>
+            <button type="submit" class="btn btn-primary float-end" id="write-btn">수정</button>
+            <a href="/board/list" class="btn btn-outline-info mb-3">목록으로</a>
+        </form>
     </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function (event) {
+            var privateRadio = document.getElementById("private");
+            if (privateRadio.checked === false) {
+                privateRadio.disabled = true;
+            }
+        });
+    </script>
+</div>
 
 
 </html>

@@ -15,83 +15,80 @@
     </style>
 </head>
 
-<body>
-
-
-    <div layout:fragment="content">
-        <div class="container">
-            <br>
-            <h1>연관글비 - 게시글 작성</h1>
-            <form method="POST" action="/board/hiswritepro">
-                <div class="form-group">
-                    <br>
-                    <label for="Nickname">작성자:
-                        <span sec:authentication="name"></span>
-                        <input type="hidden" name="boardWriterId" th:value="${#authentication.principal.userId}">
-                    </label>
-                    <br>
-                    <br>
-                    <label for="title">게시글 제목</label>
-                    <input type="text" class="form-control" id="title" name="boardTitle" required>
-                </div>
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th>언론사</th>
-                            <th>제목</th>
-                            <th>날짜</th>
-                            <th>코멘트</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:object="${curNews}">
-                            <td th:text="${curNews.boardNewsPress}"></td>
-                            <td>
-                                <a th:href="${curNews.boardNewsLink}" th:text="${curNews.boardNewsTitle}"
-                                    target="_blank"></a>
-                            </td>
-                            <td th:text="${curNews.boardNewsDate}"></td>
-                            <td>
-                                <input type="text" class="form-control" placeholder="코멘트를 작성해주세요" id="comment1"
-                                    name="boardComment" required>
-                            </td>
-                        </tr>
-                        <tr th:each="history : ${history}">
-                            <td th:text="${history.newsPress}"></td>
-                            <td>
-                                <a th:href="${history.newsLink}" th:text="${history.newsTitle}" target="_blank"></a>
-                            </td>
-                            <td th:text="${history.newsDate}"></td>
-                            <td>
-                                <input type="text" class="form-control" placeholder="코멘트를 작성해주세요" id="comment2"
-                                    name="boardComment" required>
-                            </td>
-                    </tbody>
-                </table>
-                <div class="form-group">
-                    <label for="content">내용</label>
-                    <textarea class="form-control" id="content" name="boardContent" rows="5" required></textarea>
-                </div>
-                <div class="d-flex justify-content-end">
+<div layout:fragment="content">
+    <div class="container">
+        <br>
+        <h1>연관글비 - 게시글 작성</h1>
+        <form method="POST" action="/board/hiswritepro">
+            <div class="form-group">
+                <br>
+                <label for="Nickname">작성자:
+                    <span sec:authentication="name"></span>
+                    <input type="hidden" name="boardWriterId" th:value="${#authentication.principal.userId}">
+                </label>
+                <br>
+                <br>
+                <label for="title">게시글 제목</label>
+                <input type="text" class="form-control" id="title" name="boardTitle" required>
+            </div>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>언론사</th>
+                        <th>제목</th>
+                        <th>날짜</th>
+                        <th>코멘트</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:object="${curNews}">
+                        <td th:text="${curNews.boardNewsPress}"></td>
+                        <td>
+                            <a th:href="${curNews.boardNewsLink}" th:text="${curNews.boardNewsTitle}"
+                                target="_blank"></a>
+                        </td>
+                        <td th:text="${curNews.boardNewsDate}"></td>
+                        <td>
+                            <input type="text" class="form-control" placeholder="코멘트를 작성해주세요" id="comment1"
+                                name="boardComment" required>
+                        </td>
+                    </tr>
+                    <tr th:each="history : ${history}">
+                        <td th:text="${history.newsPress}"></td>
+                        <td>
+                            <a th:href="${history.newsLink}" th:text="${history.newsTitle}" target="_blank"></a>
+                        </td>
+                        <td th:text="${history.newsDate}"></td>
+                        <td>
+                            <input type="text" class="form-control" placeholder="코멘트를 작성해주세요" id="comment2"
+                                name="boardComment" required>
+                        </td>
+                </tbody>
+            </table>
+            <div class="form-group">
+                <label for="content">내용</label>
+                <textarea class="form-control" id="content" name="boardContent" rows="5" required></textarea>
+            </div>
+            <div class="d-flex justify-content-end">
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" name="boardPub" id="private" value="1" checked>
                     <label class="form-check-label" for="private">
-                      비공개
+                        비공개
                     </label>
-                  </div>
-                  <div class="form-check form-check-inline">
+                </div>
+                <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" name="boardPub" id="public" value="0">
                     <label class="form-check-label" for="public">
-                      공개
+                        공개
                     </label>
-                  </div>
                 </div>
-                <input type="hidden" name="curNews" th:value="${curNewsStr}">
-                <input type="hidden" name="selNews" th:value="${selNewsStr}">
-                <button type="submit" class="btn btn-primary float-end" id="write-btn">작성</button>
-                <a href="/board/list" class="btn btn-outline-info">목록으로</a>
-            </form>
-        </div>   
+            </div>
+            <input type="hidden" name="curNews" th:value="${curNewsStr}">
+            <input type="hidden" name="selNews" th:value="${selNewsStr}">
+            <button type="submit" class="btn btn-primary float-end" id="write-btn">작성</button>
+            <a href="/board/list" class="btn btn-outline-info mb-3">목록으로</a>
+        </form>
     </div>
+</div>
 
 </html>

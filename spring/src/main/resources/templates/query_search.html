@@ -18,18 +18,22 @@
 
 <div layout:fragment="content">
     <div class="container my-5" id="newsFormWrapper">
-        <h1 class="text-center">Daum뉴스 검색 결과</h1>
-        <div class="text-center" style="padding:15px;">
-            입력하신 검색어에 대한 Daum 뉴스 검색 결과를 보여드립니다<br>
-            기사 제목을 클릭해 본문을 확인하고<br>
-            연관 기사를 보고 싶은 언론사와 기간을 설정해 선택해보세요<br>
-            ※<br>
-            Daum 뉴스 검색 결과 중 일부 언론사는 유사기사 검색이 제한될 수 있습니다<br>
-            추후 더 많은 언론사를 지원할 수 있도록 업데이트 예정입니다<br>
+        <div align="center">
+            <span style="font-size: 2.5rem;">Daum뉴스 검색 결과</span>
+            <span class="tool-tip"><i class="bi bi-info-circle"></i>
+                <span class="tooltiptext tooltip-bottom" style="padding:15px;">
+                    입력하신 검색어에 대한 Daum 뉴스 검색 결과를 보여드립니다<br>
+                    기사 제목을 클릭해 본문을 확인하고<br>
+                    연관 기사를 보고 싶은 언론사와 기간을 설정해 선택해보세요<br>
+                    ※<br>
+                    Daum 뉴스 검색 결과 중 일부 언론사는 유사기사 검색이 제한될 수 있습니다<br>
+                    추후 더 많은 언론사를 지원할 수 있도록 업데이트 예정입니다<br>
+                </span>
+            </span>
         </div>
         <div class="select_start_date" align="right">
             <div>
-                <span class="tool-tip"><i class="bi bi-info-circle"></i> 기간 선택
+                <span class="tool-tip">기간 선택 <i class="bi bi-info-circle"></i>
                     <span class="tooltiptext tooltip-top">
                         선택 기사를 기준으로
                         <br>
@@ -149,7 +153,8 @@
             function showLoader() {
                 document.getElementById("loader").classList.remove("d-none");
             }
-        </script><!-- 스피너 -->
+        </script>
+        <!-- 스피너 -->
         <!-- 상대기간 설정 -->
         <script th:inline="javascript">
             let newsDateList = new Array();
@@ -159,7 +164,7 @@
                 stt = stt.split("-");
             var newsDate = new Date(stt[0], stt[1], stt[2]);
             newsDateList.push(newsDate);
-        /*[/]*/
+            /*[/]*/
         </script>
         <script>
             function leftPad(value) {
@@ -189,10 +194,10 @@
                         newsDt = new Date(newsDt.getFullYear(), (newsDt.getMonth() - parseInt(con[1]) - 1), newsDt.getDate());
                     }
                     el[i].value = toStringByFormatting(newsDt);
-                    // el[i].value = newsDt.toString();
                 }
             }
-        </script><!-- 상대기간 설정 -->
+        </script>
+        <!-- 상대기간 설정 -->
     </div>
 </div>
 
