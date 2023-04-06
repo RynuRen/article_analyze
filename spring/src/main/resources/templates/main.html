@@ -37,7 +37,7 @@
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <div class="ms-auto d-flex">
                         <li class="nav-item">
-                            <img class="gulbi" src="/images/gulbi.png" alt="굴비 로고"> 
+                            <img class="gulbi" src="/images/gulbi.png" alt="굴비 로고">
                         </li>
                         <!-- <li class="nav-item">
                             <a class="nav-link" th:href="@{#}"
@@ -76,8 +76,11 @@
 
 
     <!-- 로고-->
-
-    <div class="main_table">
+    <div style="text-align: center; background-color: #0DCAF0; opacity: 75%; padding-top: 80px; padding-bottom: 80px;">
+        <img src="/images/main.png"
+            style="width: 40%; min-width: 350px">
+    </div>
+    <!-- <div class="main_table">
         <img class="gulbi_timeline" src="/images/gulbi_timeline.png">
         <table>
             <tr>
@@ -111,16 +114,14 @@
                 </td>
             </tr>
         </table>
-
-
-    </div>
+    </div> -->
 
     <div class="search_table">
         <div class="input-group mb-3 d-flex justify-content-center">
             <form th:action="@{/query_search}" method="get" onsubmit="showLoader()">
                 <div class="input-group" style="width: auto;">
-                    <input class="form-control" type="text" placeholder="Daum 뉴스 검색으로 시작" aria-label="Search" name="query"
-                        style="width: auto; ">
+                    <input class="form-control" type="text" placeholder="Daum 뉴스 검색으로 시작" aria-label="Search"
+                        name="query" style="width: auto; ">
                     <button class="btn btn-primary" type="submit"><i class="bi bi-search"></i></button>
                 </div>
             </form>
