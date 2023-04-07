@@ -110,7 +110,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     
     parser.add_argument('-m', type=str, help= 'mode - data(default)/adapt : select mode')
-    parser.add_argument('-md', type=str, help= 'mode_detail - make_model? Y(default)/N\n : get_dtm? Y(default)/N')
+    parser.add_argument('-md', type=str, help= 'mode_detail - data : get_dtm? Y(default)/N,  adapt : model(default)/token')
     parser.add_argument('-c', type=str, help= 'category - target category')
     parser.add_argument('-d', type=str, help = 'date(date_from) for data - target date ')
     parser.add_argument('-dt', type=str, help = 'date_to for data - target date : date from ~ date to' )

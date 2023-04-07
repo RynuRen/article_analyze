@@ -97,7 +97,7 @@ class path_manager:
         flask_directory = get_flask_directory(flask_directory_in)
         
         directory_in =  "dtm_data/" + cls.category + "/"
-        get_directory(directory_in)
+        directory = get_directory(directory_in)
         
         return flask_directory, directory
     

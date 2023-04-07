@@ -8,7 +8,7 @@ import json
 from scrapy.utils.project import get_project_settings
 
 
-with open('/home/mint/daum_spider/config_data.json', 'r') as f:
+with open('/home/ec2-user/daum_spider/config_data.json', 'r') as f:
     config_data = json.load(f)
     
 
@@ -17,13 +17,13 @@ stop_content = config_data["scrape"]["stop_content"]
 rep_list = config_data["scrape"]["rep_list"]
 stop_title = config_data["scrape"]["stop_title"]
 press_dictionary = config_data["scrape"]["press_dictionary"]
-
+N_S = config_data["scrape"]["number_spider"]
 
 
 
 class set_reactor_stop:
     count_execute = 0
-    end_execute = 10
+    end_execute = N_S
     @classmethod
     def count_exe(cls):
         cls.count_execute = cls.count_execute +1

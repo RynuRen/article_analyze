@@ -1,0 +1,31 @@
+{
+    "DB":{
+        "host": "",
+        "user": "",
+        "pwd": "",
+        "db": "",
+        "char": ""
+
+
+    },
+    "aws":{
+	    "aws_access_key_id" : "",
+	    "aws_secret_access_key" : ""
+
+    },
+    "s3":{
+	    "bucket" : ""
+    },
+    "ec2":{
+        "flask" : {
+            "ssh_address":"",
+            "user_name" : "",
+            "ip":"",
+            "directory" : ""
+        },
+        "spider" : {
+            "directory" : ""
+        }
+
+    }
+}

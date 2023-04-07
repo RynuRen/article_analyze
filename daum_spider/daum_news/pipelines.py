@@ -23,7 +23,7 @@ from base_set import okt_adapter,path_manager
 
         
         
-with open('/home/mint/daum_spider/config_data.json', 'r') as f:
+with open('/home/ec2-user/daum_spider/config_data.json', 'r') as f:
     config_data = json.load(f)
             
     

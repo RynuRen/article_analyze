@@ -6,6 +6,7 @@ from tqdm import tqdm
 import pickle
 from glob import glob
 import pandas as pd
+import json
 
 from scrapy import crawler
 from multiprocessing import Process, Queue
@@ -21,6 +22,13 @@ from daum_news.spiders.daum import f
 from DB_controller import DB_con
 from base_set import path_manager, okt_adapter
 from my_client import my_client
+
+
+with open('/home/mint/daum_spider/config_data.json', 'r') as f:
+    config_data = json.load(f)
+    
+N_S = config_data["scrape"]["number_spider"]
+
 
             
 def run_spider(spider,category,datelist,num_spider):
@@ -41,8 +49,6 @@ class data_refresher:
         self.category = category
         self.dtm_mode = dtm_mode
         self.DB_con = DB_con(category)
-        settings=get_project_settings()
-        settings['CONCURRENT_ITEMS'] = 10
         self.spider_execute = 0;
         self.datelist=[]
 
@@ -69,7 +75,7 @@ class data_refresher:
 
         self.datelist.append(date)
         self.spider_execute = self.spider_execute + 1
-        if self.spider_execute == 10:
+        if self.spider_execute == N_S:
 
             run_spider(MySpider,self.category,self.datelist,self.spider_execute)
             self.spider_execute = 0
