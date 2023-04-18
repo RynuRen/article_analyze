@@ -39,6 +39,7 @@
 ## 차별점
 ### 연관 기사 추천
 - 같은 날에는 같은 내용의 기사가 많이 나오기 때문에 단순히 유사도가 높은 기사를 추천해주는 것이 아니라 입력받은 기사의 이전 날짜를 비교대상으로 해서 중복기사는 배제하면서 사건의 흐름을 파악하기 용이하게 함
+
 ### 모듈화
 - 데이터 및 모델을 수정/최신화 하는 과정에서 반복적인 코드 작성이 불가피해 이를 개선하기 위해 데이터 관리 모듈화
 - cmd 명령문 입력시 전처리 설정이 들어가있는 json파일을 이용해 소모적인 코드 수정을 줄여 보다 간소화된 데이터의 유지보수 가능
@@ -54,8 +55,10 @@
 ## 기술스택
 - Flask (API 서버) API 서버를 구축하여 Spring Boot로 구현한 WAS에서 받은 요청을 처리하고, 데이터를 반환합니다. 수집된 데이터에서 조건에 맞는 데이터와 입력받은 데이터간의 유사도 연산을 통해 추천 알고리즘을 처리합니다.
 - Python (데이터 수집, 추천 알고리즘 처리) 데이터 수집을 위해 Beautiful Soup 라이브러리를 사용하며, 수집한 기사의 본문을 전처리합니다. sklearn 라이브러리의 tf-idf vectorizer를 사용하여 DTM(Documents Term Matrix)을 연산합니다. scrapy 라이브러리로 데이터 수집 pipeline을 구축하여 데이터를 손쉽게 증강하고, 데이터를 최신화합니다. 
-- MariaDB (데이터베이스) 수집한 기사들의 메타데이터와 회원 정보, 게시글 정보를 저장합니다. - Spring Boot (백엔드, 프론트엔드) Thymeleaf 템플릿 엔진을 사용하여 프론트엔드를 구축합니다. Spring Security를 사용하여 Kakao, Naver의 OAuth2.0 인증을 통한 회원가입을 지원합니다. Flask API 서버와 RestTemplate를 이용해 REST API 통신을 합니다. 
-- HTML & CSS (프론트엔드 디자인) Bootstrap을 사용하여 프론트엔드 디자인을 개발합니다. HTML을 사용하여 웹 페이지를 구성하고, CSS를 사용하여 스타일링합니다. - AWS (인프라) 두 개의 EC2에 Flask와 Spring Boot를 각각 백그라운드로 구동합니다. RDS에는 MariaDB로 구축한 데이터를 저장합니다.  
+- MariaDB (데이터베이스) 수집한 기사들의 메타데이터와 회원 정보, 게시글 정보를 저장합니다.
+- Spring Boot (백엔드, 프론트엔드) Thymeleaf 템플릿 엔진을 사용하여 프론트엔드를 구축합니다. Spring Security를 사용하여 Kakao, Naver의 OAuth2.0 인증을 통한 회원가입을 지원합니다. Flask API 서버와 RestTemplate를 이용해 REST API 통신을 합니다. 
+- HTML & CSS (프론트엔드 디자인) Bootstrap을 사용하여 프론트엔드 디자인을 개발합니다. HTML을 사용하여 웹 페이지를 구성하고, CSS를 사용하여 스타일링합니다.
+- AWS (인프라) 두 개의 EC2에 Flask와 Spring Boot를 각각 백그라운드로 구동합니다. RDS에는 MariaDB로 구축한 데이터를 저장합니다.  
 
 
 
