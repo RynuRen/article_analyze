@@ -16,7 +16,7 @@
 
 ## 팀원소개
 
-|![gulbi](https://github.com/RynuRen/article_analyze/blob/main/spring/src/main/resources/static/images/gulbi.png?raw=true) |![gulbi_cute](https://github.com/RynuRen/article_analyze/blob/main/spring/src/main/resources/static/images/gulbi_cute.png?raw=true) |![gulbi_error](https://github.com/RynuRen/article_analyze/blob/main/spring/src/main/resources/static/images/gulbi_error.png?raw=true) |![gulbi_smile](https://github.com/RynuRen/article_analyze/blob/main/spring/src/main/resources/static/images/gulbi_smile.png?raw=true) |
+|![gulbi](./img_src/gulbi.jpg) |![gulbi_cute](./img_src/gulbi_cute.jpg) |![gulbi_error](./img_src/gulbi_error.jpg) |![gulbi_smile](./img_src/gulbi_smile.jpg) |
 |---|---|---|---|
 |최은진<br> [**chloeeej**](https://github.com/chloeeej)|곽지섭 <br> [**RynuRen**](https://github.com/RynuRen)|김태성 <br> [**chamgirm**](https://github.com/chamgirm)|박기현 <br>[**park-gihyean**](https://github.com/park-gihyean)|
 |product manager<br>model <br>html/css|model, AWS <br>spring boot <br>DB|spring boot <br>html/css|DB <br>model|
@@ -25,7 +25,7 @@
 <br>
 
 ##  주요기능
-![service flow](https://ifh.cc/g/drTOFT.png)
+![service flow](./img_src/service_flow.jpg)
 
 - 키워드 검색 : 우리 서비스에서 키워드를 입력하여 검색하면 daum뉴스 검색결과를 가지고 와 연관기사 검색에 활용
 - 유사 기사 검색: 자연어처리를 활용해 사용자로부터 입력받은 기사의 이전 발행일 기사 중 유사한 기사를 추천
@@ -60,5 +60,12 @@
 - HTML & CSS (프론트엔드 디자인): Bootstrap을 사용하여 프론트엔드 디자인을 개발합니다. HTML을 사용하여 웹 페이지를 구성하고, CSS를 사용하여 스타일링합니다.
 - AWS (인프라): 두 개의 EC2에 Flask와 Spring Boot를 각각 백그라운드로 구동합니다. RDS에는 MariaDB로 구축한 데이터를 저장합니다.  
 
+<br>
+<br>
+
+## 시스템 구성
+
+
+![service flow](./img_src/block_diagram_v3.jpg)
 
 
