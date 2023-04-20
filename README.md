@@ -53,19 +53,65 @@
 
 
 ## 기술스택
+
+### Front End
+<p>
+  <img src="https://img.shields.io/badge/Thymeleaf-005F0F?style=flat-square&logo=thymeleaf&logoColor=white"/>
+  <img src="https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white"/>
+  <img src="https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Bootstrap-7952B3?style=flat-square&logo=bootstrap&logoColor=white"/>
+</p>
+
+### Back End
+<p>
+  <img src="https://img.shields.io/badge/python-3776AB?style=flat-square&logo=Python&logoColor=white"/>
+  <img src="https://img.shields.io/badge/pandas-150458?style=flat-square&logo=pandas&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Flask-000000?style=flat-square&logo=flask&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Selenium-43B02A?style=flat-square&logo=selenium&logoColor=white"/>
+  <img src="https://img.shields.io/badge/sklearn-F7931E?style=flat-square&logo=scikitlearn&logoColor=white"/>
+</p>
+
+<p>
+  <img src="https://img.shields.io/badge/JAVA-007396?style=flat-square&logo=java&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=flat-square&logo=springboot&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Spring Security-6DB33F?style=flat-square&logo=springsecurity&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Gradle-02303A?style=flat-square&logo=gradle&logoColor=white"/>
+</p>
+
+<p>
+  <img src="https://img.shields.io/badge/MariaDB-003545?style=flat-square&logo=mariadb&logoColor=white"/>
+</p>
+
+### DevOps
+<p>
+  <img src="https://img.shields.io/badge/Git-F05032?style=flat-square&logo=git&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Github-181717?style=flat-square&logo=github&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Google Sheets-34A853?style=flat-square&logo=googlesheets&logoColor=white"/>
+</p>
+
+### Infra
+<p>
+  <img src="https://img.shields.io/badge/AWS EC2-FF9900?style=flat-square&logo=amazonec2&logoColor=white"/>
+  <img src="https://img.shields.io/badge/AWS RDS-527FFF?style=flat-square&logo=amazonrds&logoColor=white"/>
+  <img src="https://img.shields.io/badge/AWS S3-569A31?style=flat-square&logo=amazons3&logoColor=white"/>
+</p>
+
 - Flask (API 서버): API 서버를 구축하여 Spring Boot로 구현한 WAS에서 받은 요청을 처리하고, 데이터를 반환합니다. 수집된 데이터에서 조건에 맞는 데이터와 입력받은 데이터간의 유사도 연산을 통해 추천 알고리즘을 처리합니다.
 - Python (데이터 수집, 추천 알고리즘 처리): 데이터 수집을 위해 Beautiful Soup 라이브러리를 사용하며, 수집한 기사의 본문을 전처리합니다. sklearn 라이브러리의 tf-idf vectorizer를 사용하여 DTM(Documents Term Matrix)을 연산합니다. scrapy 라이브러리로 데이터 수집 pipeline을 구축하여 데이터를 손쉽게 증강하고, 데이터를 최신화합니다. 
 - MariaDB (데이터베이스): 수집한 기사들의 메타데이터와 회원 정보, 게시글 정보를 저장합니다.
-- Spring Boot (백엔드, 프론트엔드): Thymeleaf 템플릿 엔진을 사용하여 프론트엔드를 구축합니다. Spring Security를 사용하여 Kakao, Naver의 OAuth2.0 인증을 통한 회원가입을 지원합니다. Flask API 서버와 RestTemplate를 이용해 REST API 통신을 합니다. 
+- Spring Boot (백엔드, 프론트엔드): Thymeleaf 템플릿 엔진을 사용하여 프론트엔드를 구축합니다. Spring Security를 사용하여 Kakao의 OAuth2.0 인증을 통한 회원가입을 지원합니다. Flask API 서버와 RestTemplate를 이용해 REST API 통신을 합니다. 
 - HTML & CSS (프론트엔드 디자인): Bootstrap을 사용하여 프론트엔드 디자인을 개발합니다. HTML을 사용하여 웹 페이지를 구성하고, CSS를 사용하여 스타일링합니다.
-- AWS (인프라): 두 개의 EC2에 Flask와 Spring Boot를 각각 백그라운드로 구동합니다. RDS에는 MariaDB로 구축한 데이터를 저장합니다.  
+- AWS (인프라): 세 개의 EC2에 Flask와 Spring Boot, Scrapy를 각각 백그라운드로 구동합니다. RDS에는 MariaDB로 구축한 데이터를 저장합니다.
 
 <br>
 <br>
 
 ## 시스템 구성
 
-
+* Block Diagram
 ![service flow](./img_src/block_diagram_v3.jpg)
+
+* ER Diagram
+![erd[(./img_src/ERD.png)
 
 
