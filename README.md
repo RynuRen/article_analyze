@@ -109,11 +109,11 @@
 ## 시스템 구성
 
 * Block Diagram
-* 
+
 ![service flow](./img_src/block_diagram_v3.jpg)
 
 * ER Diagram
-* 
+
 ![erd](./img_src/ERD.png)
 
 
