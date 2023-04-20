@@ -112,6 +112,6 @@
 ![service flow](./img_src/block_diagram_v3.jpg)
 
 * ER Diagram
-![erd[(./img_src/ERD.png)
+![erd](./img_src/ERD.png)
 
 
